@@ -16,6 +16,10 @@
     <title>TNF Skiing - Demo</title>
 
     <style>
+        * {margin: 0; padding: 0;}
+        body {
+            margin: 0px;
+        }
         h1 {
             font-family: verdana, sans-serif;
             font-weight: bold;
@@ -34,6 +38,7 @@
             border: 5px solid #ddd;
             border-radius: 10px;
             -moz-border-radius: 10px;
+            display: none;
         }
 
         #middle {
@@ -81,7 +86,7 @@
     </style>
 </head>
 <body>
-
+<canvas id="myCanvas" width="320" height="540"></canvas>
 
 <h1>TNF Skiing - Demo</h1>
 
@@ -91,13 +96,14 @@
 <p><a href="http://www.juurlink.org/2011/02/html-5-accelerometer/" target="_blank">HTML 5 Accelerometer</a></p>
 
 -->
+
 <p id="warning"></p>
 
 <div id="canvas">
     <div id="middle"></div>
     <div id="ball"></div>
 </div>
-<canvas id="myCanvas" width="320" height="540"></canvas>
+
 <img id="map" src="map.jpg" alt="The Scream" width="220" height="277">
 <img id="player" src="player.png" alt="The Scream" width="220" height="277">
 <script>
@@ -109,8 +115,6 @@
     fntA.image0.src = 'map.jpg';
     fntA.image1.src = 'player.png';
 
-
-    ctx.font="30px Arial";
 //ctx.strokeText("Hello World",10,50);
 //ctx.drawImage(fntA.image0,10,10,320,540);
 
@@ -147,7 +151,7 @@ console.log(fntA);
             ball.style.left = (90 + positionY * 5) + 'px';
             ctx.clearRect(0,0,320,540); 
             ctx.drawImage(fntA.image0,0,0,320,503);
-            ctx.drawImage(fntA.image1,90 + positionY ,90 + positionX ,600,200);
+            ctx.drawImage(fntA.image1,90 + positionY*3 ,90 + positionX ,600,200);
 
 
         }
