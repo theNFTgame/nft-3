@@ -97,10 +97,28 @@
     <div id="middle"></div>
     <div id="ball"></div>
 </div>
-
-
-
+<canvas id="myCanvas" width="320" height="540"></canvas>
+<img id="map" src="map.jpg" alt="The Scream" width="220" height="277">
+<img id="player" src="player.png" alt="The Scream" width="220" height="277">
 <script>
+
+    var ctx =  document.getElementById('myCanvas').getContext('2d');
+    var fntA = new Object();
+    fntA.image0 = new Image();
+    fntA.image1 = new Image();
+    fntA.image0.src = 'map.jpg';
+    fntA.image1.src = 'player.png';
+
+
+    ctx.font="30px Arial";
+//ctx.strokeText("Hello World",10,50);
+//ctx.drawImage(fntA.image0,10,10,320,540);
+
+console.log(fntA);
+    // ctx.drawImage(fntA.image0,10,10);
+    // ctx.drawImage(fntA.image1,10,10);
+
+
 
     var initialX = null;
     var initialY = null;
@@ -112,7 +130,9 @@
         var x = event.beta ? event.beta : event.y * 90;
         var y = event.gamma ? event.gamma : event.x * 90;
 
-        window.console && console.info('Raw position: x, y: ', x, y);
+        //window.console && console.info('Raw position: x, y: ', x, y);
+        ctx.drawImage(fntA.image0,10,10,320,540);
+        ctx.strokeText("Hello World",x,y);
 
         if (!initialX && !initialY) {
 
@@ -142,6 +162,8 @@
     window.addEventListener("deviceorientation", handleOrientationEvent, true);
 
     setTimeout(isEventFired, 2000);
+
+    document.createElement('canvas');
 
 </script>
 
