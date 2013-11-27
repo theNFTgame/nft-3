@@ -131,9 +131,7 @@ console.log(fntA);
         var y = event.gamma ? event.gamma : event.x * 90;
 
         //window.console && console.info('Raw position: x, y: ', x, y);
-        ctx.clearRect(0,0,320,540); 
-        ctx.drawImage(fntA.image1,x+100,y+200,600,200);
-        ctx.strokeText("Hello World",x+50,y+150);
+        
 
         if (!initialX && !initialY) {
 
@@ -147,6 +145,11 @@ console.log(fntA);
 
             ball.style.top = (90 + positionX * 5) + 'px';
             ball.style.left = (90 + positionY * 5) + 'px';
+            ctx.clearRect(0,0,320,540); 
+            ctx.drawImage(fntA.image0,0,0,320,503);
+            ctx.drawImage(fntA.image1,90 + positionY ,90 + positionX ,600,200);
+
+
         }
     }
 
