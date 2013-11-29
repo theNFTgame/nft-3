@@ -86,7 +86,7 @@
     </style>
 </head>
 <body>
-<canvas id="myCanvas" width="320" height="540"></canvas>
+<canvas id="myCanvas" width="320" height="540" style=""></canvas>
 
 <h1>TNF Skiing - Demo</h1>
 
@@ -107,7 +107,74 @@
 <img id="map" src="map.jpg" alt="The Scream" width="220" height="277">
 <img id="player" src="player.png" alt="The Scream" width="220" height="277">
 <script>
+(function () {
+  var lastTime = 0;
+  var vendors = ['ms', 'moz', 'webkit', 'o'];
+  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+  }
+  if(!window.requestAnimationFrame)
+    window.requestAnimationFrame = function (callback, element) {
+      var currTime = new Date().getTime();
+      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+      var id = window.setTimeout(function () {
+        callback(currTime + timeToCall);
+      },
+      timeToCall);
+      lastTime = currTime + timeToCall;
+      return id;
+  };
+  if(!window.cancelAnimationFrame)
+    window.cancelAnimationFrame = function (id) {
+      clearTimeout(id);
+  };
+}());
 
+  var requestAnimationFrame = window.requestAnimationFrame || 
+                              window.mozRequestAnimationFrame || 
+                              window.webkitRequestAnimationFrame || 
+                              window.msRequestAnimationFrame;
+                               
+  // hopefully get a valid cancelAnimationFrame function!                     
+  var cancelRAF = window.cancelAnimationFrame || 
+                  window.mozCancelAnimationFrame || 
+                  window.webkitCancelAnimationFrame || 
+                  window.msCancelAnimationFrame;
+
+function drawRectangle(myRectangle, context) {
+      // context.beginPath();
+      // context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
+      // context.fillStyle = 'blue';
+      // context.fill();
+      // context.lineWidth = myRectangle.borderWidth;
+      // context.strokeStyle = 'blue';
+      // context.stroke();
+      context.drawImage(fntA.iconPower,myRectangle.x,myRectangle.y,23,23);
+    }
+    function animate() {
+      // update
+      var time = (new Date()).getTime() - startTime;
+      var amplitude = 160;
+
+      // in ms
+      var period = fntA.period;
+      var centerX = canvas.width / 2 - myRectangle.width / 2;
+      var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
+
+      myRectangle.x = nextX;
+      fntA.x = canvas.width - nextX;
+
+      // clear
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // draw
+      drawRectangle(myRectangle, context);
+      fntA.requestId = window.requestAnimationFrame(animate);
+    }
+
+
+    
     var ctx =  document.getElementById('myCanvas').getContext('2d');
     var fntA = new Object();
     fntA.image0 = new Image();
@@ -151,7 +218,8 @@ console.log(fntA);
             ball.style.left = (90 + positionY * 5) + 'px';
             ctx.clearRect(0,0,320,540); 
             ctx.drawImage(fntA.image0,0,0,320,503);
-            ctx.drawImage(fntA.image1,90 + positionY*3 ,90 + positionX ,600,200);
+            ctx.rotate(0.5);
+            ctx.drawImage(fntA.image1,90 + positionY*3 ,190 + positionX ,600,200);
 
 
         }
