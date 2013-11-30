@@ -142,16 +142,11 @@
                   window.webkitCancelAnimationFrame || 
                   window.msCancelAnimationFrame;
 
-function drawRectangle(myRectangle, context) {
-      // context.beginPath();
-      // context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
-      // context.fillStyle = 'blue';
-      // context.fill();
-      // context.lineWidth = myRectangle.borderWidth;
-      // context.strokeStyle = 'blue';
-      // context.stroke();
+  function fnt (){
+    function drawRectangle(myRectangle, context) {
       context.drawImage(fntA.iconPower,myRectangle.x,myRectangle.y,23,23);
     }
+
     function animate() {
       // update
       var time = (new Date()).getTime() - startTime;
@@ -172,6 +167,8 @@ function drawRectangle(myRectangle, context) {
       drawRectangle(myRectangle, context);
       fntA.requestId = window.requestAnimationFrame(animate);
     }
+  }
+
 
 
     
@@ -218,7 +215,8 @@ console.log(fntA);
             ball.style.left = (90 + positionY * 5) + 'px';
             ctx.clearRect(0,0,320,540); 
             ctx.drawImage(fntA.image0,0,0,320,503);
-            ctx.rotate(0.5);
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            //ctx.rotate(0.2);
             ctx.drawImage(fntA.image1,90 + positionY*3 ,190 + positionX ,600,200);
 
 
