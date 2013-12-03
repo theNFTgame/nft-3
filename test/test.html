@@ -143,12 +143,20 @@
                   window.msCancelAnimationFrame;
 
   function fntSkiing (){
+    fntA.gameFrame = 1;
+
     function drawRectangle(myRectangle, context) {
       context.drawImage(fntA.iconPower,myRectangle.x,myRectangle.y,23,23);
     }
 
     function animate() {
       // update
+      fntA.player = new Image();
+      if(fntA.gameFrame<=9){
+        fntA.player.src = 'img/player/g'+ fntA.gameFrame +'.png';
+      }
+      
+
       var time = (new Date()).getTime() - startTime;
       var amplitude = 160;
 
@@ -214,8 +222,7 @@ console.log(fntA);
             ball.style.top = (90 + positionX * 5) + 'px';
             ball.style.left = (90 + positionY * 5) + 'px';
             ctx.clearRect(0,0,320,540); 
-            ctx.drawImage(fntA.image0,0,0,320,503);
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            //ctx.drawImage(fntA.image0,0,0,320,503);
             //ctx.rotate(0.2);
             ctx.drawImage(fntA.image1,90 + positionY*3 ,190 + positionX ,600,200);
 

@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title> - jsFiddle demo by vitrum</title>
+  
+  <script type='text/javascript' src='http://code.jquery.com/jquery-2.0.2.js'></script>
+  
+  
+  
+  <style type='text/css'>
+     body {
+        margin: 0px;
+        padding: 0px;
+    background:#f3f3f3;
+    font-size:12px;
+    line-height:16px;
+      }
+p {margin:0;}
+.timebg {
+    background: -webkit-linear-gradient(right, transparent 80px, red 300px);
+          background-size:320px 40px;
+    width:320px;
+    margin:10px;
+    height:50px;
+    padding:0;
+}
+.btn {
+    margin:10px;
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+  background-color:#ededed;
+  -webkit-border-top-left-radius:6px;
+  -moz-border-radius-topleft:6px;
+  border-top-left-radius:6px;
+  -webkit-border-top-right-radius:6px;
+  -moz-border-radius-topright:6px;
+  border-top-right-radius:6px;
+  -webkit-border-bottom-right-radius:6px;
+  -moz-border-radius-bottomright:6px;
+  border-bottom-right-radius:6px;
+  -webkit-border-bottom-left-radius:6px;
+  -moz-border-radius-bottomleft:6px;
+  border-bottom-left-radius:6px;
+  text-indent:0;
+  border:1px solid #dcdcdc;
+  display:inline-block;
+  color:#777777;
+  font-family:arial;
+  font-size:17px;
+  font-weight:bold;
+  font-style:normal;
+  height:50px;
+  line-height:50px;
+  width:100px;
+  text-decoration:none;
+  text-align:center;
+  text-shadow:1px 1px 0px #ffffff;
+}
+.btn:hover {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+  background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+  background-color:#dfdfdf;
+}
+.btn:active {
+  position:relative;
+  top:1px;
+}
+
+.map { width: 320px;height:474px;position: relative;}
+
+
+.theclimer { display: none; 
+  background: 
+  url(img/player/g0.png), 
+  url(img/player/g1_ok.png), 
+  url(img/player/g2_ok.png),
+  url(img/player/g3_ok.png),
+  url(img/player/g4_ok.png),
+  url(img/player/g5_ok.png),
+  url(img/player/g1_down.png),
+  url(img/player/g2_down.png),
+  url(img/player/g3_down.png),
+  url(img/player/g4_down.png),
+  url(img/player/g5_down.png),
+  url(img/player/down.png),
+  url(img/icon_power.png);
+}
+
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+(function () {
+  var lastTime = 0;
+  var vendors = ['ms', 'moz', 'webkit', 'o'];
+  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+  }
+  if(!window.requestAnimationFrame)
+    window.requestAnimationFrame = function (callback, element) {
+      var currTime = new Date().getTime();
+      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+      var id = window.setTimeout(function () {
+        callback(currTime + timeToCall);
+      },
+      timeToCall);
+      lastTime = currTime + timeToCall;
+      return id;
+  };
+  if(!window.cancelAnimationFrame)
+    window.cancelAnimationFrame = function (id) {
+      clearTimeout(id);
+  };
+}());
+
+$(window).load(function(){
+  var fntA = new Object();
+    fntA.image0 = new Image();
+    fntA.image0.src = 'img/map/map01.jpg';
+    fntA.player = new Image();
+    fntA.player.src = 'img/player/g0.png';
+    fntA.iconPower = new Image();
+    fntA.iconPower.src = 'img/icon_power.png';
+    fntA.gameLevel = 1;
+    fntA.shakerecord = 0;
+    fntA.climerRecord = 0;
+    fntA.ClimerAniAllMove = 0;
+    
+    fntA.ClimerAniStep = 60;
+    fntA.ClimerAniMove = fntA.ClimerAniStep;
+    fntA.defaultY  = -446;
+
+    var mapcanvas =  document.getElementById('mapCanvas');
+    var ctx0 = mapcanvas.getContext('2d');
+
+var requestAnimationFrame = window.requestAnimationFrame || 
+                            window.mozRequestAnimationFrame || 
+                            window.webkitRequestAnimationFrame || 
+                            window.msRequestAnimationFrame;
+                             
+// hopefully get a valid cancelAnimationFrame function!                     
+var cancelRAF = window.cancelAnimationFrame || 
+                window.mozCancelAnimationFrame || 
+                window.webkitCancelAnimationFrame || 
+                window.msCancelAnimationFrame;
+
+  function drawRectangle(myRectangle, context) {
+    // context.beginPath();
+    // context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
+    // context.fillStyle = 'green';
+    // context.fill();
+    // context.lineWidth = myRectangle.borderWidth;
+    // context.strokeStyle = 'green';
+    // context.stroke();
+
+    context.drawImage(fntA.iconPower,myRectangle.x,myRectangle.y,23,23);
+  }
+      function animate() {
+        // update
+        var time = (new Date()).getTime() - startTime;
+        var amplitude = 160;
+
+        // in ms
+        var period = 2000;
+        var centerX = canvas.width / 2 - myRectangle.width / 2;
+        var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
+        myRectangle.x = nextX;
+        fntA.x = canvas.width - nextX;
+
+        // clear
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // draw
+        drawRectangle(myRectangle, context);
+
+        // request new frame
+        // requestAFrame(function() {
+        //   animate(myRectangle, canvas, context, startTime);
+        // });
+         fntA.requestId = window.requestAnimationFrame(animate);
+      }
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
+
+      var myRectangle = {
+        x: 320,
+        y: 0,
+        width: 20,
+        height: 50,
+        borderWidth: 0
+      };
+
+      drawRectangle(myRectangle, context);
+      var startTime = (new Date()).getTime();
+      animate(myRectangle, canvas, context, startTime)
+      // wait one second before starting animation
+
+function ClimerAnimate() {
+      fntA.climerRuning = true;
+      // clear
+      ctx0.clearRect(0, 0, canvas.width, canvas.height);
+
+      var nextStpe = fntA.thisStpe;
+      // update
+      // if(nextStpe == 'down'){
+      //   fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_down.png';
+      // }else if( nextStpe == 'ok'){
+      //   fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_ok.png';
+      //   if(fntA.gameLevel == 5){
+      //     fntA.gameFinish = true;
+      //   }
+      // }
+      fntA.player = new Image();
+      fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_ok.png';
+      if(fntA.gameLevel == 5){
+        fntA.gameFinish = true;
+      }
+      
+      // fntA.player.src = 'img/player/g2_ok.png';
+
+     
+
+      var newY = 0 , newX = -10 ,playerNewX = -20 ,playerNewY = -60; //fntA.defaultY + ( fntA.ClimerAniStep - fntA.ClimerAniMove + 1) ;
+      fntA.ClimerAniMove = fntA.ClimerAniMove - 0.35;
+      // in ms
+      switch (fntA.gameLevel) {
+        case 1:
+          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
+            playerNewX = -20;
+            newY = -436;
+          }
+          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
+            playerNewX = -380;
+            playerNewY = -50;
+            newY = -425;
+          }
+          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
+            playerNewX = -740;
+            playerNewY = -40;
+            newY = -388;
+          }
+          if(fntA.climerRecord >= 120 ){
+            playerNewX = -1095;
+            playerNewY = -52;
+            newY = -388;
+            if(nextStpe == 'down'){
+              fntA.player = new Image();
+              fntA.player.src = 'img/player/down.png';
+              playerNewX = -20;
+              playerNewY = -80;
+            }
+          }
+          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
+            fntA.player.src = 'img/player/down.png';
+            playerNewX = -380;
+            playerNewY = -30;
+          }
+        break;
+        case 2:
+          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
+            playerNewX = -20;
+            newY = -388;
+          }
+          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
+            playerNewX = -380;
+            playerNewY = -50;
+            newY = -388;
+          }
+          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
+            playerNewX = -740;
+            playerNewY = -20;
+            newY = -298;
+          }
+          if(fntA.climerRecord >= 120 ){
+            playerNewX = -1100;
+            playerNewY = -20;
+            newY = -296;
+            if(nextStpe == 'down'){
+              fntA.player = new Image();
+              fntA.player.src = 'img/player/down.png';
+              playerNewX = -20;
+              playerNewY = -80;
+            }
+          }
+          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
+            fntA.player.src = 'img/player/down.png';
+            playerNewX = -380;
+            playerNewY = -30;
+          }
+        break;
+        case 3:
+          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
+            playerNewX = -23;
+            playerNewY = -25;
+            newY = -296;
+            newX = -20;
+          }
+          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
+            playerNewX = -380;
+            playerNewY = -30;
+            newY = -270;
+            newX = -20;
+          }
+          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
+            playerNewX = -740;
+            playerNewY = -20;
+            newY = -240;
+            newX = -26;
+          }
+          if(fntA.climerRecord >= 120 ){
+            playerNewX = -1096;
+            playerNewY = -20;
+            newY = -240;
+            newX = -30;
+            if(nextStpe == 'down'){
+              fntA.player = new Image();
+              fntA.player.src = 'img/player/down.png';
+              playerNewX = -20;
+              playerNewY = -80;
+            }
+          }
+          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
+            fntA.player.src = 'img/player/down.png';
+            playerNewX = -380;
+            playerNewY = -30;
+          }
+        break;
+        case 4:
+          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
+            playerNewX = 0;
+            playerNewY = -30;
+            newY = -236;
+            newX = -20;
+          }
+          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
+            playerNewX = -360;
+            playerNewY = -30;
+            newY = -222;
+            newX = -20;
+          }
+          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
+            playerNewX = -720;
+            playerNewY = -20;
+            newY = -212;
+            newX = -30;
+          }
+          if(fntA.climerRecord >= 120 ){
+            playerNewX = -1076;
+            playerNewY = -20;
+            newY = -210;
+            newX = -38;
+            if(nextStpe == 'down'){
+              fntA.player = new Image();
+              fntA.player.src = 'img/player/down.png';
+              playerNewX = -20;
+              playerNewY = -80;
+            }
+          }
+          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
+            fntA.player.src = 'img/player/down.png';
+            playerNewX = -380;
+            playerNewY = -30;
+          }
+        break;
+        case 5:
+          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
+            playerNewX = -20;
+            playerNewY = -30;
+            newY = -186;
+            newX = -40;
+          }
+          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
+            playerNewX = -380;
+            playerNewY = -30;
+            newY = -180;
+            newX = -40;
+          }
+          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
+            playerNewX = -740;
+            playerNewY = -27;
+            newY = -160;
+            newX = -40;
+          }
+          if(fntA.climerRecord >= 120 ){
+            playerNewX = -1068;
+            playerNewY = -33;
+            newY = -150;
+            newX = -30;
+            if(nextStpe == 'down'){
+              fntA.player = new Image();
+              fntA.player.src = 'img/player/down.png';
+              playerNewX = -20;
+              playerNewY = -80;
+            }
+          }
+          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
+            fntA.player.src = 'img/player/down.png';
+            playerNewX = -380;
+            playerNewY = -30;
+          }
+        break;
+      }
+
+
+      // draw
+      console.log('fntA.player.src:' + fntA.player.src + ',fntA.gameLevel:' + fntA.gameLevel + ',fntA.climerRecord:'+ fntA.climerRecord + ',xy:' + playerNewX + ',' + playerNewY );
+
+      ctx0.drawImage(fntA.image0,newX,newY,360,912);
+      
+      ctx0.drawImage(fntA.player,playerNewX,playerNewY,1800,480);
+
+      // animate
+      if(fntA.ClimerAniMove < 2){
+        stopAnimation();
+        fntA.defaultY = newY;
+        fntA.gameLevel =  fntA.gameLevel + 1;
+
+        return;
+      }else{
+        fntA.requestId = window.requestAnimationFrame(ClimerAnimate);
+        console.log('fntA.ClimerAniMove:'+ fntA.ClimerAniMove +',newY:'+ newY +',playerNewX:' + playerNewX);
+        fntA.climerRecord = fntA.climerRecord + 1 ;
+        
+      }
+      
+    }
+
+
+function stopAnimation(e) {
+    // use the requestID to cancel the requestAnimationFrame call
+    cancelRAF(fntA.requestId);
+}
+function pauseAnimation(e) {
+    // use the requestID to cancel the requestAnimationFrame call
+    animate();
+}
+
+$(".get").on("click", function(){
+    $("body").append('<p>' + fntA.x);
+  });
+$(".clean").on("click", function(){
+    $("p").remove();
+  });
+$(".stop").on("click", function(){
+    stopAnimation();
+    $("body").append('<p>' + fntA.x);
+  });
+$(".pause").on("click", function(){
+    pauseAnimation();
+    $("body").append('<p>' + fntA.x);
+  });
+$('.play').on("click", function(){
+  fntA.ClimerAniMove = fntA.ClimerAniStep;
+  fntA.climerRecord = 0;
+  fntA.thisStpe = 'down';
+    ClimerAnimate();
+    
+  });
+
+$('.play2').on("click", function(){
+  fntA.ClimerAniMove = fntA.ClimerAniStep;
+  fntA.climerRecord = 0;
+  fntA.thisStpe = 'ok';
+    ClimerAnimate();
+    
+  });
+ctx0.drawImage(fntA.image0,-10,-446,360,912);
+ctx0.drawImage(fntA.player,-20,-60,1800,480);
+
+});//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div class="timebg">
+    <canvas id="myCanvas" width="320" height="50"></canvas>
+
+</div>
+  <a class="btn play" href="#">play down</a>
+  <a class="btn play2" href="#">play ok</a>
+<div class="map">
+  <canvas id="mapCanvas" width="320" height="474"></canvas>
+  <div class="theclimer"></div>
+</div>
+
+<a class="btn get" href="#">get value</a>
+<a class="btn clean" href="#">clean</a>
+<a class="btn pause" href="#">Pause</a>
+<a class="btn stop" href="#">stop</a>
+
+<a class="btn play" href="#">play</a>
+
+</body>
+
+
+</html>
+

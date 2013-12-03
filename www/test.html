@@ -1,103 +1,132 @@
-
 <!DOCTYPE html>
+
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title> - jsFiddle demo by vitrum</title>
-  
-  <script type='text/javascript' src='http://code.jquery.com/jquery-2.0.2.js'></script>
-  
-  
-  
-  <style type='text/css'>
-     body {
-        margin: 0px;
-        padding: 0px;
-    background:#f3f3f3;
-    font-size:12px;
-    line-height:16px;
-      }
-p {margin:0;}
-.timebg {
-    background: -webkit-linear-gradient(right, transparent 80px, red 300px);
-          background-size:320px 40px;
-    width:320px;
-    margin:10px;
-    height:50px;
-    padding:0;
-}
-.btn {
-    margin:10px;
-  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-  box-shadow:inset 0px 1px 0px 0px #ffffff;
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-  background-color:#ededed;
-  -webkit-border-top-left-radius:6px;
-  -moz-border-radius-topleft:6px;
-  border-top-left-radius:6px;
-  -webkit-border-top-right-radius:6px;
-  -moz-border-radius-topright:6px;
-  border-top-right-radius:6px;
-  -webkit-border-bottom-right-radius:6px;
-  -moz-border-radius-bottomright:6px;
-  border-bottom-right-radius:6px;
-  -webkit-border-bottom-left-radius:6px;
-  -moz-border-radius-bottomleft:6px;
-  border-bottom-left-radius:6px;
-  text-indent:0;
-  border:1px solid #dcdcdc;
-  display:inline-block;
-  color:#777777;
-  font-family:arial;
-  font-size:17px;
-  font-weight:bold;
-  font-style:normal;
-  height:50px;
-  line-height:50px;
-  width:100px;
-  text-decoration:none;
-  text-align:center;
-  text-shadow:1px 1px 0px #ffffff;
-}
-.btn:hover {
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-  background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-  background-color:#dfdfdf;
-}
-.btn:active {
-  position:relative;
-  top:1px;
-}
+    <meta charset="UTF-8" />
 
-.map { width: 320px;height:474px;position: relative;}
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="author" content="Vitrum.Zhu" />
+    <!--
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.7/fastclick.min.js"></script>
+    <script type="text/javascript" src="js/lib/zepto.min.js"></script>
+    <script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>
+    -->
+    <style>
+    <title>TNF Skiing - Demo</title>
 
+    <style>
+        * {margin: 0; padding: 0;}
+        body {
+            margin: 0px;
+        }
+        h1 {
+            font-family: verdana, sans-serif;
+            font-weight: bold;
+            font-size: 28px;
+        }
 
-.theclimer { display: none; 
-  background: 
-  url(img/player/g0.png), 
-  url(img/player/g1_ok.png), 
-  url(img/player/g2_ok.png),
-  url(img/player/g3_ok.png),
-  url(img/player/g4_ok.png),
-  url(img/player/g5_ok.png),
-  url(img/player/g1_down.png),
-  url(img/player/g2_down.png),
-  url(img/player/g3_down.png),
-  url(img/player/g4_down.png),
-  url(img/player/g5_down.png),
-  url(img/player/down.png),
-  url(img/icon_power.png);
-}
+        p {
+            font-family: verdana, sans-serif;
+            font-size: 12px;
+        }
 
-  </style>
-  
+        #canvas {
+            width: 300px;
+            height: 300px;
 
+            border: 5px solid #ddd;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            display: none;
+        }
 
-<script type='text/javascript'>//<![CDATA[ 
+        #middle {
+            background-color: #aaa;
+            position: relative;
+            width: 4px;
+            height: 4px;
+            left: 148px;
+            top: 148px;
+        }
+
+        #ball {
+            background-color: green;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            left: 140px;
+            top: 140px;
+
+            border-radius: 20px;
+            -moz-border-radius: 20px;
+
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+            -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+            -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+
+            background-image: -moz-linear-gradient(top, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 12px);
+            background-image: -webkit-gradient(linear, 0 0, 0 12, from(rgba(255, 255, 255, .5)), to(rgba(255, 255, 255, 0)));
+        }
+
+        #warning {
+            display: none;
+            padding: 5px 10px;
+            font-weight: bold;
+
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+
+            color: black;
+            background-color: #FDFFBF;
+            border: 1px solid #D7DE07;
+
+        }
+        #mapCanvas , #myCanvas {
+          position: absolute;
+          top: 0;
+          left:0;
+          z-index: 1;
+        }
+        #myCanvas{z-index: 10;}
+        .debug {display: none;}
+    </style>
+</head>
+<body>
+<canvas id="mapCanvas" width="320" height="540" style="pos"></canvas>
+<canvas id="myCanvas" width="320" height="540" style=""></canvas>
+
+<div class="debug">
+  <h1>TNF Skiing - Demo</h1>
+
+  <!--
+  <p>HTML 5 device orientation demo, currently only supported by Webkit (Google Chrome 9+) and Mozilla (Firefox 3.6+) based browsers.</p>
+
+  <p><a href="http://www.juurlink.org/2011/02/html-5-accelerometer/" target="_blank">HTML 5 Accelerometer</a></p>
+
+  -->
+
+  <p id="warning"></p>
+
+  <div id="canvas">
+      <div id="middle"></div>
+      <div id="ball"></div>
+  </div>
+
+  <img id="map" src="img/maps/a01.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a02.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a03.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a04.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a05.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a06.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a07.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a08.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a09.png" alt="The Scream" width="220" height="277">
+  <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
+</div>
+
+<script>
 (function () {
   var lastTime = 0;
   var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -122,387 +151,120 @@ p {margin:0;}
   };
 }());
 
-$(window).load(function(){
-  var fntA = new Object();
-    fntA.image0 = new Image();
-    fntA.image0.src = 'img/map/map01.jpg';
-    fntA.player = new Image();
-    fntA.player.src = 'img/player/g0.png';
-    fntA.iconPower = new Image();
-    fntA.iconPower.src = 'img/icon_power.png';
-    fntA.gameLevel = 1;
-    fntA.shakerecord = 0;
-    fntA.climerRecord = 0;
-    fntA.ClimerAniAllMove = 0;
-    
-    fntA.ClimerAniStep = 60;
-    fntA.ClimerAniMove = fntA.ClimerAniStep;
-    fntA.defaultY  = -446;
+  var requestAnimationFrame = window.requestAnimationFrame || 
+                              window.mozRequestAnimationFrame || 
+                              window.webkitRequestAnimationFrame || 
+                              window.msRequestAnimationFrame;
+                               
+  // hopefully get a valid cancelAnimationFrame function!                     
+  var cancelRAF = window.cancelAnimationFrame || 
+                  window.mozCancelAnimationFrame || 
+                  window.webkitCancelAnimationFrame || 
+                  window.msCancelAnimationFrame;
 
-    var mapcanvas =  document.getElementById('mapCanvas');
-    var ctx0 = mapcanvas.getContext('2d');
+    var ctx =  document.getElementById('myCanvas').getContext('2d');
+    var fntA = new Object();
 
-var requestAnimationFrame = window.requestAnimationFrame || 
-                            window.mozRequestAnimationFrame || 
-                            window.webkitRequestAnimationFrame || 
-                            window.msRequestAnimationFrame;
-                             
-// hopefully get a valid cancelAnimationFrame function!                     
-var cancelRAF = window.cancelAnimationFrame || 
-                window.mozCancelAnimationFrame || 
-                window.webkitCancelAnimationFrame || 
-                window.msCancelAnimationFrame;
+    fntA.image1 = new Image();
 
-  function drawRectangle(myRectangle, context) {
-    // context.beginPath();
-    // context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
-    // context.fillStyle = 'green';
-    // context.fill();
-    // context.lineWidth = myRectangle.borderWidth;
-    // context.strokeStyle = 'green';
-    // context.stroke();
+    fntA.image1.src = 'img/maps/p01.png';
 
-    context.drawImage(fntA.iconPower,myRectangle.x,myRectangle.y,23,23);
-  }
-      function animate() {
-        // update
-        var time = (new Date()).getTime() - startTime;
-        var amplitude = 160;
+//ctx.strokeText("Hello World",10,50);
+//ctx.drawImage(fntA.image0,10,10,320,540);
 
-        // in ms
-        var period = 2000;
-        var centerX = canvas.width / 2 - myRectangle.width / 2;
-        var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
-        myRectangle.x = nextX;
-        fntA.x = canvas.width - nextX;
+console.log(fntA);
+    // ctx.drawImage(fntA.image0,10,10);
+    // ctx.drawImage(fntA.image1,10,10);
 
-        // clear
-        context.clearRect(0, 0, canvas.width, canvas.height);
 
-        // draw
-        drawRectangle(myRectangle, context);
 
-        // request new frame
-        // requestAFrame(function() {
-        //   animate(myRectangle, canvas, context, startTime);
-        // });
-         fntA.requestId = window.requestAnimationFrame(animate);
-      }
-      var canvas = document.getElementById('myCanvas');
-      var context = canvas.getContext('2d');
+    var initialX = null;
+    var initialY = null;
 
-      var myRectangle = {
-        x: 320,
-        y: 0,
-        width: 20,
-        height: 50,
-        borderWidth: 0
-      };
+    var ball = document.getElementById('ball');
 
-      drawRectangle(myRectangle, context);
-      var startTime = (new Date()).getTime();
-      animate(myRectangle, canvas, context, startTime)
-      // wait one second before starting animation
+    function handleOrientationEvent(event) {
 
-function ClimerAnimate() {
-      fntA.climerRuning = true;
-      // clear
-      ctx0.clearRect(0, 0, canvas.width, canvas.height);
+        var x = event.beta ? event.beta : event.y * 90;
+        var y = event.gamma ? event.gamma : event.x * 90;
 
-      var nextStpe = fntA.thisStpe;
+        //window.console && console.info('Raw position: x, y: ', x, y);
+        
+
+        if (!initialX && !initialY) {
+
+            initialX = x;
+            initialY = y;
+
+        } else {
+
+            var positionX = initialX - x;
+            var positionY = initialY - y;
+
+            ball.style.top = (90 + positionX * 5) + 'px';
+            ball.style.left = (90 + positionY * 5) + 'px';
+            ctx.clearRect(0,0,320,540); 
+            // ctx.drawImage(fntA.image0,0,0,320,503);
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            // ctx.rotate(0.2);
+            ctx.drawImage(fntA.image1,90 + positionY ,190 + positionX*(0.5) ,127,232);
+
+
+        }
+    }
+
+    function isEventFired() {
+        if (!initialX && !initialY) {
+            var warningElement = document.getElementById('warning');
+            warningElement.innerText = 'Warning: Cannot receive device orientation events, this browser is not supported.';
+            warningElement.style.display = 'inline-block';
+        }
+    }
+
+    // Webkit en Mozilla variant beide registreren.
+    window.addEventListener("MozOrientation", handleOrientationEvent, true);
+    window.addEventListener("deviceorientation", handleOrientationEvent, true);
+
+    setTimeout(isEventFired, 2000);
+
+    document.createElement('canvas');
+
+  function fntSkiing(){
+    fntA.mapFrame = 1;
+    var context =  document.getElementById('mapCanvas').getContext('2d');
+    function animate() {
       // update
-      // if(nextStpe == 'down'){
-      //   fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_down.png';
-      // }else if( nextStpe == 'ok'){
-      //   fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_ok.png';
-      //   if(fntA.gameLevel == 5){
-      //     fntA.gameFinish = true;
-      //   }
-      // }
-      fntA.player = new Image();
-      fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_ok.png';
-      if(fntA.gameLevel == 5){
-        fntA.gameFinish = true;
+      fntA.map = new Image();
+      if(fntA.mapFrame<=9){
+        fntA.map.src = 'img/maps/a0'+ fntA.mapFrame +'.png';
+      }else if (fntA.mapFrame>10){
+        fntA.map.src = 'img/maps/a'+ fntA.mapFrame +'.png';
       }
-      
-      // fntA.player.src = 'img/player/g2_ok.png';
-
-     
-
-      var newY = 0 , newX = -10 ,playerNewX = -20 ,playerNewY = -60; //fntA.defaultY + ( fntA.ClimerAniStep - fntA.ClimerAniMove + 1) ;
-      fntA.ClimerAniMove = fntA.ClimerAniMove - 0.35;
+      console.log('fntA.mapFrame:' + fntA.mapFrame);
       // in ms
-      switch (fntA.gameLevel) {
-        case 1:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -20;
-            newY = -436;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -50;
-            newY = -425;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -40;
-            newY = -388;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1095;
-            playerNewY = -52;
-            newY = -388;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 2:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -20;
-            newY = -388;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -50;
-            newY = -388;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -20;
-            newY = -298;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1100;
-            playerNewY = -20;
-            newY = -296;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 3:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -23;
-            playerNewY = -25;
-            newY = -296;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -30;
-            newY = -270;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -20;
-            newY = -240;
-            newX = -26;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1096;
-            playerNewY = -20;
-            newY = -240;
-            newX = -30;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 4:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = 0;
-            playerNewY = -30;
-            newY = -236;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -360;
-            playerNewY = -30;
-            newY = -222;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -720;
-            playerNewY = -20;
-            newY = -212;
-            newX = -30;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1076;
-            playerNewY = -20;
-            newY = -210;
-            newX = -38;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 5:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -20;
-            playerNewY = -30;
-            newY = -186;
-            newX = -40;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -30;
-            newY = -180;
-            newX = -40;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -27;
-            newY = -160;
-            newX = -40;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1068;
-            playerNewY = -33;
-            newY = -150;
-            newX = -30;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-      }
 
+
+      // clear
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
       // draw
-      console.log('fntA.player.src:' + fntA.player.src + ',fntA.gameLevel:' + fntA.gameLevel + ',fntA.climerRecord:'+ fntA.climerRecord + ',xy:' + playerNewX + ',' + playerNewY );
-
-      ctx0.drawImage(fntA.image0,newX,newY,360,912);
-      
-      ctx0.drawImage(fntA.player,playerNewX,playerNewY,1800,480);
-
-      // animate
-      if(fntA.ClimerAniMove < 2){
-        stopAnimation();
-        fntA.defaultY = newY;
-        fntA.gameLevel =  fntA.gameLevel + 1;
-
-        return;
-      }else{
-        fntA.requestId = window.requestAnimationFrame(ClimerAnimate);
-        console.log('fntA.ClimerAniMove:'+ fntA.ClimerAniMove +',newY:'+ newY +',playerNewX:' + playerNewX);
-        fntA.climerRecord = fntA.climerRecord + 1 ;
-        
+      context.drawImage(fntA.map,0,0,320,503);
+      fntA.requestId = window.requestAnimationFrame(animate);
+      fntA.mapFrame = fntA.mapFrame + 1;
+      if(fntA.mapFrame>18){
+        fntA.mapFrame = 1;
       }
-      
     }
 
 
-function stopAnimation(e) {
-    // use the requestID to cancel the requestAnimationFrame call
-    cancelRAF(fntA.requestId);
-}
-function pauseAnimation(e) {
-    // use the requestID to cancel the requestAnimationFrame call
-    animate();
-}
+    animate()
+  }
 
-$(".get").on("click", function(){
-    $("body").append('<p>' + fntA.x);
-  });
-$(".clean").on("click", function(){
-    $("p").remove();
-  });
-$(".stop").on("click", function(){
-    stopAnimation();
-    $("body").append('<p>' + fntA.x);
-  });
-$(".pause").on("click", function(){
-    pauseAnimation();
-    $("body").append('<p>' + fntA.x);
-  });
-$('.play').on("click", function(){
-  fntA.ClimerAniMove = fntA.ClimerAniStep;
-  fntA.climerRecord = 0;
-  fntA.thisStpe = 'down';
-    ClimerAnimate();
-    
-  });
+  fntSkiing()
 
-$('.play2').on("click", function(){
-  fntA.ClimerAniMove = fntA.ClimerAniStep;
-  fntA.climerRecord = 0;
-  fntA.thisStpe = 'ok';
-    ClimerAnimate();
-    
-  });
-ctx0.drawImage(fntA.image0,-10,-446,360,912);
-ctx0.drawImage(fntA.player,-20,-60,1800,480);
-
-});//]]>  
 
 </script>
 
 
-</head>
-<body>
-  <div class="timebg">
-    <canvas id="myCanvas" width="320" height="50"></canvas>
-
-</div>
-  <a class="btn play" href="#">play down</a>
-  <a class="btn play2" href="#">play ok</a>
-<div class="map">
-  <canvas id="mapCanvas" width="320" height="474"></canvas>
-  <div class="theclimer"></div>
-</div>
-
-<a class="btn get" href="#">get value</a>
-<a class="btn clean" href="#">clean</a>
-<a class="btn pause" href="#">Pause</a>
-<a class="btn stop" href="#">stop</a>
-
-<a class="btn play" href="#">play</a>
-
 </body>
-
-
 </html>
-
