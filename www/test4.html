@@ -1,1 +1,135 @@
-test
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="author" content="Vitrum.Zhu" />
+    <!--
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.7/fastclick.min.js"></script>
+    <script type="text/javascript" src="js/lib/zepto.min.js"></script>
+    <script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>
+    -->
+    <style>
+    <title>TNF Skiing - Demo</title>
+
+    <style>
+        * {margin: 0; padding: 0;}
+        body {
+            margin: 0px;
+        }
+        h1 {
+            font-family: verdana, sans-serif;
+            font-weight: bold;
+            font-size: 28px;
+        }
+
+        p {
+            font-family: verdana, sans-serif;
+            font-size: 12px;
+        }
+
+        #canvas {
+            width: 300px;
+            height: 300px;
+
+            border: 5px solid #ddd;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            display: none;
+        }
+
+        #middle {
+            background-color: #aaa;
+            position: relative;
+            width: 4px;
+            height: 4px;
+            left: 148px;
+            top: 148px;
+        }
+
+        #ball {
+            background-color: green;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            left: 140px;
+            top: 140px;
+
+            border-radius: 20px;
+            -moz-border-radius: 20px;
+
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+            -moz-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+            -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+
+            background-image: -moz-linear-gradient(top, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 12px);
+            background-image: -webkit-gradient(linear, 0 0, 0 12, from(rgba(255, 255, 255, .5)), to(rgba(255, 255, 255, 0)));
+        }
+
+        #warning {
+            display: none;
+            padding: 5px 10px;
+            font-weight: bold;
+
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+
+            color: black;
+            background-color: #FDFFBF;
+            border: 1px solid #D7DE07;
+
+        }
+        #mapCanvas , #myCanvas {
+          position: absolute;
+          top: 0;
+          left:0;
+          z-index: 1;
+          width: 320px;
+          height: 540px;
+        }
+        #myCanvas{z-index: 10;}
+        .debug {display: none;}
+    </style>
+</head>
+<body>
+<div id="mapCanvas" width="320" height="540" style=""></div>
+<div id="myCanvas" width="320" height="540" style=""></div>
+
+<div class="debug">
+  <h1>TNF Skiing - Demo</h1>
+
+  <!--
+  <p>HTML 5 device orientation demo, currently only supported by Webkit (Google Chrome 9+) and Mozilla (Firefox 3.6+) based browsers.</p>
+
+  <p><a href="http://www.juurlink.org/2011/02/html-5-accelerometer/" target="_blank">HTML 5 Accelerometer</a></p>
+
+  -->
+
+  <p id="warning"></p>
+
+  <div id="canvas">
+      <div id="middle"></div>
+      <div id="ball"></div>
+  </div>
+
+  <img id="map" src="img/maps/a01.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a02.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a03.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a04.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a05.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a06.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a07.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a08.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a09.png" alt="The Scream" width="220" height="277">
+  <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
+</div>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="script/skiing.js"></script>
+
+
+</body>
+</html>
