@@ -91,14 +91,30 @@
           width: 320px;
           height: 540px;
         }
-        #myCanvas{z-index: 10;}
+        #mapCanvas { background-size: 320px 540px;}
+        #myCanvas{
+          z-index: 10;
+          -webkit-transform-origin:130px 182px;
+          -webkit-transform-style: preserve-3d;
+          -moz-transform-style: preserve-3d;
+          -o-transform-style: preserve-3d;
+          -webkit-transform:rotate(0deg);
+          
+          background: url(img/maps/p01.png) 120px 0 no-repeat;
+          background-size: 127px 232px;
+          height: 232px;
+          top: 160px;
+          left: 0px;
+        }
         .debug {display: none;}
+        .stop { margin-top: 550px; display: block; }
     </style>
 </head>
 <body>
+
 <div id="mapCanvas" width="320" height="540" style=""></div>
 <div id="myCanvas" width="320" height="540" style=""></div>
-
+<a class="stop">stop</a>
 <div class="debug">
   <h1>TNF Skiing - Demo</h1>
 
@@ -125,6 +141,16 @@
   <img id="map" src="img/maps/a07.png" alt="The Scream" width="220" height="277">
   <img id="map" src="img/maps/a08.png" alt="The Scream" width="220" height="277">
   <img id="map" src="img/maps/a09.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a10.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a11.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a12.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a13.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a14.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a15.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a16.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a17.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a18.png" alt="The Scream" width="220" height="277">
+
   <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
 </div>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

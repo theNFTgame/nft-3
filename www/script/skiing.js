@@ -44,6 +44,7 @@ console.log(fntA);
     var initialY = null;
     var ball = document.getElementById('ball');
     function handleOrientationEvent(event) {
+      var $player =  $('#myCanvas');
         var x = event.beta ? event.beta : event.y * 90;
         var y = event.gamma ? event.gamma : event.x * 90;
         //window.console && console.info('Raw position: x, y: ', x, y);
@@ -55,11 +56,13 @@ console.log(fntA);
             var positionY = initialY - y;
             ball.style.top = (90 + positionX * 5) + 'px';
             ball.style.left = (90 + positionY * 5) + 'px';
-            ctx.clearRect(0,0,320,540); 
+            //-webkit-transform:rotate(10deg);
+            $player.css('-webkit-transform', 'rotate('+positionY/2+'deg)');
+            // ctx.clearRect(0,0,320,540); 
             // ctx.drawImage(fntA.image0,0,0,320,503);
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            // ctx.setTransform(1, 0, 0, 1, 0, 0);
             // ctx.rotate(0.2);
-            ctx.drawImage(fntA.image1,90 + positionY ,190 + positionX*(0.5) ,127,232);
+            // ctx.drawImage(fntA.image1,90 + positionY ,190 + positionX*(0.5) ,127,232);
         }
     }
     function isEventFired() {
@@ -87,10 +90,10 @@ $(document).ready(function(){
       fntA.map = new Image();
       if(fntA.mapFrame<=9){
         srcUrl = 'img/maps/a0'+ fntA.mapFrame +'.png';
-      }else if (fntA.mapFrame>10){
+      }else if (fntA.mapFrame>=10){
         srcUrl = 'img/maps/a'+ fntA.mapFrame +'.png';
       }
-      console.log('fntA.mapFrame:' + fntA.mapFrame);
+      // console.log('image:' + srcUrl);
       // in ms
 
 
@@ -110,6 +113,15 @@ $(document).ready(function(){
 
     animate();
   }
+function stopAnimationClimer(e) {
+        // use the requestID to cancel the requestAnimationFrame call
+        cancelRAF(fntA.requestId);
+    }
+
+$(".stop").on("click", function(){
+        stopAnimationClimer();
+        $("body").append('<p>' + fntA.x);
+      });
 
   fntSkiing();
 });
