@@ -79,12 +79,10 @@ console.log(fntA);
 
 Demo = function() {
 
-  var output = document.getElementById('output'),
-      demo   = document.getElementById('demo'),
-      panic  = document.getElementById('panic'),
-      warn   = document.getElementById('warn'),
-      calm   = document.getElementById('calm'),
-      clear  = document.getElementById('clear'),
+  var map    = $('#mapCanvas'),
+      player = $('#myCanvas'),
+      left   = $('.left'),
+      right  = $('.right'),
       count  = 0;
 
   var log = function(msg, separate) {
