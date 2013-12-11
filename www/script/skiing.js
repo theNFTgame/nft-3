@@ -77,7 +77,62 @@ console.log(fntA);
     window.addEventListener("deviceorientation", handleOrientationEvent, true);
     setTimeout(isEventFired, 2000);
 
-Demo = function() {
+
+
+
+
+
+
+
+$(document).ready(function(){
+
+
+
+  function fntSkiing(){
+    fntA.mapFrame = 1;
+    var $map =  $('#mapCanvas');
+    function animate() {
+      // update
+      var srcUrl;
+      fntA.map = new Image();
+      if(fntA.mapFrame<=9){
+        srcUrl = 'img/maps/a0'+ fntA.mapFrame +'.png';
+      }else if (fntA.mapFrame>=10){
+        srcUrl = 'img/maps/a'+ fntA.mapFrame +'.png';
+      }
+      // console.log('image:' + srcUrl);
+      // in ms
+
+
+      // clear
+      // context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // draw
+      // context.drawImage(fntA.map,0,0,320,503);
+      $map.css('background-image', 'url('+srcUrl+')');
+      fntA.requestId = window.requestAnimationFrame(animate);
+      fntA.mapFrame = fntA.mapFrame + 1;
+      if(fntA.mapFrame>18){
+        fntA.mapFrame = 1;
+      }
+    }
+
+
+    animate();
+  }
+function stopAnimationClimer(e) {
+        // use the requestID to cancel the requestAnimationFrame call
+        cancelRAF(fntA.requestId);
+    }
+
+$(".stop").on("click", function(){
+        stopAnimationClimer();
+        $("body").append('<p>' + fntA.x);
+      });
+
+  fntSkiing();
+
+  Demo = function() {
 
   var map    = $('#mapCanvas'),
       player = $('#myCanvas'),
@@ -89,10 +144,10 @@ Demo = function() {
     count = count + (separate ? 1 : 0);
     output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
     demo.className = fsm.current;
-    panic.disabled = fsm.cannot('panic');
-    warn.disabled  = fsm.cannot('warn');
-    calm.disabled  = fsm.cannot('calm');
-    clear.disabled = fsm.cannot('clear');
+    // panic.disabled = fsm.cannot('panic');
+    // warn.disabled  = fsm.cannot('warn');
+    // calm.disabled  = fsm.cannot('calm');
+    // clear.disabled = fsm.cannot('clear');
   };
 
   var fsm = StateMachine.create({
@@ -100,6 +155,7 @@ Demo = function() {
     intial:'start',
 
     events: [
+      { name: 'start', from: 'none',   to: 'start'  },
       { name: 'join', from: 'start',     to: 'balance'  },
       { name: 'tilt', from: 'balance',   to: 'tiltLeft' },
       { name: 'tilt', from: 'balance',   to: 'tiltRight'},
@@ -163,54 +219,5 @@ Demo = function() {
 
 
 
-
-
-
-$(document).ready(function(){
-
-
-
-  function fntSkiing(){
-    fntA.mapFrame = 1;
-    var $map =  $('#mapCanvas');
-    function animate() {
-      // update
-      var srcUrl;
-      fntA.map = new Image();
-      if(fntA.mapFrame<=9){
-        srcUrl = 'img/maps/a0'+ fntA.mapFrame +'.png';
-      }else if (fntA.mapFrame>=10){
-        srcUrl = 'img/maps/a'+ fntA.mapFrame +'.png';
-      }
-      // console.log('image:' + srcUrl);
-      // in ms
-
-
-      // clear
-      // context.clearRect(0, 0, canvas.width, canvas.height);
-
-      // draw
-      // context.drawImage(fntA.map,0,0,320,503);
-      $map.css('background-image', 'url('+srcUrl+')');
-      fntA.requestId = window.requestAnimationFrame(animate);
-      fntA.mapFrame = fntA.mapFrame + 1;
-      if(fntA.mapFrame>18){
-        fntA.mapFrame = 1;
-      }
-    }
-
-
-    animate();
-  }
-function stopAnimationClimer(e) {
-        // use the requestID to cancel the requestAnimationFrame call
-        cancelRAF(fntA.requestId);
-    }
-
-$(".stop").on("click", function(){
-        stopAnimationClimer();
-        $("body").append('<p>' + fntA.x);
-      });
-
-  fntSkiing();
+  
 });
