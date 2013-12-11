@@ -94,13 +94,11 @@ $(document).ready(function(){
     function animate() {
       // update
       var srcUrl;
-      fntA.map = new Image();
-      if(fntA.mapFrame<=9){
-        srcUrl = 'img/maps/a0'+ fntA.mapFrame +'.png';
-      }else if (fntA.mapFrame>=10){
-        srcUrl = 'img/maps/a'+ fntA.mapFrame +'.png';
-      }
-      // console.log('image:' + srcUrl);
+      // fntA.map = new Image();
+
+        srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
+
+      // console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
       // in ms
 
 
@@ -111,7 +109,7 @@ $(document).ready(function(){
       // context.drawImage(fntA.map,0,0,320,503);
       $map.css('background-image', 'url('+srcUrl+')');
       fntA.requestId = window.requestAnimationFrame(animate);
-      fntA.mapFrame = fntA.mapFrame + 1;
+      fntA.mapFrame = fntA.mapFrame + 0.8;
       if(fntA.mapFrame>18){
         fntA.mapFrame = 1;
       }
@@ -219,5 +217,5 @@ $(".stop").on("click", function(){
 
 
 
-  
+
 });
