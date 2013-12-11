@@ -96,15 +96,18 @@ Demo = function() {
   };
 
   var fsm = StateMachine.create({
+    // balance, tiltLeft, tiltRight, fall, start
+    intial:'start'
 
     events: [
-      { name: 'start', from: 'none',   to: 'green'  },
-      { name: 'warn',  from: 'green',  to: 'yellow' },
-      { name: 'panic', from: 'green',  to: 'red'    },
-      { name: 'panic', from: 'yellow', to: 'red'    },
-      { name: 'calm',  from: 'red',    to: 'yellow' },
-      { name: 'clear', from: 'red',    to: 'green'  },
-      { name: 'clear', from: 'yellow', to: 'green'  },
+      { name: 'join', from: 'start',     to: 'balance'  },
+      { name: 'tilt', from: 'balance',   to: 'tiltLeft' },
+      { name: 'tilt', from: 'balance',   to: 'tiltRight'},
+      { name: 'back', from: 'tiltLeft',  to: 'balance'  },
+      { name: 'back', from: 'tiltRight', to: 'balance'  },
+      { name: 'down', from: 'tiltLeft',  to: 'fall'     },
+      { name: 'down', from: 'tiltRight', to: 'fall'     },
+      { name: 'open', from: 'fall',      to: 'start'    },
     ],
 
     callbacks: {
@@ -125,7 +128,8 @@ Demo = function() {
       onleaveyellow: function(event, from, to) { log("LEAVE   STATE: yellow"); },
       onleavered:    function(event, from, to) { 
                         log("LEAVE   STATE: red");    
-                        async(to); return false; 
+                        async(to); 
+                        return false; 
                       },
 
       ongreen:       function(event, from, to) { log("ENTER   STATE: green");  },
