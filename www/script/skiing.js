@@ -97,7 +97,7 @@ Demo = function() {
 
   var fsm = StateMachine.create({
     // balance, tiltLeft, tiltRight, fall, start
-    intial:'start'
+    intial:'start',
 
     events: [
       { name: 'join', from: 'start',     to: 'balance'  },
