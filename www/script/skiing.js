@@ -1,138 +1,138 @@
-(function () {
-  var lastTime = 0;
-  var vendors = ['ms', 'moz', 'webkit', 'o'];
-  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-  }
-  if(!window.requestAnimationFrame)
-    window.requestAnimationFrame = function (callback, element) {
-      var currTime = new Date().getTime();
-      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function () {
-        callback(currTime + timeToCall);
-      },
-      timeToCall);
-      lastTime = currTime + timeToCall;
-      return id;
-  };
-  if(!window.cancelAnimationFrame)
-    window.cancelAnimationFrame = function (id) {
-      clearTimeout(id);
-  };
-}());
+$(document).ready(function(){
+  var fntA = new Object();
+  var totalFrames = 18;
 
-var requestAnimationFrame = window.requestAnimationFrame || 
-                          window.mozRequestAnimationFrame || 
-                          window.webkitRequestAnimationFrame || 
-                          window.msRequestAnimationFrame;
-// hopefully get a valid cancelAnimationFrame function!                     
-var cancelRAF = window.cancelAnimationFrame || 
-              window.mozCancelAnimationFrame || 
-              window.webkitCancelAnimationFrame || 
-              window.msCancelAnimationFrame;
-// var ctx =  document.getElementById('myCanvas').getContext('2d');
-var fntA = new Object();
-
-Demo = function() {
-
-  var map    = $('#mapCanvas'),
-      player = $('#myCanvas'),
-      left   = $('.left'),
-      right  = $('.right'),
-      count  = 0;
-
-  var log = function(msg, separate) {
-    count = count + (separate ? 1 : 0);
-    output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
-    demo.className = fsm.current;
-    // panic.disabled = fsm.cannot('panic');
-    // warn.disabled  = fsm.cannot('warn');
-    // calm.disabled  = fsm.cannot('calm');
-    // clear.disabled = fsm.cannot('clear');
-  };
-
-  var fsm = StateMachine.create({
-    // balance, tiltLeft, tiltRight, fall, start
-    intial:'start',
-
-    events: [
-      { name: 'start', from: 'none',   to: 'start'  },
-      { name: 'join', from: 'start',     to: 'balance'  },
-      { name: 'tilt', from: 'balance',   to: 'tiltLeft' },
-      { name: 'tilt', from: 'balance',   to: 'tiltRight'},
-      { name: 'back', from: 'tiltLeft',  to: 'balance'  },
-      { name: 'back', from: 'tiltRight', to: 'balance'  },
-      { name: 'down', from: 'tiltLeft',  to: 'fall'     },
-      { name: 'down', from: 'tiltRight', to: 'fall'     },
-      { name: 'open', from: 'fall',      to: 'start'    },
-    ],
-
-    callbacks: {
-      onbeforestart: function(event, from, to) { log("STARTING UP"); },
-      onstart:       function(event, from, to) { log("READY");       },
-
-      onbeforewarn:  function(event, from, to) { log("START   EVENT: warn!",  true);  },
-      onbeforepanic: function(event, from, to) { log("START   EVENT: panic!", true);  },
-      onbeforecalm:  function(event, from, to) { log("START   EVENT: calm!",  true);  },
-      onbeforeclear: function(event, from, to) { log("START   EVENT: clear!", true);  },
-
-      onwarn:        function(event, from, to) { log("FINISH  EVENT: warn!");         },
-      onpanic:       function(event, from, to) { log("FINISH  EVENT: panic!");        },
-      oncalm:        function(event, from, to) { log("FINISH  EVENT: calm!");         },
-      onclear:       function(event, from, to) { log("FINISH  EVENT: clear!");        },
-
-      onleavegreen:  function(event, from, to) { log("LEAVE   STATE: green");  },
-      onleaveyellow: function(event, from, to) { log("LEAVE   STATE: yellow"); },
-      onleavered:    function(event, from, to) { 
-                        log("LEAVE   STATE: red");    
-                        async(to); 
-                        return false; 
-                      },
-
-      ongreen:       function(event, from, to) { log("ENTER   STATE: green");  },
-      onyellow:      function(event, from, to) { log("ENTER   STATE: yellow"); },
-      onred:         function(event, from, to) { log("ENTER   STATE: red");    },
-
-      onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); }
+  (function () {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+      window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+      window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
     }
-  });
+    if(!window.requestAnimationFrame)
+      window.requestAnimationFrame = function (callback, element) {
+        var currTime = new Date().getTime();
+        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+        var id = window.setTimeout(function () {
+          callback(currTime + timeToCall);
+        },
+        timeToCall);
+        lastTime = currTime + timeToCall;
+        return id;
+    };
+    if(!window.cancelAnimationFrame)
+      window.cancelAnimationFrame = function (id) {
+        clearTimeout(id);
+    };
+  }());
 
-  var async = function(to) {
-    pending(to, 3);
-    setTimeout(function() {
-      pending(to, 2);
+  var requestAnimationFrame = window.requestAnimationFrame || 
+                            window.mozRequestAnimationFrame || 
+                            window.webkitRequestAnimationFrame || 
+                            window.msRequestAnimationFrame;
+  // hopefully get a valid cancelAnimationFrame function!                     
+  var cancelRAF = window.cancelAnimationFrame || 
+                window.mozCancelAnimationFrame || 
+                window.webkitCancelAnimationFrame || 
+                window.msCancelAnimationFrame;
+  // var ctx =  document.getElementById('myCanvas').getContext('2d');
+
+
+
+
+
+  var skiingGame = function() {
+
+    var map    = $('#mapCanvas'),
+        player = $('#myCanvas'),
+        left   = $('.left'),
+        right  = $('.right'),
+        count  = 0;
+
+    var log = function(msg, separate) {
+      count = count + (separate ? 1 : 0);
+      output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
+      demo.className = fsm.current;
+      // panic.disabled = fsm.cannot('panic');
+      // warn.disabled  = fsm.cannot('warn');
+      // calm.disabled  = fsm.cannot('calm');
+      // clear.disabled = fsm.cannot('clear');
+    };
+
+
+    var fsm = StateMachine.create({
+      // balance, tiltLeft, tiltRight, fall, start
+      intial:'start',
+
+      events: [
+        { name: 'start', from: 'none',   to: 'start'  },
+        { name: 'join', from: 'start',     to: 'balance'  },
+        { name: 'tiltL', from: 'balance',   to: 'tiltLeft' },
+        { name: 'tiltR', from: 'balance',   to: 'tiltRight'},
+        { name: 'back', from: 'tiltLeft',  to: 'balance'  },
+        { name: 'back', from: 'tiltRight', to: 'balance'  },
+        { name: 'down', from: 'tiltLeft',  to: 'fall'     },
+        { name: 'down', from: 'tiltRight', to: 'fall'     },
+        { name: 'open', from: 'fall',      to: 'start'    },
+      ],
+
+      callbacks: {
+        onbeforestart: function(event, from, to) { log("STARTING UP"); },
+        onstart:       function(event, from, to) { log("READY");       },
+
+        onbeforewarn:  function(event, from, to) { log("START   EVENT: warn!",  true);  },
+        onbeforepanic: function(event, from, to) { log("START   EVENT: panic!", true);  },
+        onbeforecalm:  function(event, from, to) { log("START   EVENT: calm!",  true);  },
+        onbeforeclear: function(event, from, to) { log("START   EVENT: clear!", true);  },
+
+        onwarn:        function(event, from, to) { log("FINISH  EVENT: warn!");         },
+        onpanic:       function(event, from, to) { log("FINISH  EVENT: panic!");        },
+        oncalm:        function(event, from, to) { log("FINISH  EVENT: calm!");         },
+        onclear:       function(event, from, to) { log("FINISH  EVENT: clear!");        },
+
+        onleavegreen:  function(event, from, to) { log("LEAVE   STATE: green");  },
+        onleaveyellow: function(event, from, to) { log("LEAVE   STATE: yellow"); },
+        onleavered:    function(event, from, to) { 
+                          log("LEAVE   STATE: red");    
+                          async(to); 
+                          return false; 
+                        },
+
+        ongreen:       function(event, from, to) { log("ENTER   STATE: green");  },
+        onyellow:      function(event, from, to) { log("ENTER   STATE: yellow"); },
+        onred:         function(event, from, to) { log("ENTER   STATE: red");    },
+
+        onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); }
+      }
+    });
+
+    var async = function(to) {
+      pending(to, 3);
       setTimeout(function() {
-        pending(to, 1);
+        pending(to, 2);
         setTimeout(function() {
-          fsm.transition(); // trigger deferred state transition
+          pending(to, 1);
+          setTimeout(function() {
+            fsm.transition(); // trigger deferred state transition
+          }, 1000);
         }, 1000);
       }, 1000);
-    }, 1000);
-  };
+    };
 
-  var pending = function(to, n) { log("PENDING STATE: " + to + " in ..." + n); };
+    var pending = function(to, n) { log("PENDING STATE: " + to + " in ..." + n); };
+    fntA.record = 0;
+    fntA.tiltRecord = 1;
 
-  fsm.start();
-  return fsm;
-
-}();
-
-
-$(document).ready(function(){
-  fntA.record = 0;
-  fntA.tiltRecord = 1;
-
-  fntA.image1 = new Image();
-  fntA.image1.src = 'img/maps/p01.png';
-  //ctx.strokeText("Hello World",10,50);
-  //ctx.drawImage(fntA.image0,10,10,320,540);
-  console.log(fntA);
+    fntA.image1 = new Image();
+    fntA.image1.src = 'img/maps/p01.png';
+    //ctx.strokeText("Hello World",10,50);
+    //ctx.drawImage(fntA.image0,10,10,320,540);
+    console.log(fntA);
     // ctx.drawImage(fntA.image0,10,10);
     // ctx.drawImage(fntA.image1,10,10);
     var initialX = null;
     var initialY = null;
-    var ball = document.getElementById('ball');
+
     function handleOrientationEvent(event) {
       var $player =  $('#myCanvas');
         var x = event.beta ? event.beta : event.y * 90;
@@ -169,46 +169,57 @@ $(document).ready(function(){
 
 
   
-  function fntSkiing(){
-    fntA.mapFrame = 1;
-    var $map =  $('#mapCanvas');
-    function animate() {
-      // update
-      fntA.record = fntA.record + 1;
-      fntA.tiltRecord = fntA.tiltRecord + 1;
-      var srcUrl;
-      // fntA.map = new Image();
-      srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
-      // console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
-      // in ms
-      // clear
-      // context.clearRect(0, 0, canvas.width, canvas.height);
-      // draw
-      // context.drawImage(fntA.map,0,0,320,503);
-      $map.css('background-image', 'url('+srcUrl+')');
-      fntA.requestId = window.requestAnimationFrame(animate);
-      fntA.mapFrame = fntA.mapFrame + 0.8;
-      if(fntA.mapFrame>18){
-        fntA.mapFrame = 1;
+    function fntSkiing(){
+      fntA.mapFrame = 1;
+      var $map =  $('#mapCanvas');
+      function animate() {
+        // update
+        fntA.record = fntA.record + 1;
+        fntA.tiltRecord = fntA.tiltRecord + 1;
+        var srcUrl;
+        // fntA.map = new Image();
+        srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
+        console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
+        // in ms
+        // clear
+        // context.clearRect(0, 0, canvas.width, canvas.height);
+        // draw
+        // context.drawImage(fntA.map,0,0,320,503);
+        $map.css('background-image', 'url('+srcUrl+')');
+        fntA.requestId = window.requestAnimationFrame(animate);
+        fntA.mapFrame = fntA.mapFrame + 0.8;
+        if(fntA.mapFrame>18){
+          fntA.mapFrame = 1;
+        }
+        // console.log(fntA.tiltRecord);
+        if (fntA.tiltRecord == 120){
+          fntA.tiltRecord = 0;
+          console.log('Try tilt!')
+          // skiingGame.tiltL();
+        }
       }
-      // console.log(fntA.tiltRecord);
-      if (fntA.tiltRecord == 120){
-        fntA.tiltRecord = 0;
-        console.log('Try tilt!')
-        // Demo.tilt();
-      }
-      // Demo.tilt();
+      animate();
+      skiingGame.join();
     }
-    animate();
-    Demo.join();
-  }
-  function stopAnimationClimer(e) {
-    // use the requestID to cancel the requestAnimationFrame call
-    cancelRAF(fntA.requestId);
-  }
-  $(".stop").on("click", function(){
-  stopAnimationClimer();
+    function stopAnimationClimer(e) {
+      // use the requestID to cancel the requestAnimationFrame call
+      cancelRAF(fntA.requestId);
+    }
+    $(".stop").on("click", function(){
+      stopAnimationClimer();
+    });
 
-  });
-  fntSkiing();
+
+    fntSkiing();
+
+    fsm.start();
+    return fsm;
+
+
+
+
+
+
+
+  }();
 });
