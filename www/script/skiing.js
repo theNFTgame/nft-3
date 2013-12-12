@@ -78,59 +78,7 @@ console.log(fntA);
     setTimeout(isEventFired, 2000);
 
 
-
-
-
-
-
-
-$(document).ready(function(){
-
-
-
-  function fntSkiing(){
-    fntA.mapFrame = 1;
-    var $map =  $('#mapCanvas');
-    function animate() {
-      // update
-      var srcUrl;
-      // fntA.map = new Image();
-
-        srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
-
-      // console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
-      // in ms
-
-
-      // clear
-      // context.clearRect(0, 0, canvas.width, canvas.height);
-
-      // draw
-      // context.drawImage(fntA.map,0,0,320,503);
-      $map.css('background-image', 'url('+srcUrl+')');
-      fntA.requestId = window.requestAnimationFrame(animate);
-      fntA.mapFrame = fntA.mapFrame + 0.8;
-      if(fntA.mapFrame>18){
-        fntA.mapFrame = 1;
-      }
-    }
-
-
-    animate();
-  }
-function stopAnimationClimer(e) {
-        // use the requestID to cancel the requestAnimationFrame call
-        cancelRAF(fntA.requestId);
-    }
-
-$(".stop").on("click", function(){
-        stopAnimationClimer();
-        $("body").append('<p>' + fntA.x);
-      });
-
-  fntSkiing();
-
-  Demo = function() {
+Demo = function() {
 
   var map    = $('#mapCanvas'),
       player = $('#myCanvas'),
@@ -213,6 +161,70 @@ $(".stop").on("click", function(){
   return fsm;
 
 }();
+
+
+
+
+
+
+$(document).ready(function(){
+  fntA.record = 0;
+  fntA.tiltRecord = 1;
+
+
+  function fntSkiing(){
+    fntA.mapFrame = 1;
+
+    var $map =  $('#mapCanvas');
+    function animate() {
+      // update
+      fntA.record = fntA.record + 1;
+      fntA.tiltRecord = fntA.tiltRecord + 1;
+      var srcUrl;
+      // fntA.map = new Image();
+
+        srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
+
+      // console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
+      // in ms
+
+
+      // clear
+      // context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // draw
+      // context.drawImage(fntA.map,0,0,320,503);
+      $map.css('background-image', 'url('+srcUrl+')');
+      fntA.requestId = window.requestAnimationFrame(animate);
+      fntA.mapFrame = fntA.mapFrame + 0.8;
+      if(fntA.mapFrame>18){
+        fntA.mapFrame = 1;
+      }
+      // console.log(fntA.tiltRecord);
+      if (fntA.tiltRecord == 20){
+        fntA.tiltRecord = 0;
+        Demo.tilt();
+      }
+      // Demo.tilt();
+
+    }
+
+
+    animate();
+    Demo.join();
+  }
+  function stopAnimationClimer(e) {
+        // use the requestID to cancel the requestAnimationFrame call
+        cancelRAF(fntA.requestId);
+    }
+
+  $(".stop").on("click", function(){
+        stopAnimationClimer();
+        $("body").append('<p>' + fntA.x);
+      });
+
+  fntSkiing();
+
 
 
 
