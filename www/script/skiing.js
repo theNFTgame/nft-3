@@ -102,7 +102,12 @@ $(document).ready(function(){
                           async(to); 
                           return false; 
                         },
-
+        onbalance: function(event, from, to){
+          var tempy = 0;
+            $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
+            $player.css('-ms-transform', 'rotate('+tempy+'deg)');
+            $player.css('transform', 'rotate('+tempy+'deg)');
+        },
         onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); },
         ondown: function(event, from, to){
           log("ENTER   STATE: down");
@@ -152,7 +157,7 @@ $(document).ready(function(){
           fntA.mapFrame = 1;
         }
         // console.log(fntA.tiltRecord);
-        if (fntA.tiltRecord == 150){
+        if (fntA.tiltRecord == fRandomBy(120,150) || fntA.tiltRecord > 144 ){
           fntA.tiltRecord = 0;
           console.log('Try tilt!' + fntA.record + ',current:' + skiingGame.current );
           if (skiingGame.current === 'balance'){
@@ -197,13 +202,24 @@ $(document).ready(function(){
         } else {
             var positionX = initialX - x;
             var positionY = initialY - y;
-            ball.style.top = (90 + positionX * 5) + 'px';
-            ball.style.left = (90 + positionY * 5) + 'px';
+            // ball.style.top = (90 + positionX * 5) + 'px';
+            // ball.style.left = (90 + positionY * 5) + 'px';
             //-webkit-transform:rotate(10deg);
-            var tempy = positionY/2
-            $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
-            $player.css('-ms-transform', 'rotate('+tempy+'deg)');
-            $player.css('transform', 'rotate('+tempy+'deg)');
+            // var tempy = positionY/2
+            $player.css('top',160+positionX*(0.5) + 'px');
+            if(positionY > 20 && fntA.tiltRecord > 20){
+              skiingGame.backR();
+            }
+            if(positionY < -20  && fntA.tiltRecord > 20){
+              skiingGame.backL();
+            }
+            if (skiingGame.current === 'balance'){
+              var tempy = positionY/5;
+              $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
+              $player.css('-ms-transform', 'rotate('+tempy+'deg)');
+              $player.css('transform', 'rotate('+tempy+'deg)');
+            }
+            
             // ctx.clearRect(0,0,320,540); 
             // ctx.drawImage(fntA.image0,0,0,320,503);
             // ctx.setTransform(1, 0, 0, 1, 0, 0);
