@@ -22,61 +22,17 @@
   };
 }());
 
-  var requestAnimationFrame = window.requestAnimationFrame || 
-                              window.mozRequestAnimationFrame || 
-                              window.webkitRequestAnimationFrame || 
-                              window.msRequestAnimationFrame;
-  // hopefully get a valid cancelAnimationFrame function!                     
-  var cancelRAF = window.cancelAnimationFrame || 
-                  window.mozCancelAnimationFrame || 
-                  window.webkitCancelAnimationFrame || 
-                  window.msCancelAnimationFrame;
-    // var ctx =  document.getElementById('myCanvas').getContext('2d');
-    var fntA = new Object();
-    fntA.image1 = new Image();
-    fntA.image1.src = 'img/maps/p01.png';
-//ctx.strokeText("Hello World",10,50);
-//ctx.drawImage(fntA.image0,10,10,320,540);
-console.log(fntA);
-    // ctx.drawImage(fntA.image0,10,10);
-    // ctx.drawImage(fntA.image1,10,10);
-    var initialX = null;
-    var initialY = null;
-    var ball = document.getElementById('ball');
-    function handleOrientationEvent(event) {
-      var $player =  $('#myCanvas');
-        var x = event.beta ? event.beta : event.y * 90;
-        var y = event.gamma ? event.gamma : event.x * 90;
-        //window.console && console.info('Raw position: x, y: ', x, y);
-        if (!initialX && !initialY) {
-            initialX = x;
-            initialY = y;
-        } else {
-            var positionX = initialX - x;
-            var positionY = initialY - y;
-            ball.style.top = (90 + positionX * 5) + 'px';
-            ball.style.left = (90 + positionY * 5) + 'px';
-            //-webkit-transform:rotate(10deg);
-            $player.css('-webkit-transform', 'rotate('+positionY/2+'deg)');
-            // ctx.clearRect(0,0,320,540); 
-            // ctx.drawImage(fntA.image0,0,0,320,503);
-            // ctx.setTransform(1, 0, 0, 1, 0, 0);
-            // ctx.rotate(0.2);
-            // ctx.drawImage(fntA.image1,90 + positionY ,190 + positionX*(0.5) ,127,232);
-        }
-    }
-    function isEventFired() {
-        if (!initialX && !initialY) {
-            var warningElement = document.getElementById('warning');
-            warningElement.innerText = 'Warning: Cannot receive device orientation events, this browser is not supported.';
-            warningElement.style.display = 'inline-block';
-        }
-    }
-    // Webkit en Mozilla variant beide registreren.
-    window.addEventListener("MozOrientation", handleOrientationEvent, true);
-    window.addEventListener("deviceorientation", handleOrientationEvent, true);
-    setTimeout(isEventFired, 2000);
-
+var requestAnimationFrame = window.requestAnimationFrame || 
+                          window.mozRequestAnimationFrame || 
+                          window.webkitRequestAnimationFrame || 
+                          window.msRequestAnimationFrame;
+// hopefully get a valid cancelAnimationFrame function!                     
+var cancelRAF = window.cancelAnimationFrame || 
+              window.mozCancelAnimationFrame || 
+              window.webkitCancelAnimationFrame || 
+              window.msCancelAnimationFrame;
+// var ctx =  document.getElementById('myCanvas').getContext('2d');
+var fntA = new Object();
 
 Demo = function() {
 
@@ -163,18 +119,58 @@ Demo = function() {
 }();
 
 
-
-
-
-
 $(document).ready(function(){
   fntA.record = 0;
   fntA.tiltRecord = 1;
 
+  fntA.image1 = new Image();
+  fntA.image1.src = 'img/maps/p01.png';
+  //ctx.strokeText("Hello World",10,50);
+  //ctx.drawImage(fntA.image0,10,10,320,540);
+  console.log(fntA);
+    // ctx.drawImage(fntA.image0,10,10);
+    // ctx.drawImage(fntA.image1,10,10);
+    var initialX = null;
+    var initialY = null;
+    var ball = document.getElementById('ball');
+    function handleOrientationEvent(event) {
+      var $player =  $('#myCanvas');
+        var x = event.beta ? event.beta : event.y * 90;
+        var y = event.gamma ? event.gamma : event.x * 90;
+        //window.console && console.info('Raw position: x, y: ', x, y);
+        if (!initialX && !initialY) {
+            initialX = x;
+            initialY = y;
+        } else {
+            var positionX = initialX - x;
+            var positionY = initialY - y;
+            ball.style.top = (90 + positionX * 5) + 'px';
+            ball.style.left = (90 + positionY * 5) + 'px';
+            //-webkit-transform:rotate(10deg);
+            $player.css('-webkit-transform', 'rotate('+positionY/2+'deg)');
+            // ctx.clearRect(0,0,320,540); 
+            // ctx.drawImage(fntA.image0,0,0,320,503);
+            // ctx.setTransform(1, 0, 0, 1, 0, 0);
+            // ctx.rotate(0.2);
+            // ctx.drawImage(fntA.image1,90 + positionY ,190 + positionX*(0.5) ,127,232);
+        }
+    }
+    function isEventFired() {
+        if (!initialX && !initialY) {
+            var warningElement = document.getElementById('warning');
+            warningElement.innerText = 'Warning: Cannot receive device orientation events, this browser is not supported.';
+            warningElement.style.display = 'inline-block';
+        }
+    }
+    // Webkit en Mozilla variant beide registreren.
+    window.addEventListener("MozOrientation", handleOrientationEvent, true);
+    window.addEventListener("deviceorientation", handleOrientationEvent, true);
+    setTimeout(isEventFired, 2000);
 
+
+  
   function fntSkiing(){
     fntA.mapFrame = 1;
-
     var $map =  $('#mapCanvas');
     function animate() {
       // update
@@ -182,16 +178,11 @@ $(document).ready(function(){
       fntA.tiltRecord = fntA.tiltRecord + 1;
       var srcUrl;
       // fntA.map = new Image();
-
-        srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
-
+      srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
       // console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
       // in ms
-
-
       // clear
       // context.clearRect(0, 0, canvas.width, canvas.height);
-
       // draw
       // context.drawImage(fntA.map,0,0,320,503);
       $map.css('background-image', 'url('+srcUrl+')');
@@ -201,33 +192,23 @@ $(document).ready(function(){
         fntA.mapFrame = 1;
       }
       // console.log(fntA.tiltRecord);
-      if (fntA.tiltRecord == 20){
+      if (fntA.tiltRecord == 120){
         fntA.tiltRecord = 0;
-        Demo.tilt();
+        console.log('Try tilt!')
+        // Demo.tilt();
       }
       // Demo.tilt();
-
     }
-
-
     animate();
     Demo.join();
   }
   function stopAnimationClimer(e) {
-        // use the requestID to cancel the requestAnimationFrame call
-        cancelRAF(fntA.requestId);
-    }
-
+    // use the requestID to cancel the requestAnimationFrame call
+    cancelRAF(fntA.requestId);
+  }
   $(".stop").on("click", function(){
-        stopAnimationClimer();
-        $("body").append('<p>' + fntA.x);
-      });
+  stopAnimationClimer();
 
+  });
   fntSkiing();
-
-
-
-
-
-
 });
