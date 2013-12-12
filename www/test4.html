@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8" />
 
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
-    <meta name="author" content="Vitrum.Zhu" />
     <!--
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.7/fastclick.min.js"></script>
     <script type="text/javascript" src="js/lib/zepto.min.js"></script>
@@ -106,13 +105,53 @@
           top: 160px;
           left: 0px;
         }
+        .left ,.right {
+          z-index: 12;
+          width: 80px;
+          height: 80px;
+          position: absolute;
+          background: rgba(50,50,50,0.8);
+          top: 200px;
+          border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+          color: #eee;
+          left: 20px;
+          line-height: 80px;
+          text-align: center;
+        }
+        .right { left: 200px;}
         .debug {display: block; margin-left: 340px;}
-        .stop { margin-top: 550px; display: block; }
+        .stop { margin-top: 0; display: block; }
         #output { width: 200px; height: 300px;}
+        /* Loading Screen */
+        #loadingscreen {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 100%;
+          height: 100%;
+          z-index: 1000;
+          background:rgba(50,50,50,0.9); 
+          display: none;
+        }
+
+        #loadingmessage {
+          width: 100%;
+          height: 100%;
+          color:white;
+          background:url(img/load.gif) no-repeat center center;
+          font:12px Arial;
+        }
     </style>
 </head>
 <body>
 
+<div id="loadingscreen" class="gamelayer">
+  <div id="loadingmessage"></div>
+</div>
+<a class="left">left</a>
+<a class="right">right</a>
 <div id="mapCanvas" width="320" height="540" style=""></div>
 <div id="myCanvas" width="320" height="540" style=""></div>
 
@@ -122,24 +161,13 @@
   <textarea id="output">
     </textarea>
     <div id="demo" class='green'></div>
-<p><a class="left">left</a></p>
-<p><a class="right">right</a></p>
+<!-- <p><a class="left">left</a></p>
+<p><a class="right">right</a></p> -->
 <a class="stop">stop</a>
-
-  <!--
-  <p>HTML 5 device orientation demo, currently only supported by Webkit (Google Chrome 9+) and Mozilla (Firefox 3.6+) based browsers.</p>
-
-  <p><a href="http://www.juurlink.org/2011/02/html-5-accelerometer/" target="_blank">HTML 5 Accelerometer</a></p>
-
-  -->
-
-  <p id="warning"></p>
-
   <div id="canvas">
       <div id="middle"></div>
       <div id="ball"></div>
   </div>
-
   <img id="map" src="img/maps/a1.png" alt="The Scream" width="220" height="277">
   <img id="map" src="img/maps/a2.png" alt="The Scream" width="220" height="277">
   <img id="map" src="img/maps/a3.png" alt="The Scream" width="220" height="277">
@@ -160,6 +188,8 @@
   <img id="map" src="img/maps/a18.png" alt="The Scream" width="220" height="277">
 
   <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
+
+   <p id="warning"></p>
 </div>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="script/state-machine.js"></script>
