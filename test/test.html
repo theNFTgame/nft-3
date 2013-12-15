@@ -81,31 +81,51 @@
             color: black;
             background-color: #FDFFBF;
             border: 1px solid #D7DE07;
-        }
 
+        }
+        #mapCanvas , #myCanvas {
+          position: absolute;
+          top: 0;
+          left:0;
+          z-index: 1;
+        }
+        #myCanvas{z-index: 10;}
+        .debug {display: none;}
     </style>
 </head>
 <body>
+<canvas id="mapCanvas" width="320" height="540" style="pos"></canvas>
 <canvas id="myCanvas" width="320" height="540" style=""></canvas>
 
-<h1>TNF Skiing - Demo</h1>
+<div class="debug">
+  <h1>TNF Skiing - Demo</h1>
 
-<!--
-<p>HTML 5 device orientation demo, currently only supported by Webkit (Google Chrome 9+) and Mozilla (Firefox 3.6+) based browsers.</p>
+  <!--
+  <p>HTML 5 device orientation demo, currently only supported by Webkit (Google Chrome 9+) and Mozilla (Firefox 3.6+) based browsers.</p>
 
-<p><a href="http://www.juurlink.org/2011/02/html-5-accelerometer/" target="_blank">HTML 5 Accelerometer</a></p>
+  <p><a href="http://www.juurlink.org/2011/02/html-5-accelerometer/" target="_blank">HTML 5 Accelerometer</a></p>
 
--->
+  -->
 
-<p id="warning"></p>
+  <p id="warning"></p>
 
-<div id="canvas">
-    <div id="middle"></div>
-    <div id="ball"></div>
+  <div id="canvas">
+      <div id="middle"></div>
+      <div id="ball"></div>
+  </div>
+
+  <img id="map" src="img/maps/a01.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a02.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a03.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a04.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a05.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a06.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a07.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a08.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a09.png" alt="The Scream" width="220" height="277">
+  <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
 </div>
 
-<img id="map" src="map.jpg" alt="The Scream" width="220" height="277">
-<img id="player" src="player.png" alt="The Scream" width="220" height="277">
 <script>
 (function () {
   var lastTime = 0;
@@ -142,50 +162,12 @@
                   window.webkitCancelAnimationFrame || 
                   window.msCancelAnimationFrame;
 
-  function fntSkiing (){
-    fntA.gameFrame = 1;
-
-    function drawRectangle(myRectangle, context) {
-      context.drawImage(fntA.iconPower,myRectangle.x,myRectangle.y,23,23);
-    }
-
-    function animate() {
-      // update
-      fntA.player = new Image();
-      if(fntA.gameFrame<=9){
-        fntA.player.src = 'img/player/g'+ fntA.gameFrame +'.png';
-      }
-      
-
-      var time = (new Date()).getTime() - startTime;
-      var amplitude = 160;
-
-      // in ms
-      var period = fntA.period;
-      var centerX = canvas.width / 2 - myRectangle.width / 2;
-      var nextX = amplitude * Math.sin(time * 2 * Math.PI / period) + centerX;
-
-      myRectangle.x = nextX;
-      fntA.x = canvas.width - nextX;
-
-      // clear
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      // draw
-      drawRectangle(myRectangle, context);
-      fntA.requestId = window.requestAnimationFrame(animate);
-    }
-  }
-
-
-
-    
     var ctx =  document.getElementById('myCanvas').getContext('2d');
     var fntA = new Object();
-    fntA.image0 = new Image();
+
     fntA.image1 = new Image();
-    fntA.image0.src = 'map.jpg';
-    fntA.image1.src = 'player.png';
+
+    fntA.image1.src = 'img/maps/p01.png';
 
 //ctx.strokeText("Hello World",10,50);
 //ctx.drawImage(fntA.image0,10,10,320,540);
@@ -222,9 +204,10 @@ console.log(fntA);
             ball.style.top = (90 + positionX * 5) + 'px';
             ball.style.left = (90 + positionY * 5) + 'px';
             ctx.clearRect(0,0,320,540); 
-            //ctx.drawImage(fntA.image0,0,0,320,503);
-            //ctx.rotate(0.2);
-            ctx.drawImage(fntA.image1,90 + positionY*3 ,190 + positionX ,600,200);
+            // ctx.drawImage(fntA.image0,0,0,320,503);
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            // ctx.rotate(0.2);
+            ctx.drawImage(fntA.image1,90 + positionY ,190 + positionX*(0.5) ,127,232);
 
 
         }
@@ -245,6 +228,40 @@ console.log(fntA);
     setTimeout(isEventFired, 2000);
 
     document.createElement('canvas');
+
+  function fntSkiing(){
+    fntA.mapFrame = 1;
+    var context =  document.getElementById('mapCanvas').getContext('2d');
+    function animate() {
+      // update
+      fntA.map = new Image();
+      if(fntA.mapFrame<=9){
+        fntA.map.src = 'img/maps/a0'+ fntA.mapFrame +'.png';
+      }else if (fntA.mapFrame>10){
+        fntA.map.src = 'img/maps/a'+ fntA.mapFrame +'.png';
+      }
+      console.log('fntA.mapFrame:' + fntA.mapFrame);
+      // in ms
+
+
+      // clear
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // draw
+      context.drawImage(fntA.map,0,0,320,503);
+      fntA.requestId = window.requestAnimationFrame(animate);
+      fntA.mapFrame = fntA.mapFrame + 1;
+      if(fntA.mapFrame>18){
+        fntA.mapFrame = 1;
+      }
+    }
+
+
+    animate()
+  }
+
+  fntSkiing()
+
 
 </script>
 
