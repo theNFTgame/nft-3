@@ -42,7 +42,7 @@ else{
     <meta name="description" content="去野吧是The North Face®品牌精心为你打造的一站式购买，分享，摄影，旅游，户外的平台。这里还有最新的社交机制，你向寻找自己，贴近自然踏出的每一步，The North Face®都准备了惊喜和激励，与你的户外旅程一起成长。" />
     <title>The North Face®新探索客</title>
 
-    <link rel="stylesheet" href="css/mt2.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="css/skiing.css" media="screen" type="text/css" />
     <meta name="author" content="Vitrum.Zhu" />
     <script type="text/javascript">
       var _smq = _smq || [];
@@ -116,7 +116,7 @@ else{
             <div class="header">
               <div class="playerinfo playerinfoa">
                 <img src="img/player/default.jpg" />
-                <span class="playername yahei">Mr_阿温</span>
+                <span class="playername yahei">Mr</span>
               </div>
             </div>
             <div class="gamenote">
@@ -176,7 +176,7 @@ else{
     <script type="text/javascript" src="script/lib/underscore-min.js"></script>
     <script type="text/javascript" src="script/lib/backbone-min.js"></script>
     <script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>
-    <script type="text/javascript" src="script/mt2.js"></script>
+    <script type="text/javascript" src="script/skiings.js"></script>
     <script type="text/javascript" src="http://www.quyeba.com/sites/all/libraries/js/s_code.js?men2yk"></script>
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

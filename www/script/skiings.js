@@ -84,8 +84,8 @@ $(document).ready(function(){
         showSubFrame('runbox','qrcodebox');
         // fntRun();
         if(!fntA.period){
-          console.log('mainfunc call fntClimer');
-          fntClimer();
+          console.log('mainfunc call fntskiing');
+          fntskiing();
         }
         
         $('.iframbox iframe').attr('src','');
@@ -121,27 +121,29 @@ $(document).ready(function(){
       //   _smq.push(['pageview', '/login', '登陆']);
       // }else{
          // console.log(action);
+
         if(action == 'replay'){
           // router.navigate('run');
-          console.log('replay call fntClimer');
+          console.log('replay call fntskiing');
           // fntA.gameOn = null;
           delete fntA.gameOn;
           fntA.gameFinish = false;
-          fntA.ClimerOn = false;
+          fntA.skiingOn = false;
           fntA.gameLevel = 1;
           fntA.player = new Image();
           fntA.gameResult = 'replay';
-          fntA.ClimerAniMove = fntA.ClimerAniStep;
+          fntA.skiingAniMove = fntA.skiingAniStep;
           $('#myCanvas').css('background-position','0px 0px');
           fntA.player.src = 'img/player/g0.png';
           router.navigate('');
           _smq.push(['pageview', '/replay', '再战一次']);
         }
+        $('#pagebody').removeClass('on');
         showSubFrame('runbox','qrcodebox');
         // fntRun();
         if(!fntA.period){
-          console.log('#run call fntClimer');
-          fntClimer();
+          console.log('#run call fntskiing');
+          fntskiing();
         }
         $('.iframbox').html('');
         //$('.iframbox iframe').attr('src','');
@@ -261,8 +263,8 @@ $(document).ready(function(){
     });
     // fntRun();
     if(!fntA.period){
-      console.log('pose login call fntClimer');
-          fntClimer();
+      console.log('pose login call fntskiing');
+          fntskiing();
         }
   }
   function postRegister(){
@@ -313,52 +315,111 @@ $(document).ready(function(){
     });
     // fntRun();
     if(!fntA.period){
-          fntClimer();
+          fntskiing();
         }
   }
-  function funMapload(){
-    fntA.imgArr = [
-      'img/map/map01.jpg'];
-    fntA.playArr = [
-      'img/player/g1_ok.png',
-      'img/player/g2_ok.png',
-      'img/player/g3_ok.png',
-      'img/player/g4_ok.png'];
-    fntA.playDownArr = [
-      'img/player/g1_down.png',
-      'img/player/g2_down.png',
-      'img/player/g3_down.png',
-      'img/player/g4_down.png'];
-  }
 
-  //climer game
-  function fntClimer(){
-    console.log('fntClimer' + fntA.TimerOn);
-    funMapload();
-    fntA.ClimerOn = false;
-    fntA.TimerOn = false;
-    fntA.image0 = new Image();
-    fntA.image0.src = 'img/map/map01.jpg';
-    fntA.iconPower = new Image();
-    fntA.iconPower.src = 'img/icon_power.png';
-    fntA.gameLevel = 1;
-    fntA.shakerecord = 0;
-    fntA.ClimerAniStep = 60;
-    fntA.ClimerAniMove = fntA.ClimerAniStep;
-    fntA.defaultY  = -446;
-    fntA.StepStarted = false;
-    fntA.gameFinish =  false;
-    fntA.climerRuning = false;
-    fntA.period = 500; // icon speed
-    fntA.player = new Image();
-    fntA.player.src = 'img/player/g0.png';
-    fntA.climerRecord = 0;
-    fntA.ClimerAniAllMove = 0;
+  //skiing game
+  skiingGame = function() {
 
-    var canvas = document.getElementById('myCanvas');
-    var context = canvas.getContext('2d');
-    var mapcanvas =  document.getElementById('mapCanvas');
-    var ctx0 = mapcanvas.getContext('2d');
+    var map    = $('#mapCanvas'),
+        player = $('#myCanvas'),
+        left   = $('.left'),
+        right  = $('.right'),
+        count  = 0;
+
+    var log = function(msg, separate) {
+      count = count + (separate ? 1 : 0);
+      output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
+      demo.className = fsm.current;
+      // panic.disabled = fsm.cannot('panic');
+      // warn.disabled  = fsm.cannot('warn');
+      // calm.disabled  = fsm.cannot('calm');
+      // clear.disabled = fsm.cannot('clear');
+    };
+
+
+    var fsm = StateMachine.create({
+      // balance, tiltLeft, tiltRight, fall, start
+      intial:'start',
+
+      events: [
+        { name: 'start', from: 'none',   to: 'start'  },
+        { name: 'join', from: 'start',     to: 'balance'  },
+        { name: 'tiltL', from: 'balance',   to: 'tiltLeft' },
+        { name: 'tiltR', from: 'balance',   to: 'tiltRight'},
+        { name: 'backL', from: 'tiltLeft',  to: 'balance'  },
+        { name: 'backR', from: 'tiltRight', to: 'balance'  },
+        { name: 'down', from: 'tiltLeft',  to: 'fall'     },
+        { name: 'down', from: 'tiltRight', to: 'fall'     },
+        { name: 'open', from: 'fall',      to: 'start'    },
+      ],
+
+      callbacks: {
+        onbeforestart: function(event, from, to) { log("STARTING UP"); },
+        onstart:       function(event, from, to) { log("READY");       },
+
+        onleavered:    function(event, from, to) { 
+                          log("LEAVE   STATE: red");    
+                          async(to); 
+                          return false; 
+                        },
+        onbalance: function(event, from, to){
+          var tempy = 0;
+            $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
+            $player.css('-ms-transform', 'rotate('+tempy+'deg)');
+            $player.css('transform', 'rotate('+tempy+'deg)');
+        },
+        onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); },
+        ondown: function(event, from, to){
+          log("ENTER   STATE: down");
+          stopAnimationClimer();
+        }
+      }
+    });
+
+    var async = function(to) {
+      pending(to, 3);
+      setTimeout(function() {
+        pending(to, 2);
+        setTimeout(function() {
+          pending(to, 1);
+          setTimeout(function() {
+            fsm.transition(); // trigger deferred state transition
+          }, 1000);
+        }, 1000);
+      }, 1000);
+    };
+
+    var pending = function(to, n) { log("PENDING STATE: " + to + " in ..." + n); };
+    fsm.start();
+    return fsm;
+  }();
+
+
+
+  function fntskiing(){
+
+    var fntA = new Object();
+    var totalFrames = 18;
+    fntA.record = 0;
+    fntA.tiltRecord = 1;
+
+    fntA.image1 = new Image();
+    fntA.image1.src = 'img/maps/p01.png';
+    //ctx.strokeText("Hello World",10,50);
+    //ctx.drawImage(fntA.image0,10,10,320,540);
+    console.log(fntA);
+    // ctx.drawImage(fntA.image0,10,10);
+    // ctx.drawImage(fntA.image1,10,10);
+    var initialX = null;
+    var initialY = null;
+    var $player =  $('#myCanvas');
+
+    // var canvas = document.getElementById('myCanvas');
+    // var context = canvas.getContext('2d');
+    // var mapcanvas =  document.getElementById('mapCanvas');
+    // var ctx0 = mapcanvas.getContext('2d');
 
     
     var myRectangle = {
@@ -382,19 +443,26 @@ $(document).ready(function(){
     }
     function doUpdateTime(num) {
       //console.log('now countdown number is :' + num);
-      if( num == 4 || num == 5 || num >= 6 || num == 3 ){
+      if(num == 9 || num == 8){
         showSubMask('gamemask','howplay');
         $('.gamemask .countdown').html('');
       }
-      if( num == 1 || num == 2 ){
-        // showSubMask('gamemask','connection');
-        showSubMask('gamemask','howplay');
-      }
-      if(num === 0) {
+      if(num == 6 || num == 7 || num == 5 ){
         showSubMask('gamemask','connection');
       }
+      if(num == 4 || num == 3 || num == 2 ){
+        showSubMask('gamemask','countdown');
+        $('.gamemask .countdown').html('<span class="'+ (num-1) + '">' + (num-1) + '</span>');
+      }
+      if(num === 1) {
+        showSubMask('gamemask','countdown');
+        $('.gamemask .countdown').html('<div class="pao"></div>');
+      }
+      if(num === 0) {
+        // showSubMask('gamemask','connection');
+      }
     }
-    function countdownClimerTime(secs) {
+    function countdownskiingTime(secs) {
       //countdown
       secs = Number(secs);
       fntA.TimerOn = true;
@@ -404,7 +472,7 @@ $(document).ready(function(){
         (function(index) {
           fntA.clickTimout = setTimeout(function(){
             if(updateTime ===fntA.UpdateTime){
-              doUpdateClimerTime(index);
+              doUpdateskiingTime(index);
             }else{
               console.log('updateTime:'+ updateTime + ',fntA.UpdateTime:' + fntA.UpdateTime);
               return;
@@ -413,29 +481,29 @@ $(document).ready(function(){
       })(i);
       }
     }
-    function doUpdateClimerTime(num) {
-      // console.log('countdonwTime:' + num + '\n' + 'fntA.ClimerOn:' +fntA.ClimerOn + ',fntA.TimerOn:' + fntA.TimerOn + ',fntA.UpdateTime:' + fntA.UpdateTime);
+    function doUpdateskiingTime(num) {
+      // console.log('countdonwTime:' + num + '\n' + 'fntA.skiingOn:' +fntA.skiingOn + ',fntA.TimerOn:' + fntA.TimerOn + ',fntA.UpdateTime:' + fntA.UpdateTime);
       if(num >0 ){
-        if(fntA.ClimerOn && fntA.TimerOn){
+        if(fntA.skiingOn && fntA.TimerOn){
           $('.light span').removeClass().addClass('lite'+num);
           $('.gamenote span').removeClass().addClass('note'+num);
         }
       }
       if(num === 0) {
-          // stopAnimationClimer();
+          // stopAnimationskiing();
           stopAnimation();
-          // fntA.ClimerOn = false;
+          // fntA.skiingOn = false;
           fntA.TimerOn = false;
-          console.log( 'fntA.StepStarted :'+ fntA.StepStarted + ', fntA.gameFinish: ' + fntA.gameFinish  + ',fntA.climerRecord:' + fntA.climerRecord + ',fntA.climerRuning:' + fntA.climerRuning + ',fntA.gameResult:' + fntA.gameResult);
-          if((!fntA.StepStarted || !fntA.gameFinish) && fntA.climerRecord == 0 && !fntA.climerRuning && fntA.gameResult !=='lost'){
-            console.log( 'level 2~5 doUpdateClimerTime call down' );
+          console.log( 'fntA.StepStarted :'+ fntA.StepStarted + ', fntA.gameFinish: ' + fntA.gameFinish  + ',fntA.skiingRecord:' + fntA.skiingRecord + ',fntA.skiingRuning:' + fntA.skiingRuning + ',fntA.gameResult:' + fntA.gameResult);
+          if((!fntA.StepStarted || !fntA.gameFinish) && fntA.skiingRecord == 0 && !fntA.skiingRuning && fntA.gameResult !=='lost'){
+            console.log( 'level 2~5 doUpdateskiingTime call down' );
             fntA.thisStpe = 'down';
-            ClimerAnimate();
+            skiingAnimate();
           }
-          if(fntA.gameLevel == 1 && !fntA.StepStarted && !fntA.climerRuning){
-            console.log( 'level=1 doUpdateClimerTime call down' );
+          if(fntA.gameLevel == 1 && !fntA.StepStarted && !fntA.skiingRuning){
+            console.log( 'level=1 doUpdateskiingTime call down' );
             fntA.thisStpe = 'down';
-            ClimerAnimate();
+            skiingAnimate();
           }
       }
     }
@@ -450,27 +518,29 @@ $(document).ready(function(){
 
     socket.on("get_response", function (b) {
       var combine = b.key + "_" + b.act;
-      console.log(combine);
+      console.log(b);
       switch (combine) {
         // when open m.page，call enter event，then show the game
         case fntA.key + "_enter":
           console.log('enter');
           setTimeout(function () {
             if(!fntA.gameOn){
+              $('#pagebody').addClass('on');
+
               showSubFrame('runbox','rundivbox');
               fntA.gameOn = true;
               ctx0.drawImage(fntA.image0,-10,-436,360,912);
               fntA.player.src = 'img/player/g0.png';
               ctx0.drawImage(fntA.player,20,-40,320,504);
-              countdownNewTime(2);
+              countdownNewTime(9);
             }
           }, 100);
           break;
         // shake event
         case fntA.key + "_changebg":
           stopAnimation();
-          // console.log('fntA.ClimerOn:' +fntA.ClimerOn + ',fntA.TimerOn:' + fntA.TimerOn + ',fntA.UpdateTime:' + fntA.UpdateTime);
-          if(fntA.ClimerOn && fntA.climerRecord==0 && !fntA.gameFinish){
+          // console.log('fntA.skiingOn:' +fntA.skiingOn + ',fntA.TimerOn:' + fntA.TimerOn + ',fntA.UpdateTime:' + fntA.UpdateTime);
+          if(fntA.skiingOn && fntA.skiingRecord==0 && !fntA.gameFinish){
             fntA.TimerOn = false;
             var g = canvas.width/2 - (canvas.width/10)*(fntA.gameLevel-1) + 4;
             if(fntA.gameLevel==5){ g = g + 20; }
@@ -489,16 +559,16 @@ $(document).ready(function(){
               //   console.log('clearTimeout(fntA.clickTimout)');
               // }
               // fntA.x = 999;
-              fntA.climerRecord = 0;
+              fntA.skiingRecord = 0;
               fntA.thisStpe = 'ok';
-              ClimerAnimate();
+              // skiingAnimate();
               // fntA.gameLevel = fntA.gameLevel + 1;
             }else{
               console.log('You lost!');
               fntA.shakerecord = 0;
-              fntA.climerRecord = 0;
+              fntA.skiingRecord = 0;
               fntA.thisStpe = 'down';
-              ClimerAnimate();
+              // skiingAnimate();
               // postGameRecord(fntA.playerId,fntA.playername,fntA.x,fntA.gameResult);
             }
           }else{
@@ -508,16 +578,6 @@ $(document).ready(function(){
       }
     });//socket.on
 
-    function drawRectangle(myRectangle, context) {
-      // context.beginPath();
-      // context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
-      // context.fillStyle = 'blue';
-      // context.fill();
-      // context.lineWidth = myRectangle.borderWidth;
-      // context.strokeStyle = 'blue';
-      // context.stroke();
-      context.drawImage(fntA.iconPower,myRectangle.x,myRectangle.y,23,23);
-    }
     function animate() {
       // update
       var time = (new Date()).getTime() - startTime;
@@ -532,276 +592,22 @@ $(document).ready(function(){
       fntA.x = canvas.width - nextX;
 
       // clear
-      context.clearRect(0, 0, canvas.width, canvas.height);
 
       // draw
-      drawRectangle(myRectangle, context);
       fntA.requestId = window.requestAnimationFrame(animate);
     }
-    function ClimerAnimate() {
-      fntA.climerRuning = true;
-      // clear
-      ctx0.clearRect(0, 0, canvas.width, canvas.height);
-
-      var nextStpe = fntA.thisStpe;
-      // update
-      // if(nextStpe == 'down'){
-      //   fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_down.png';
-      // }else if( nextStpe == 'ok'){
-      //   fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_ok.png';
-      //   if(fntA.gameLevel == 5){
-      //     fntA.gameFinish = true;
-      //   }
-      // }
-      fntA.player = new Image();
-      fntA.player.src = 'img/player/g'+ fntA.gameLevel+'_ok.png';
-      if(fntA.gameLevel == 5 || nextStpe =='down'){
-        fntA.gameFinish = true;
-      }
-      
-
-      var newY = 0 , newX = -10 ,playerNewX = -20 ,playerNewY = -60; //fntA.defaultY + ( fntA.ClimerAniStep - fntA.ClimerAniMove + 1) ;
-      fntA.ClimerAniMove = fntA.ClimerAniMove - 0.35;
-      // in ms
-      switch (fntA.gameLevel) {
-        case 1:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -20;
-            newY = -436;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -50;
-            newY = -425;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -40;
-            newY = -388;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1095;
-            playerNewY = -52;
-            newY = -388;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 2:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -20;
-            newY = -388;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -50;
-            newY = -388;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -20;
-            newY = -298;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1100;
-            playerNewY = -20;
-            newY = -296;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 3:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -23;
-            playerNewY = -25;
-            newY = -296;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -30;
-            newY = -270;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -20;
-            newY = -240;
-            newX = -26;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1096;
-            playerNewY = -20;
-            newY = -240;
-            newX = -30;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 4:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = 0;
-            playerNewY = -30;
-            newY = -236;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -360;
-            playerNewY = -30;
-            newY = -222;
-            newX = -20;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -720;
-            playerNewY = -20;
-            newY = -212;
-            newX = -30;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1076;
-            playerNewY = -20;
-            newY = -210;
-            newX = -38;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-        case 5:
-          if(fntA.climerRecord < 60 && fntA.climerRecord >= 0){
-            playerNewX = -20;
-            playerNewY = -30;
-            newY = -186;
-            newX = -40;
-          }
-          if(fntA.climerRecord >= 60 && fntA.climerRecord < 80){
-            playerNewX = -380;
-            playerNewY = -30;
-            newY = -180;
-            newX = -40;
-          }
-          if(fntA.climerRecord >= 80 && fntA.climerRecord < 120){
-            playerNewX = -740;
-            playerNewY = -27;
-            newY = -160;
-            newX = -40;
-          }
-          if(fntA.climerRecord >= 120 ){
-            playerNewX = -1066;
-            playerNewY = -27;
-            newY = -150;
-            newX = -30;
-            if(nextStpe == 'down'){
-              fntA.player = new Image();
-              fntA.player.src = 'img/player/down.png';
-              playerNewX = -20;
-              playerNewY = -80;
-            }
-          }
-          if(fntA.climerRecord >= 140 && nextStpe == 'down'){
-            fntA.player.src = 'img/player/down.png';
-            playerNewX = -380;
-            playerNewY = -30;
-          }
-        break;
-      }
-
-
-      // draw
-      console.log('fntA.player.src:' + fntA.player.src + ',fntA.gameLevel:' + fntA.gameLevel + ',fntA.climerRecord:'+ fntA.climerRecord + ',xy:' + playerNewX + ',' + playerNewY );
-
-      ctx0.drawImage(fntA.image0,newX,newY,360,912);
-      
-      ctx0.drawImage(fntA.player,playerNewX,playerNewY,1800,480);
-
-      // animate
-      if(fntA.ClimerAniMove < 0){
-        stopAnimationClimer();
-        fntA.StepStarted = true;
-        fntA.climerRecord = 0;
-        if(fntA.gameLevel == 5){
-          // fntA.gameFinish = true;
-          if(nextStpe == 'down'){
-            fntA.gameResult = 'lost';
-          }else if(nextStpe == 'ok'){
-            // showSubMask('gamemask','winwithpoint');
-            fntA.gameResult = 'win';
-          }
-          postGameRecord(fntA.playerId,fntA.playername,fntA.allmoveA,fntA.gameResult);
-          
-        }else{
-
-          if(nextStpe == 'down'){
-            fntA.gameResult = 'lost';
-            postGameRecord(fntA.playerId,fntA.playername,fntA.allmoveA,fntA.gameResult);
-          }else if( nextStpe == 'ok'){
-            // console.log('try for next stpe');
-            fntA.defaultY = newY;
-            $('#myCanvas').css('background-position','0px -' + fntA.gameLevel*30 + 'px');
-            $('.gamenote span').removeClass().addClass('noten');
-            fntA.gameLevel = fntA.gameLevel + 1;
-            fntA.ClimerAniMove = fntA.ClimerAniStep;
-            animate();
-            fntA.ClimerOn = true;
-            countdownClimerTime(6);
-          }
-        }
-        fntA.climerRuning = false;
-      }else{
-        fntA.climerRecord = fntA.climerRecord + 1 ;
-        fntA.ClimerRequestId = window.requestAnimationFrame(ClimerAnimate);
-        // console.log('fntA.ClimerAniMove:'+ fntA.ClimerAniMove +',newY:'+ newY +',playerNewX:' + playerNewX);
-      }
-      
-    }
-
     //init
 
-    drawRectangle(myRectangle, context);
+    // drawRectangle(myRectangle, context);
     var startTime = (new Date()).getTime();
     // animate(myRectangle, canvas, context, startTime);
     function stopAnimation(e) {
         // use the requestID to cancel the requestAnimationFrame call
         cancelRAF(fntA.requestId);
     }
-    function stopAnimationClimer(e) {
+    function stopAnimationskiing(e) {
         // use the requestID to cancel the requestAnimationFrame call
-        cancelRAF(fntA.ClimerRequestId);
+        cancelRAF(fntA.skiingRequestId);
     }
     function pauseAnimation(e) {
         // use the requestID to cancel the requestAnimationFrame call
@@ -823,18 +629,18 @@ $(document).ready(function(){
         pauseAnimation();
         $("body").append('<p>' + fntA.x);
       });
-    $(".connection").on("click", function(){
-      // if(!fntA.startime){
-        showSubMask('gamemask');
-        $('.gamemask .countdown').html();
-        clearTimeout();
-        countdownClimerTime(6);
-        animate();
-        fntA.ClimerOn = true;
-      // }
-    });
+    // $(".connection").on("click", function(){
+    //   // if(!fntA.startime){
+    //     showSubMask('gamemask');
+    //     $('.gamemask .countdown').html();
+    //     clearTimeout();
+    //     countdownskiingTime(6);
+    //     animate();
+    //     fntA.skiingOn = true;
+    //   // }
+    // });
 
-  }//climer game
+  }//skiing game
 
   //main run
 
