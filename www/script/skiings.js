@@ -330,8 +330,9 @@ $(document).ready(function(){
 
     var log = function(msg, separate) {
       count = count + (separate ? 1 : 0);
-      output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
-      demo.className = fsm.current;
+      // output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
+      // demo.className = fsm.current;
+
       // panic.disabled = fsm.cannot('panic');
       // warn.disabled  = fsm.cannot('warn');
       // calm.disabled  = fsm.cannot('calm');
@@ -508,7 +509,8 @@ $(document).ready(function(){
       }
     }
     // NodeJS Server
-    var nodejs_server = "222.73.241.60:8082";
+    // var nodejs_server = "222.73.241.60:8082";
+    var nodejs_server = "127.0.0.1:8082";
     // connect
     var socket = io.connect("http://" + nodejs_server);
     socket.emit("send", {
@@ -517,65 +519,66 @@ $(document).ready(function(){
     });
 
     socket.on("get_response", function (b) {
-      var combine = b.key + "_" + b.act;
       console.log(b);
-      switch (combine) {
-        // when open m.page，call enter event，then show the game
-        case fntA.key + "_enter":
-          console.log('enter');
-          setTimeout(function () {
-            if(!fntA.gameOn){
-              $('#pagebody').addClass('on');
+      // var combine = b.key + "_" + b.act;
+      // switch (combine) {
+      //   // when open m.page，call enter event，then show the game
+      //   case fntA.key + "_enter":
+      //     console.log('enter');
+      //     // setTimeout(function () {
+      //     //   if(!fntA.gameOn){
+      //     //     $('#pagebody').addClass('on');
 
-              showSubFrame('runbox','rundivbox');
-              fntA.gameOn = true;
-              ctx0.drawImage(fntA.image0,-10,-436,360,912);
-              fntA.player.src = 'img/player/g0.png';
-              ctx0.drawImage(fntA.player,20,-40,320,504);
-              countdownNewTime(9);
-            }
-          }, 100);
-          break;
-        // shake event
-        case fntA.key + "_changebg":
-          stopAnimation();
-          // console.log('fntA.skiingOn:' +fntA.skiingOn + ',fntA.TimerOn:' + fntA.TimerOn + ',fntA.UpdateTime:' + fntA.UpdateTime);
-          if(fntA.skiingOn && fntA.skiingRecord==0 && !fntA.gameFinish){
-            fntA.TimerOn = false;
-            var g = canvas.width/2 - (canvas.width/10)*(fntA.gameLevel-1) + 4;
-            if(fntA.gameLevel==5){ g = g + 20; }
-            console.log(fntA.x +',goal:' + g + ',canvas.width:'+ canvas.width);
-            // fntA.gameLevel 
-            if(fntA.x< g) {
-              console.log('You win this step!');
-              if(fntA.gameLevel<5){
-                // $('#myCanvas').css('background-position','0px -' + fntA.gameLevel*30 + 'px');
-                $('.gamenote span').removeClass().addClass('notes');
-              }
-              fntA.shakerecord = fntA.x;
-              // fntA.StepStarted = true;
-              // if(fntA.clickTimout){
-              //   clearTimeout(fntA.clickTimout);
-              //   console.log('clearTimeout(fntA.clickTimout)');
-              // }
-              // fntA.x = 999;
-              fntA.skiingRecord = 0;
-              fntA.thisStpe = 'ok';
-              // skiingAnimate();
-              // fntA.gameLevel = fntA.gameLevel + 1;
-            }else{
-              console.log('You lost!');
-              fntA.shakerecord = 0;
-              fntA.skiingRecord = 0;
-              fntA.thisStpe = 'down';
-              // skiingAnimate();
-              // postGameRecord(fntA.playerId,fntA.playername,fntA.x,fntA.gameResult);
-            }
-          }else{
-            console.log('Your time is out.');
-          }
-          break;
-      }
+      //     //     showSubFrame('runbox','rundivbox');
+      //     //     fntA.gameOn = true;
+      //     //     ctx0.drawImage(fntA.image0,-10,-436,360,912);
+      //     //     fntA.player.src = 'img/player/g0.png';
+      //     //     ctx0.drawImage(fntA.player,20,-40,320,504);
+      //     //     countdownNewTime(9);
+      //     //   }
+      //     // }, 100);
+      //     break;
+      //   // shake event
+      //   case fntA.key + "_changebg":
+      //     console.log('_changebg');
+      //     // stopAnimation();
+      //     // // console.log('fntA.skiingOn:' +fntA.skiingOn + ',fntA.TimerOn:' + fntA.TimerOn + ',fntA.UpdateTime:' + fntA.UpdateTime);
+      //     // if(fntA.skiingOn && fntA.skiingRecord==0 && !fntA.gameFinish){
+      //     //   fntA.TimerOn = false;
+      //     //   var g = canvas.width/2 - (canvas.width/10)*(fntA.gameLevel-1) + 4;
+      //     //   if(fntA.gameLevel==5){ g = g + 20; }
+      //     //   console.log(fntA.x +',goal:' + g + ',canvas.width:'+ canvas.width);
+      //     //   // fntA.gameLevel 
+      //     //   if(fntA.x< g) {
+      //     //     console.log('You win this step!');
+      //     //     if(fntA.gameLevel<5){
+      //     //       // $('#myCanvas').css('background-position','0px -' + fntA.gameLevel*30 + 'px');
+      //     //       $('.gamenote span').removeClass().addClass('notes');
+      //     //     }
+      //     //     fntA.shakerecord = fntA.x;
+      //     //     // fntA.StepStarted = true;
+      //     //     // if(fntA.clickTimout){
+      //     //     //   clearTimeout(fntA.clickTimout);
+      //     //     //   console.log('clearTimeout(fntA.clickTimout)');
+      //     //     // }
+      //     //     // fntA.x = 999;
+      //     //     fntA.skiingRecord = 0;
+      //     //     fntA.thisStpe = 'ok';
+      //     //     // skiingAnimate();
+      //     //     // fntA.gameLevel = fntA.gameLevel + 1;
+      //     //   }else{
+      //     //     console.log('You lost!');
+      //     //     fntA.shakerecord = 0;
+      //     //     fntA.skiingRecord = 0;
+      //     //     fntA.thisStpe = 'down';
+      //     //     // skiingAnimate();
+      //     //     // postGameRecord(fntA.playerId,fntA.playername,fntA.x,fntA.gameResult);
+      //     //   }
+      //     // }else{
+      //     //   console.log('Your time is out.');
+      //     // }
+      //     break;
+      // }
     });//socket.on
 
     function animate() {

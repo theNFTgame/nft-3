@@ -8,7 +8,8 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
 	<meta name="author" content="Vitrum.Zhu" />
-	<script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>
+	<!--<script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>-->
+  <script src="http://127.0.0.1:8082/socket.io/socket.io.js" type="text/javascript"></script>
 	<style>
 	/* CSS Mobile Reset */
 html, body
@@ -52,8 +53,7 @@ a { color: #3c3c3c; text-decoration: underline;}
 	var initialX = null;
   var initialY = null;
   fntA.record = 0;
-  fntA.oY = 0;
-  fntA.oX = 0;
+  fntA.oY = fntA.oX = fntA.pY = fntA.pX = 0;
 
 	function getQueryStringRegExp(name){
 		var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");  
@@ -86,13 +86,15 @@ a { color: #3c3c3c; text-decoration: underline;}
 	window.addEventListener('load', function() {
 		// var textInput = document.querySelector('input');
 		var theKey = getQueryStringRegExp('key');
-		var socket = io.connect("http://222.73.241.60:8082");
+		// var socket = io.connect("http://222.73.241.60:8082");
+    var socket = io.connect("127.0.0.1:8082");
 		var shakerecord = 0;
 		"undefined" != typeof console && console.log("user enter via mobile");
 		"undefined" != typeof console && console.log("enter mobile page");
 		socket.emit("send", {
 			key: theKey,
-			act: "enter"
+			act: "enter",
+      time: "text"
 		});
 		window.addEventListener("MozOrientation", handleOrientationEvent, true);
     window.addEventListener("deviceorientation", handleOrientationEvent, true);
@@ -100,16 +102,18 @@ a { color: #3c3c3c; text-decoration: underline;}
     	fntA.record = fntA.record + 1;
     	fntA.requestId = window.requestAnimationFrame(mySender);
 
-    	if(fntA.record>9 && (Math.abs(fntA.pY - fntA.oY) >2 || Math.abs(fntA.pX - fntA.oX) >2 )){
+    	if( fntA.record > 9 && ( Math.abs( fntA.pY - fntA.oY ) > 2 || Math.abs( fntA.pX - fntA.oX ) > 2 ) ){
         fntA.record = 1;
         fntA.oY = fntA.pY;
-        fntA.oX = fntA.pX;
+        fntA.oX = toString(fntA.pX);
+        var x = fntA.pX.toString()
+        ,   y = fntA.pY.toString();
 				"undefined" != typeof console && console.log("new py:" + fntA.pY +',px:' + fntA.pX);
 				socket.emit("send", {
 					key: theKey,
 					act: "changebg",
-					pX: fntA.pX,
-					pY: fntA.pY
+					pX: x,
+					pY: y
 				});
       }
       
