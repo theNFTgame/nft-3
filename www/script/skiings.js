@@ -52,11 +52,20 @@ var fntA = new Object();
       $('.' + framename + ' .' + subframename).show();
     }
   }
+  // create GUID 
+  function G() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  }
+  function NewGuid() {
+    return (G()+G());
+  }
+  fntA.key = NewGuid();
+  console.log(fntA.key)
 
 
 $(document).ready(function(){
 
-  fntA.key = NewGuid();
+  
   var AppRouter = Backbone.Router.extend({  
     routes : {  
       '' : 'mainfunc', 
@@ -172,13 +181,7 @@ $(document).ready(function(){
                   window.webkitCancelAnimationFrame || 
                   window.msCancelAnimationFrame;
 
-  // create GUID 
-  function G() {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  }
-  function NewGuid() {
-    return (G()+G());
-  }
+
   function fRandomBy(under, over){ 
     switch(arguments.length){ 
       case 1: return parseInt(Math.random()*under+1); 
@@ -401,7 +404,7 @@ $(document).ready(function(){
 
   function fntskiing(){
 
-    var fntA = new Object();
+
     var totalFrames = 18;
     fntA.record = 0;
     fntA.tiltRecord = 1;
@@ -517,6 +520,7 @@ $(document).ready(function(){
         key: fntA.key,
         act: "pcenter"
     });
+    console.log(fntA.key);
 
     socket.on("get_response", function (b) {
       console.log(b);
