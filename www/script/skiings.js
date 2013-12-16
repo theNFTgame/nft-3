@@ -523,11 +523,11 @@ $(document).ready(function(){
 
     socket.on("get_response", function (b) {
       console.log(b);
-      // var combine = b.key + "_" + b.act;
-      // switch (combine) {
+      var combine = b.key + "_" + b.act;
+      switch (combine) {
       //   // when open m.page，call enter event，then show the game
-      //   case fntA.key + "_enter":
-      //     console.log('enter');
+        case fntA.key + "_enter":
+           console.log('enter');
       //     // setTimeout(function () {
       //     //   if(!fntA.gameOn){
       //     //     $('#pagebody').addClass('on');
@@ -540,10 +540,10 @@ $(document).ready(function(){
       //     //     countdownNewTime(9);
       //     //   }
       //     // }, 100);
-      //     break;
-      //   // shake event
-      //   case fntA.key + "_changebg":
-      //     console.log('_changebg');
+          break;
+          // shake event
+         case fntA.key + "_changebg":
+           console.log('_changebg');
       //     // stopAnimation();
       //     // // console.log('fntA.skiingOn:' +fntA.skiingOn + ',fntA.TimerOn:' + fntA.TimerOn + ',fntA.UpdateTime:' + fntA.UpdateTime);
       //     // if(fntA.skiingOn && fntA.skiingRecord==0 && !fntA.gameFinish){
@@ -580,8 +580,8 @@ $(document).ready(function(){
       //     // }else{
       //     //   console.log('Your time is out.');
       //     // }
-      //     break;
-      // }
+         break;
+      }
     });//socket.on
 
     function animate() {
