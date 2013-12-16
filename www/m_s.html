@@ -8,8 +8,7 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
 	<meta name="author" content="Vitrum.Zhu" />
-	<!--<script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>-->
-  <script src="http://127.0.0.1:8082/socket.io/socket.io.js" type="text/javascript"></script>
+	<script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>
 	<style>
 	/* CSS Mobile Reset */
 html, body
@@ -86,8 +85,8 @@ a { color: #3c3c3c; text-decoration: underline;}
 	window.addEventListener('load', function() {
 		// var textInput = document.querySelector('input');
 		var theKey = getQueryStringRegExp('key');
-		// var socket = io.connect("http://222.73.241.60:8082");
-    var socket = io.connect("127.0.0.1:8082");
+		var socket = io.connect("http://222.73.241.60:8082");
+
 		var shakerecord = 0;
 		"undefined" != typeof console && console.log("user enter via mobile");
 		"undefined" != typeof console && console.log("enter mobile page");
