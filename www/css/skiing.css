@@ -99,7 +99,13 @@ ul{
 
 
 /**/
-.runningbox .map { width: 320px; height: 474px; position: absolute; top:26px; right: 30px; background-color: black;}
+.runningbox .map { width: 320px;
+  height: 482px;
+  position: absolute;
+  top: 26px;
+  right: 30px;
+  overflow: hidden;
+}
 .runningbox .map canvas { display: block; float: left;}
 
 #mapCanvas { /*background: url(../img/map/map01.jpg) center bottom no-repeat;*/}
@@ -113,12 +119,12 @@ ul{
 
 /**/
 .maskbox { display: none; }
-.gamemask { width: 756px; height: 525px; position: absolute; top: 44px; left: 78px; background: url(../img/bg_gamemask.png); }
-.submask { display: none; width: 370px; height: 260px; margin: 100px auto 0; background: #fff; opacity: 1; }
+.gamemask { width: 756px; height: 525px; position: absolute; top: 44px; left: 78px; background: url(../img/bg_gamemask.png);  z-index: 10;}
+.submask { display: none; width: 370px; height: 260px; margin: 100px auto 0; background: #fff; opacity: 1;}
 .gamemask .connection { background:url(../img/mask_skiing_01.jpg) no-repeat;}
 .gamemask .howplay { background: url(../img/bg_connection.jpg) no-repeat;}
 .gamemask .countdown { background: url(../img/bg_countdown.jpg) no-repeat; font-weight: bold; font-size: 40px; color: #fff; text-align: center; line-height: 200px;}
-.gamemask .countdown .pao { width: 370px; height: 260px; background: url(../img/bg_countdown_pao.png) center center no-repeat;}
+.gamemask .countdown .pao { width: 370px; height: 260px; background: url(../img/bg_countdown_pao.jpg) center center no-repeat;}
 
 .gamemask .winwithpoint { width:440px; height:350px; background: url(../img/bg_winwithpoint.jpg) no-repeat;margin-top: 60px;}
 .gamemask .winwithoutpoint { width:440px; height:350px; background: url(../img/bg_winwithoutpoint.jpg) no-repeat;margin-top: 60px;}
@@ -206,6 +212,49 @@ ul{
       url(../img/player/down.png),
       url(../img/player/g0.png),
       url(../img/icon_power.png);
+}
+
+
+        #mapCanvas , #myCanvas {
+          position: absolute;
+          top: 0;
+          left:0;
+          z-index: 1;
+          width: 320px;
+          height: 540px;
+        }
+        #mapCanvas { 
+          background: url(../img/maps/a1.png) no-repeat;
+          background-size: 320px 540px;
+
+        }
+        #myCanvas{
+          z-index: 1;
+          -webkit-transform-origin:130px 182px;
+          -webkit-transform-style: preserve-3d;
+          -moz-transform-style: preserve-3d;
+          -o-transform-style: preserve-3d;
+          -webkit-transform:rotate(0deg);
+          
+          background: url(../img/maps/p01.png) 120px 0 no-repeat;
+          background-size: 127px 232px;
+          height: 232px;
+          top: 160px;
+          left: 0px;
+        }
+.debug { width: 0; height: 0; overflow: hidden;}
+.skiingnote {
+
+  width: 200px;
+  height: 59px;
+  position: absolute;
+  overflow: hidden;
+  top: 325px;
+  left: 20px;
+  color: #fff;
+  font-size: 28px;
+  text-align: right;
+
 }
 
 
