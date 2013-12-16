@@ -512,8 +512,7 @@ $(document).ready(function(){
       }
     }
     // NodeJS Server
-    // var nodejs_server = "222.73.241.60:8082";
-    var nodejs_server = "127.0.0.1:8082";
+    var nodejs_server = "222.73.241.60:8082";
     // connect
     var socket = io.connect("http://" + nodejs_server);
     socket.emit("send", {
