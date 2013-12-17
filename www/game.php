@@ -116,20 +116,15 @@ else{
             <div class="header">
               <div class="playerinfo playerinfoa">
                 <img src="img/player/default.jpg" />
-                <span class="playername yahei">Mr</span>
+                <span class="playername yahei">Mr_阿温</span>
               </div>
             </div>
-            <div class="gamenote">
-              <span class="note1"></span>
-            </div>
-            <div class="light">
-              <span class="lite0"></span>
-            </div>
-            <div class="power">
-              <canvas id="myCanvas" width="340" height="29"></canvas>
+            <div class="skiingnote">
+              <span class="note1">10000mi</span>
             </div>
             <div class="map">
-              <canvas id="mapCanvas" width="320" height="474"></canvas>
+              <div id="mapCanvas" width="320" height="540" style=""></div>
+              <div id="myCanvas" width="320" height="540" style=""></div>
             </div>
           </div>
           <div class="maskbox gamemask ">
@@ -141,27 +136,18 @@ else{
             </div>
             <div class="submask winwithpoint">
               <a class="playagain" href="#/run/replay" title="再战一场">再战一场</a>
-              <a class="gameshear" href="http://service.weibo.com/share/share.php?title=%e6%88%91%e5%88%9a%e6%88%90%e5%8a%9f%e5%ae%8c%e6%88%90%e4%ba%86+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%81%40TheNorthFace+%23%e6%8e%a2%e7%b4%a2%e6%8c%91%e6%88%98%23+%e3%80%8a%e7%96%af%e7%8b%82%e6%94%80%e5%b2%a9%e3%80%8b%e7%ad%89%e4%bd%a0%e6%9d%a5%e6%88%98%ef%bc%81%e5%bc%80%e5%90%af%e5%8f%8c%e5%b1%8f%e4%ba%92%e5%8a%a8%e6%a8%a1%e5%bc%8f%ef%bc%8c%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8e%a7%e5%88%b6%e7%94%b5%e8%84%91%e5%b1%8f%e5%b9%95%e4%b8%8a%e7%9a%84%e4%bd%a0%ef%bc%8c%e6%88%98%e8%83%9c%e5%bc%95%e5%8a%9b%e6%8c%91%e6%88%98%e6%94%80%e5%b2%a9%e6%96%b0%e9%ab%98%e5%ba%a6%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%e5%8f%96%e3%80%82&url=http%3a%2f%2fwww.quyeba.com%2fexplorer%2f%23_challenge&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge2%2fimg%2fshear.jpg" target="_blank" title="分享成绩">分享成绩</a>
+              <a class="gameshear" href="http://service.weibo.com/share/share.php?title=%e6%88%91%e5%88%9a%e6%88%90%e5%8a%9f%e5%ae%8c%e6%88%90%e4%ba%86+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%81%40TheNorthFace+%23%e6%8e%a2%e7%b4%a2%e6%8c%91%e6%88%98%23+%e3%80%8a%e7%96%af%e7%8b%82%e6%94%80%e5%b2%a9%e3%80%8b%e7%ad%89%e4%bd%a0%e6%9d%a5%e6%88%98%ef%bc%81%e5%bc%80%e5%90%af%e5%8f%8c%e5%b1%8f%e7%ab%9e%e8%b5%9b%e6%a8%a1%e5%bc%8f%ef%bc%8c%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8e%a7%e5%88%b6%e7%94%b5%e8%84%91%e5%b1%8f%e5%b9%95%e4%b8%8a%e7%9a%84%e4%bd%a0%ef%bc%8c%e6%88%98%e8%83%9c%e5%bc%95%e5%8a%9b%e6%8c%91%e6%88%98%e6%94%80%e5%b2%a9%e6%96%b0%e9%ab%98%e5%ba%a6%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%e5%8f%96%e3%80%82&url=http%3a%2f%2fwww.quyeba.com%2fexplorer%2f%23_challenge&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge2%2fimg%2fshear.jpg" target="_blank" title="分享成绩">分享成绩</a>
             </div>
             <div class="submask winwithoutpoint">
               <a class="playagain" href="#/run/replay" title="再战一场">再战一场</a>
-              <a class="gameshear" href="http://service.weibo.com/share/share.php?title=%e6%88%91%e5%88%9a%e6%88%90%e5%8a%9f%e5%ae%8c%e6%88%90%e4%ba%86+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%81%40TheNorthFace+%23%e6%8e%a2%e7%b4%a2%e6%8c%91%e6%88%98%23+%e3%80%8a%e7%96%af%e7%8b%82%e6%94%80%e5%b2%a9%e3%80%8b%e7%ad%89%e4%bd%a0%e6%9d%a5%e6%88%98%ef%bc%81%e5%bc%80%e5%90%af%e5%8f%8c%e5%b1%8f%e4%ba%92%e5%8a%a8%e6%a8%a1%e5%bc%8f%ef%bc%8c%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8e%a7%e5%88%b6%e7%94%b5%e8%84%91%e5%b1%8f%e5%b9%95%e4%b8%8a%e7%9a%84%e4%bd%a0%ef%bc%8c%e6%88%98%e8%83%9c%e5%bc%95%e5%8a%9b%e6%8c%91%e6%88%98%e6%94%80%e5%b2%a9%e6%96%b0%e9%ab%98%e5%ba%a6%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%e5%8f%96%e3%80%82&url=http%3a%2f%2fwww.quyeba.com%2fexplorer%2f%23_challenge&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge2%2fimg%2fshear.jpg" target="_blank" title="分享成绩">分享成绩</a>
+              <a class="gameshear" href="http://service.weibo.com/share/share.php?title=%e6%88%91%e5%88%9a%e6%88%90%e5%8a%9f%e5%ae%8c%e6%88%90%e4%ba%86+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%81%40TheNorthFace+%23%e6%8e%a2%e7%b4%a2%e6%8c%91%e6%88%98%23+%e3%80%8a%e7%96%af%e7%8b%82%e6%94%80%e5%b2%a9%e3%80%8b%e7%ad%89%e4%bd%a0%e6%9d%a5%e6%88%98%ef%bc%81%e5%bc%80%e5%90%af%e5%8f%8c%e5%b1%8f%e7%ab%9e%e8%b5%9b%e6%a8%a1%e5%bc%8f%ef%bc%8c%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8e%a7%e5%88%b6%e7%94%b5%e8%84%91%e5%b1%8f%e5%b9%95%e4%b8%8a%e7%9a%84%e4%bd%a0%ef%bc%8c%e6%88%98%e8%83%9c%e5%bc%95%e5%8a%9b%e6%8c%91%e6%88%98%e6%94%80%e5%b2%a9%e6%96%b0%e9%ab%98%e5%ba%a6%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%e5%8f%96%e3%80%82&url=http%3a%2f%2fwww.quyeba.com%2fexplorer%2f%23_challenge&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge2%2fimg%2fshear.jpg" target="_blank" title="分享成绩">分享成绩</a>
             </div>
             <div class="submask lost">
               <a class="playagain" href="#/run/replay" title="再战一场">再战一场</a>
-              <a class="gameshear" href="http://service.weibo.com/share/share.php?title=%e5%8f%aa%e5%b7%ae%e4%b8%80%e7%82%b9%e6%88%91%e5%b0%b1%e8%83%bd%e5%ae%8c%e6%88%90+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%8c%e6%88%91%e8%bf%98%e8%a6%81%e5%86%8d%e6%88%98%e4%b8%80%e6%ac%a1%ef%bc%81%40TheNorthFace+%23%e6%8e%a2%e7%b4%a2%e6%8c%91%e6%88%98%23+%e3%80%8a%e7%96%af%e7%8b%82%e6%94%80%e5%b2%a9%e3%80%8b%e7%ad%89%e4%bd%a0%e6%9d%a5%e6%88%98%ef%bc%81%e5%bc%80%e5%90%af%e5%8f%8c%e5%b1%8f%e4%ba%92%e5%8a%a8%e6%a8%a1%e5%bc%8f%ef%bc%8c%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8e%a7%e5%88%b6%e7%94%b5%e8%84%91%e5%b1%8f%e5%b9%95%e4%b8%8a%e7%9a%84%e4%bd%a0%ef%bc%8c%e6%88%98%e8%83%9c%e5%bc%95%e5%8a%9b%e6%8c%91%e6%88%98%e6%94%80%e5%b2%a9%e6%96%b0%e9%ab%98%e5%ba%a6%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%e5%8f%96%e3%80%82&url=http%3a%2f%2fwww.quyeba.com%2fexplorer%2f%23_challenge&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge2%2fimg%2fshear.jpg" target="_blank" title="分享成绩">分享成绩</a>
+              <a class="gameshear" href="http://service.weibo.com/share/share.php?title=%e5%8f%aa%e5%b7%ae%e4%b8%80%e7%82%b9%e6%88%91%e5%b0%b1%e8%83%bd%e5%ae%8c%e6%88%90+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%8c%e6%88%91%e8%bf%98%e8%a6%81%e5%86%8d%e6%88%98%e4%b8%80%e6%ac%a1%ef%bc%81%40TheNorthFace+%23%e6%8e%a2%e7%b4%a2%e6%8c%91%e6%88%98%23+%e3%80%8a%e7%96%af%e7%8b%82%e6%94%80%e5%b2%a9%e3%80%8b%e7%ad%89%e4%bd%a0%e6%9d%a5%e6%88%98%ef%bc%81%e5%bc%80%e5%90%af%e5%8f%8c%e5%b1%8f%e7%ab%9e%e8%b5%9b%e6%a8%a1%e5%bc%8f%ef%bc%8c%e7%94%a8%e6%89%8b%e6%9c%ba%e6%8e%a7%e5%88%b6%e7%94%b5%e8%84%91%e5%b1%8f%e5%b9%95%e4%b8%8a%e7%9a%84%e4%bd%a0%ef%bc%8c%e6%88%98%e8%83%9c%e5%bc%95%e5%8a%9b%e6%8c%91%e6%88%98%e6%94%80%e5%b2%a9%e6%96%b0%e9%ab%98%e5%ba%a6%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%e5%8f%96%e3%80%82&url=http%3a%2f%2fwww.quyeba.com%2fexplorer%2f%23_challenge&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge2%2fimg%2fshear.jpg" target="_blank" title="分享成绩">分享成绩</a>
             </div>
             <div class="submask loading">
-              <div class="theclimer">
-                <img src="img/player/g1_ok.png" width="0" height="0" />
-                <img src="img/player/g2_ok.png" width="0" height="0" />
-                <img src="img/player/g3_ok.png" width="0" height="0" />
-                <img src="img/player/g4_ok.png" width="0" height="0" />
-                <img src="img/player/g5_ok.png" width="0" height="0" />
-                <img src="img/player/down.png" width="0" height="0" />
-                <img src="img/player/g0.png" width="0" height="0" />
-                <img src="img/icon_power.png" width="0" height="0" />
-              </div>
+              
             </div>
           </div>
         </div>
@@ -172,10 +158,49 @@ else{
         <a class="link link_store" href="http://www.thenorthface.com.cn/" title="官方商城">官方商城</a>
       </div>
     </div>
+
+<div class="debug">
+  <h1>TNF Skiing - Demo</h1>
+
+  <textarea id="output">
+    </textarea>
+    <div id="demo" class='green'></div>
+<!-- <p><a class="left">left</a></p>
+<p><a class="right">right</a></p> -->
+<a class="stop">stop</a>
+  <div id="canvas">
+      <div id="middle"></div>
+      <div id="ball"></div>
+  </div>
+  <img id="map" src="img/maps/a1.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a2.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a3.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a4.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a5.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a6.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a7.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a8.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a9.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a10.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a11.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a12.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a13.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a14.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a15.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a16.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a17.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/a18.png" alt="The Scream" width="220" height="277">
+
+  <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
+
+   <p id="warning"></p>
+</div>
+
     <script type="text/javascript" src="script/lib/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="script/lib/underscore-min.js"></script>
     <script type="text/javascript" src="script/lib/backbone-min.js"></script>
     <script src="http://222.73.241.60:8082/socket.io/socket.io.js" type="text/javascript"></script>
+    <script src="script/state-machine.js"></script>
     <script type="text/javascript" src="script/skiings.js"></script>
     <script type="text/javascript" src="http://www.quyeba.com/sites/all/libraries/js/s_code.js?men2yk"></script>
   <script>

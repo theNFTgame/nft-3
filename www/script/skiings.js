@@ -1,3 +1,7 @@
+//skiing age for TNF
+
+var fntA = new Object();
+
 (function () {
   var lastTime = 0;
   var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -22,7 +26,6 @@
   };
 }());
 
-var fntA = new Object();
   function showFrame(framename) {
     if(!framename){ framename = 'homepage'}
       $('.frame').hide();
@@ -69,10 +72,11 @@ var fntA = new Object();
 $(document).ready(function(){
 
     var $player =  $('#myCanvas');
-    fntA.mapFrame = 1;
     var $map =  $('#mapCanvas');
+
     fntA.record = 0;
     fntA.tiltRecord = 1;
+    fntA.mapFrame = 1;
 
     fntA.image1 = new Image();
     fntA.image1.src = 'img/maps/p01.png';
@@ -154,9 +158,12 @@ $(document).ready(function(){
           fntA.player = new Image();
           fntA.gameResult = 'replay';
           fntA.skiingAniMove = fntA.skiingAniStep;
-          $('#myCanvas').css('background-position','0px 0px');
-          fntA.player.src = 'img/player/g0.png';
+          var tempy = 0;
+              $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
+              $player.css('-ms-transform', 'rotate('+tempy+'deg)');
+              $player.css('transform', 'rotate('+tempy+'deg)');
           router.navigate('');
+          skiingGame.replay();
           _smq.push(['pageview', '/replay', '再战一次']);
         }
         $('#pagebody').removeClass('on');
@@ -368,7 +375,7 @@ $(document).ready(function(){
         { name: 'backR', from: 'tiltRight', to: 'balance'  },
         { name: 'down', from: 'tiltLeft',  to: 'fall'     },
         { name: 'down', from: 'tiltRight', to: 'fall'     },
-        { name: 'open', from: 'fall',      to: 'start'    },
+        { name: 'replay', from: 'fall',      to: 'start'    },
       ],
 
       callbacks: {
@@ -390,6 +397,11 @@ $(document).ready(function(){
         ondown: function(event, from, to){
           log("ENTER   STATE: down");
           stopAnimationClimer();
+            stopAnimationClimer();
+            showSubMask('gamemask','loading');
+              fntA.gameResult = 'lost';
+            //id,name,record,result
+            postGameRecord(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
         }
       }
     });
@@ -567,7 +579,7 @@ $(document).ready(function(){
             $player.css('-ms-transform', 'rotate('+tempy+'deg)');
             $player.css('transform', 'rotate('+tempy+'deg)');
         }
-        if(fntA.record*4 > 1000){
+        if(fntA.record * 4 > 9999){
           
             //game resort
 
