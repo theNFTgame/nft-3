@@ -230,16 +230,17 @@ ul{
         }
         #myCanvas{
           z-index: 1;
-          -webkit-transform-origin:130px 182px;
+          transform-origin:160px 165px;
+          -webkit-transform-origin:160px 165px;
           -webkit-transform-style: preserve-3d;
           -moz-transform-style: preserve-3d;
           -o-transform-style: preserve-3d;
           -webkit-transform:rotate(0deg);
           
           background: url(../img/maps/p01.png) 120px 0 no-repeat;
-          background-size: 127px 232px;
+          background-size: 97px 177px;
           height: 232px;
-          top: 160px;
+          top: 220px;
           left: 0px;
         }
 .debug { width: 0; height: 0; overflow: hidden;}
