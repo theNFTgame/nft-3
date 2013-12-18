@@ -404,7 +404,14 @@ $(document).ready(function(){
 
         },
         onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); },
-        onbeforereplay: function(event, from, to) { fntA.Trend = '';$player.removeClass(); },
+        onbeforereplay: function(event, from, to) { 
+          fntA.Trend = '';
+          $player.removeClass();
+          var tempy = 0;
+          $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
+          $player.css('-ms-transform', 'rotate('+tempy+'deg)');
+          $player.css('transform', 'rotate('+tempy+'deg)'); 
+        },
         ondown: function(event, from, to){
           log("ENTER   STATE: down");
           stopAnimationClimer();
