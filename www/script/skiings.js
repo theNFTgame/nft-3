@@ -404,6 +404,7 @@ $(document).ready(function(){
 
         },
         onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); },
+        onbeforereplay: function(event, from, to) { fntA.Trend = '';$player.removeClass(); },
         ondown: function(event, from, to){
           log("ENTER   STATE: down");
           stopAnimationClimer();
@@ -494,7 +495,7 @@ $(document).ready(function(){
         // if(!fntA.startime){
           showSubMask('gamemask');
           $('.gamemask .countdown').html();
-          clearTimeout();
+          //clearTimeout();
           animate();
           skiingGame.join();
           fntA.skiingOn = true;
