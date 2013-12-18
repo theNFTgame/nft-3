@@ -77,6 +77,7 @@ $(document).ready(function(){
     fntA.record = 0;
     fntA.tiltRecord = 1;
     fntA.mapFrame = 1;
+    fntA.Trend = '';
 
     fntA.image1 = new Image();
     fntA.image1.src = 'img/maps/p01.png';
@@ -393,11 +394,25 @@ $(document).ready(function(){
             $player.css('-ms-transform', 'rotate('+tempy+'deg)');
             $player.css('transform', 'rotate('+tempy+'deg)');
         },
+        //fntA.Trend
+        onbeforetiltL: function(event, from, to) { fntA.Trend = 'left'; },
+        onbeforetiltR: function(event, from, to) { fntA.Trend = 'right'; },
+        onbackL: function(event, from, to){
+
+        },
+        onbackR: function(event, from, to){
+
+        },
         onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); },
         ondown: function(event, from, to){
           log("ENTER   STATE: down");
           stopAnimationClimer();
             stopAnimationClimer();
+            if( fntA.Trend === 'left'){
+              $player.removeClass().addClass('left');
+            } else{
+              $player.removeClass().addClass('right');
+            }
             showSubMask('gamemask','loading');
               fntA.gameResult = 'lost';
             //id,name,record,result
