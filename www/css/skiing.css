@@ -123,7 +123,7 @@ ul{
 .submask { display: none; width: 370px; height: 260px; margin: 100px auto 0; background: #fff; opacity: 1;}
 .gamemask .connection { background:url(../img/mask_skiing_01.jpg) no-repeat;}
 .gamemask .howplay { background: url(../img/bg_connection.jpg) no-repeat;}
-.gamemask .countdown { background: url(../img/bg_countdown.jpg) no-repeat; font-weight: bold; font-size: 40px; color: #fff; text-align: center; line-height: 200px;}
+.gamemask .countdown { background: url(../img/bg_countdown.jpg) no-repeat; font-weight: bold; font-size: 88px; color: #fff; text-align: center; line-height: 260px;}
 .gamemask .countdown .pao { width: 370px; height: 260px; background: url(../img/bg_countdown_pao.jpg) center center no-repeat;}
 
 .gamemask .winwithpoint { width:440px; height:350px; background: url(../img/bg_winwithpoint.jpg) no-repeat;margin-top: 60px;}
