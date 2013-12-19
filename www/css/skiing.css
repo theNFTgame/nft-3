@@ -258,5 +258,11 @@ ul{
 
 }
 
-
-
+#myCanvas.left{
+  background: url(../img/maps/p02.png) 20px 44px no-repeat;
+background-size: 211px 97px;
+}
+#myCanvas.right{
+  background: url(../img/maps/p03.png) 140px 44px no-repeat;
+background-size: 211px 97px;
+}
