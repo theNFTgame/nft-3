@@ -172,7 +172,7 @@ else{
       <div id="middle"></div>
       <div id="ball"></div>
   </div>
-  <img id="map" src="img/maps/maps2.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/maps2.jpg" alt="The Scream" width="220" height="277">
 
 
   <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
