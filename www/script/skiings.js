@@ -575,14 +575,15 @@ $(document).ready(function(){
         fntA.tiltRecord = fntA.tiltRecord + 1;
         var srcUrl;
         // fntA.map = new Image();
-        srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
+        // srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
         // console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
         // in ms
         // clear
         // context.clearRect(0, 0, canvas.width, canvas.height);
         // draw
         // context.drawImage(fntA.map,0,0,320,503);
-        $map.css('background-image', 'url('+srcUrl+')');
+        // $map.css('background-image', 'url('+srcUrl+')');
+        $map.css('background-position', '-' + (Math.round(fntA.mapFrame ) - 1)*320 +'px 0px');
         fntA.requestId = window.requestAnimationFrame(animate);
         fntA.mapFrame = fntA.mapFrame + 0.8;
         if(fntA.mapFrame>18){

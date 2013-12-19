@@ -224,8 +224,9 @@ ul{
           height: 540px;
         }
         #mapCanvas { 
-          background: url(../img/maps/a1.png) no-repeat;
-          background-size: 320px 540px;
+          background: url(../img/maps/maps2.jpg) no-repeat;
+          background-size: 5760px 504px;
+          
 
         }
         #myCanvas{

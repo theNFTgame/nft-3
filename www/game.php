@@ -172,27 +172,12 @@ else{
       <div id="middle"></div>
       <div id="ball"></div>
   </div>
-  <img id="map" src="img/maps/a1.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a2.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a3.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a4.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a5.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a6.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a7.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a8.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a9.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a10.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a11.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a12.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a13.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a14.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a15.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a16.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a17.png" alt="The Scream" width="220" height="277">
-  <img id="map" src="img/maps/a18.png" alt="The Scream" width="220" height="277">
+  <img id="map" src="img/maps/maps2.png" alt="The Scream" width="220" height="277">
+
 
   <img id="player" src="img/maps/p01.png" alt="The Scream" width="220" height="277">
-
+  <img id="player" src="img/maps/p02.png" alt="The Scream" width="220" height="277">
+  <img id="player" src="img/maps/p03.png" alt="The Scream" width="220" height="277">
    <p id="warning"></p>
 </div>
 
