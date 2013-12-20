@@ -101,7 +101,7 @@ a { color: #3c3c3c; text-decoration: underline;}
     	fntA.record = fntA.record + 1;
     	fntA.requestId = window.requestAnimationFrame(mySender);
 
-    	if( fntA.record > 9 && ( Math.abs( fntA.pY - fntA.oY ) > 2 || Math.abs( fntA.pX - fntA.oX ) > 2 ) ){
+    	if( fntA.record > 5 && ( Math.abs( fntA.pY - fntA.oY ) > 1 || Math.abs( fntA.pX - fntA.oX ) > 1 ) ){
         fntA.record = 1;
         fntA.oY = fntA.pY;
         fntA.oX = toString(fntA.pX);
