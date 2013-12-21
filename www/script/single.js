@@ -1,30 +1,44 @@
-//skiing age for TNF
+$(document).ready(function(){
 
-var fntA = new Object();
+  var fntA = new Object();
+  var $player =  $('#myCanvas');
+  var $map =  $('#mapCanvas');
 
-(function () {
-  var lastTime = 0;
-  var vendors = ['ms', 'moz', 'webkit', 'o'];
-  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-  }
-  if(!window.requestAnimationFrame)
-    window.requestAnimationFrame = function (callback, element) {
-      var currTime = new Date().getTime();
-      var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function () {
-        callback(currTime + timeToCall);
-      },
-      timeToCall);
-      lastTime = currTime + timeToCall;
-      return id;
-  };
-  if(!window.cancelAnimationFrame)
-    window.cancelAnimationFrame = function (id) {
-      clearTimeout(id);
-  };
-}());
+  fntA.record = 0;
+  fntA.tiltRecord = 1;
+  fntA.mapFrame = 1;
+  fntA.Trend = '';
+  fntA.rotate = 0;
+  fntA.positionX = 0;
+  fntA.positionY = 0;
+
+  fntA.image1 = new Image();
+  fntA.image1.src = 'img/maps/p01.png';
+
+
+  (function () {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+      window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+      window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+    if(!window.requestAnimationFrame)
+      window.requestAnimationFrame = function (callback, element) {
+        var currTime = new Date().getTime();
+        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+        var id = window.setTimeout(function () {
+          callback(currTime + timeToCall);
+        },
+        timeToCall);
+        lastTime = currTime + timeToCall;
+        return id;
+    };
+    if(!window.cancelAnimationFrame)
+      window.cancelAnimationFrame = function (id) {
+        clearTimeout(id);
+    };
+  }());
 
   function showFrame(framename) {
     if(!framename){ framename = 'homepage'}
@@ -69,130 +83,6 @@ var fntA = new Object();
     window.cancelAnimationFrame(fntA.requestId);
   }
 
-$(document).ready(function(){
-
-    var $player =  $('#myCanvas');
-    var $map =  $('#mapCanvas');
-
-    fntA.record = 0;
-    fntA.tiltRecord = 1;
-    fntA.mapFrame = 1;
-    fntA.Trend = '';
-    fntA.rotate = 0;
-    fntA.positionX = 0;
-    fntA.positionY = 0;
-
-    fntA.image1 = new Image();
-    fntA.image1.src = 'img/maps/p01.png';
-
-
-  var AppRouter = Backbone.Router.extend({  
-    routes : {  
-      '' : 'mainfunc', 
-      'index' : 'mainfunc', 
-      'reg' : 'regfunc',
-      'run':'runfunc',
-      'run/:action':'runfunc',
-      '*error' : 'mainfunc'  
-    },
-    mainfunc : function() {
-      //  console.log('mainfunc'); 
-      var echoUid = $('.userinfo').attr('data-userid');
-      var echoName = $('.userinfo').attr('data-username');
-      var echoAvatar = $('.userinfo').attr('data-avatar');
-      // console.log(echoUid + ',' + echoName);
-      if(echoUid != null){
-        fntA.playerId = echoUid;
-        fntA.playername = echoName;
-        fntA.playerAvatar = echoAvatar;
-        // console.log(fntA);
-        //router.navigate('run');
-        $('.playerinfo .playername').html(fntA.playername);
-        $('.playerinfo img').attr('src',fntA.playerAvatar);
-        // console.log('fntA.playername:' + fntA.playername);
-        showSubFrame('runbox','qrcodebox');
-        // fntRun();
-        if(!fntA.period){
-          console.log('mainfunc call fntskiing');
-          fntskiing();
-        }
-        
-        $('.iframbox iframe').attr('src','');
-        _smq.push(['pageview', '/qrcode', '扫描二维码']);
-      }else{
-        showSubFrame('homepage','loginbox');
-        $('.errormsg').hide();
-        $('.iframbox iframe').attr('src','http://www.quyeba.com/explorer/#_challenge');
-        _smq.push(['pageview', '/login', '登陆']);
-        //http://www.quyeba.com/explorer/#_challenge
-      }
-      // temp
-      // showSubFrame('runbox','rundivbox');
-    }, 
-    regfunc : function() {
-      //alert("111");
-      //console.log('levelfunc'); 
-      showSubFrame('homepage','registerbox');
-      _smq.push(['pageview', '/reg', '注册']);
-    }, 
-    shakefunc : function (level){
-      if(!level){ fntA.level = 1 };
-      fntA.level = level;
-      showFrame('energybox');
-    },
-    runfunc : function (action){
-      // console.log('fntA.playerId=' + fntA.playerId);
-      // if(!fntA.playerId){
-      //   router.navigate('index');
-      //   showFrame('homepage');
-      //   showSubFrame('homepage','loginbox');
-      //   $('.iframbox iframe').attr('src','http://www.quyeba.com/explorer/#_challenge');
-      //   _smq.push(['pageview', '/login', '登陆']);
-      // }else{
-         // console.log(action);
-
-        if(action == 'replay'){
-          // router.navigate('run');
-          console.log('replay call fntskiing');
-          // fntA.gameOn = null;
-          delete fntA.gameOn;
-          fntA.gameFinish = false;
-          fntA.skiingOn = false;
-          fntA.gameLevel = 1;
-          fntA.player = new Image();
-          fntA.gameResult = 'replay';
-          fntA.skiingAniMove = fntA.skiingAniStep;
-          fntA.rotate = 0;
-              $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-              $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-              $player.css('transform', 'rotate('+fntA.rotate+'deg)');
-          router.navigate('');
-          skiingGame.replay();
-          _smq.push(['pageview', '/replay', '再战一次']);
-        }
-        $('#pagebody').removeClass('on');
-        showSubFrame('runbox','qrcodebox');
-        // fntRun();
-        if(!fntA.period){
-          console.log('#run call fntskiing');
-          fntskiing();
-        }
-        $('.iframbox').html('');
-        //$('.iframbox iframe').attr('src','');
-        _smq.push(['pageview', '/run', '攀岩']);
-      // }
-    },
-    renderError : function(error) {  
-      //  console.log('URL错误, 错误信息: ' + error); 
-      //$('.link_home').show(); 
-    }  
-  });  
-
-  var router = new AppRouter();  
-  Backbone.history.start(); 
-
-
-
   var requestAnimationFrame = window.requestAnimationFrame || 
                               window.mozRequestAnimationFrame || 
                               window.webkitRequestAnimationFrame || 
@@ -213,136 +103,178 @@ $(document).ready(function(){
     } 
   }
 
-  function postGameRecord(id,name,record,result){ 
-    var postData = 'game_type=0&gamename=game3&score='+record + '&user_id=' + id + '&user_name=' + name + '&result=' +result ;
-    //  console.log(postData);
-    var tempIp = 'http://www.quyeba.com/event/explorerchallenge/'
+  var AppRouter = Backbone.Router.extend({  
+    routes : {  
+      '' : 'levelfun', 
+      'index' : 'levelfun', 
+      'intro' : 'levelfun',
+      'replay' : 'replayfun',
+      'run':'runfun',
+      'coupon':'couponfun',
+      'nocoupon':'nocouponfun',
+      'more':'morefun',
+      '*error' : 'levelfun'  
+    },
+    mainfun : function() {
+
+    }, 
+    couponfun : function(){
+      $('.mask').hide();
+      $('.maskbg').show();
+      $('.couponbox').show();
+      $('.nocouponbox').hide();
+
+    },
+    nocouponfun : function() {
+      $('.mask').hide();
+      $('.maskbg').show();
+      $('.couponbox').hide();
+      $('.nocouponbox').show();
+    },
+    morefun : function(){
+      $('.mask').hide();
+      $('.maskbg').hide();
+    },
+    levelfun : function() {
+    	//alert("111");
+    	console.log('levelfun');
+
+    	showSubFrame('homepage','levelbox');
+      $('.energybox').removeClass('energybox_on');
+      $('.logo').show();
+      $('.mask').hide();
+      $('.maskbg').hide();
+      $('.couponbox').hide();
+      $('.nocouponbox').hide();
+      $('.redbg').css('opacity',0);
+    }, 
+    repowerfun : function() {
+      router.navigate('shake/' + fntA.gameLevel);
+      window.location.reload();
+    }, 
+    replayfun : function() {
+      router.navigate('index');
+      window.location.reload();
+    },
+    shakefun : function (level){
+    	console.log('lelve:'+ level);
+      fntA.gameLevel = level;
+      console.log('fntA.gameLevel:'+ fntA.gameLevel);
+      $('.introbox .txt1').removeClass('txt1_l1 txt1_l2 txt1_l3').addClass('txt1_l'+fntA.gameLevel);
+      $('.energybox').addClass('energybox_on');
+      fntA.shakerecord = 0;
+      showSubFrame('energybox','introbox');
+      loadPower(fntA.gameLevel*10);
+      fntRun();
+    },
+    runfun : function (){
+    	showFrame('runbox');
+    	
+    },
+     
+    renderError : function(error) {  
+      console.log('URL错误, 错误信息: ' + error); 
+        //$('.link_home').show(); 
+      }  
+    });  
+
+  var router = new AppRouter();  
+  Backbone.history.start(); 
+
+
+
+
+
+  function G() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+  }
+
+  function postGameRecordSingle(record){ 
+    /*
+    请先调用 game/save, 注意传入的game_type为1（单机游戏）和score，没有game_result。其它参数和双屏游戏相同。
+    然后在刮奖时调用  game/reward获得优惠券号码。
+
+    返回
+
+    失败：
+     {"result":"failed","message":"no game data found"}
+    成功：
+     {"result":"success","message":"","game_id":54,"user_id":"124578","user_name":"cgzhang2003","coupon_id":123,"coupon_code":xxx,"coupon_discount":null,"coupon_description":null}
+    ​
+    如果没有获奖则coupon_code为空。
+    */
+    var postData = 'game_type=1&gamename=game3&score='+record ;
+    var tempIp = 'http://www.quyeba.com/event/explorerchallenge/';
+    console.log(postData);
+
     $.ajax({type:'POST',url: tempIp +'game/save',data:postData,
       success:function(json){
-        //  console.log(json);
+          console.log(json);
         //var jsdata = eval('('+json+')');  
         var jsdata = json;
-        //  console.log('status='+ jsdata.status);
-        if(result==='win'){
-          if (jsdata.point === "success"){
-            showSubMask('gamemask','winwithpoint');
+          console.log('status='+ jsdata.status);
+        if(jsdata.result==='success'){
+          if (jsdata.game_id != null){
+            fntA.game_id = jsdata.game_id;
+          }
+        }
+
+        //console.log('mid='+ jsdata.data.mid );
+      },
+      error: function(xhr, type){
+        
+      }
+    });
+  }
+  //game/reward
+  function postGameRewardSingle(record){ 
+    var postData = 'game_type=1&gamename=game3&score='+record + '&game_id=' + fntA.game_id;
+    var tempIp = 'http://www.quyeba.com/event/explorerchallenge/';
+    console.log(postData);
+
+    $.ajax({type:'POST',url: tempIp +'game/reward',data:postData,
+      success:function(json){
+          console.log(json);
+        //var jsdata = eval('('+json+')');  
+        var jsdata = json;
+          console.log('status='+ jsdata.status);
+        if(jsdata.result==='success'){
+          if (jsdata.coupon_code !== ''){
+            $('.getcoupon').attr('href', '#/coupon');
+            $('.couponbox .cp').html(jsdata.coupon_code);
           }else{
-            showSubMask('gamemask','winwithoutpoint');
+            $('.getcoupon').attr('href', '#/nocoupon');
           } 
         }else{
-          showSubMask('gamemask','lost');
+          $('.getcoupon').attr('href', '#/nocoupon');
         }
 
         //console.log('mid='+ jsdata.data.mid );
       },
       error: function(xhr, type){
-        showSubMask('gamemask','lost');
+        $('.getcoupon').attr('href', '#/nocoupon');
       }
     });
   }
-  function postLogin(){
-    //  console.log('post login');
-    var userName  = $('#uname').val()
-    ,   userPwd = $('#upwd').val()
-    ,   postData;
-    if (!userName || !userPwd){
-      alert("请完整填写信息！")
-      return false;
-    }
-    var reMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-    //  console.log(userName.match(reMail));
-    if(userName.match(reMail)){
-      postData = 'email=' + userName + '&password=' + userPwd ;
-    }else{
-      postData = 'name=' + userName + '&password=' + userPwd ;
-    }
-    //  console.log(postData);
-    var tempIp = 'http://www.quyeba.com/event/explorerchallenge/'
-    $.ajax({type:'POST',url: tempIp +'user/login',data:postData,
-      success:function(json){
-        //  console.log(json);
-        //var jsdata = eval('('+json+')');  
-        var jsdata = json;
-        if(jsdata.result ==='failed'){
-          $('.loginbox .errormsg').show();
-          return false;
-        }
-        //  console.log(jsdata);
-        fntA.playername = jsdata.user_name;
-        fntA.playerId = jsdata.user_id;
-        fntA.playerAvatar = 'http://tnf-avatar.b0.upaiyun.com/'+jsdata.user_avatar;
-        router.navigate('run');
-        showSubFrame('runbox','qrcodebox');
 
-        $('.playerinfoa .playername').html(fntA.playername);
-        if(jsdata.user_avatar!==''){
-          $('.playerinfoa img').attr('src',fntA.playerAvatar);
-        }
-        $('.loginbox .errormsg').hide();
-        
-        //console.log('mid='+ jsdata.data.mid );
-      },
-      error: function(xhr, type){
-        //  console.log('Ajax error!')
-        $('.loginbox .errormsg').show();
-      }
-    });
-    // fntRun();
-    if(!fntA.period){
-      console.log('pose login call fntskiing');
-          fntskiing();
-        }
-  }
-  function postRegister(){
-    var userName  = $('#regumail').val()
-    ,   userMail  = $('#reguname').val()
-    ,   userPwd = $('#regupwd').val()
-    ,   userPwd2 = $('#regupwd2').val()
-    ,   postData;
-    if (!userName || !userPwd || !userMail || !userPwd2){
-      $('.registerbox .errormsg').html('请完整填写信息！').show();
-      return false;
+
+
+
+  function doUpdateTime(num) {
+    //document.getElementById('ShowDiv').innerHTML = '' + num + '秒';
+    //alert(num);
+    var opacity = ((fntA.gameLevel*10 - num + 0.1) / fntA.gameLevel*10)/100  ;
+    //console.log('fntA.gameLevel:'+ fntA.gameLevel + ',opacity:' + opacity);
+    $('.redbg').css('opacity',opacity);
+    $('.debuginfo').html( num + '秒,power:' + fntA.shakerecord );
+    $('.powerbox .countdown').html( num );
+    
+    if (num == 0) {
+      console.log("shake remove!");
+      $('.debuginfo').html('<a class="navlink linkrun" href="#/run">Run with power:'+ fntA.shakerecord +'</a>');
+      window.removeEventListener('shake', shakeEventDidOccur, false);
+      showSubFrame('energybox','readybox');
     }
-    if(userPwd!==userPwd2){
-      $('.registerbox .errormsg').html('请确认两次输入密码相同！').show();
-      return false;
-    }
-    $('.loginbox .errormsg').hide();
-    var reMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-    //  console.log('post register, regumail=' + userMail + ', valmail=' + userMail.match(reMail));
-    // if(userMail.match(reMail)){
-    //   alert("请正确填写邮箱信息！")
-    //   return false;
-    // }
-    postData = 'name=' + userName + '&email=' + userMail + '&password=' + userPwd ;
-    //  console.log(postData);
-    var tempIp = 'http://www.quyeba.com/event/explorerchallenge/'
-    $.ajax({type:'POST',url: tempIp +'user/register',data:postData,
-      success:function(json){
-        //  console.log(json);
-        //var jsdata = eval('('+json+')');
-        var jsdata = json;
-        if(jsdata.result ==='failed'){
-          $('.registerbox .errormsg').html('注册失败，您的邮箱或昵称已被注册').show();
-          return false;
-        }
-        //console.log('status='+ jsdata.result);
-        fntA.playername = jsdata.user_name;
-        fntA.playerId = jsdata.user_id;
-        fntA.playerAvatar = jsdata.user_avatar;
-        $('.playerinfoa .playername').html(fntA.playername);
-        router.navigate('run');
-        showSubFrame('runbox','qrcodebox');
-        //console.log('mid='+ jsdata.data.mid );
-      },
-      error: function(xhr, type){
-        //  console.log('Ajax error!')
-      }
-    });
-    // fntRun();
-    if(!fntA.period){
-          fntskiing();
-        }
   }
 
   //skiing game
@@ -463,8 +395,6 @@ $(document).ready(function(){
     fsm.start();
     return fsm;
   }();
-
-
 
   function fntskiing(){
 
@@ -707,17 +637,11 @@ $(document).ready(function(){
 
   //main run
 
-  var pageUrl = 'http://www.quyeba.com/event/explorerchallenge3/m_s.html'; 
 
   //fntA.gameLevel = 1;
   fntA.gameOn = false ;
 
-  var loadedImages = 0;
-  //run
-  
-  var newUrl = pageUrl +"?key=" +fntA.key;
-  $("#qrcode").append("<img src='http://chart.apis.google.com/chart?chs=320x320&cht=qr&chld=H|2&chl="+ newUrl + "&choe=UTF-8' />");
-  console.log( newUrl);
+
   //postRegiste
   $(".btn_register").on("click", function(){
     postRegister();
@@ -731,5 +655,4 @@ $(document).ready(function(){
   });
 
 });
-
 
