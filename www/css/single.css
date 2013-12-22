@@ -41,7 +41,7 @@ body {
 .levelbox { }
 .levelbox .title { display: block; width: 320px; height: 220px; margin: 0 auto; background: url('../img/s_title_homex2.png') 78px 30px no-repeat; background-size: 157px 178px;}
 .levelbox .intro { display: block; width: 320px; height: 70px; margin: 0 auto; background: url('../img/s_title_home_2_x2.png') 12px 50px no-repeat; background-size: 296px 20px;}
-.levelbox .levelnav { width: 300px; height: 65px; margin: 0 auto;}
+.levelbox .levelnav { width: 320px; height: 65px; margin: 0 auto;}
 .levelbox .levelnav a { width: 87px; height: 86px; background: url('../img/s_bg_btnx2.png')  no-repeat;background-size: 87px 86px; float: left; margin: 0;}
 .levelbox .levelnav span { width: 87px; height: 86px; background: url('../img/s_btn_l1.png') center center  no-repeat; background-size: 60px 63px; display: block;}
 .levelbox .levelnav a.level02 span { background-image:url('../img/s_btn_l2.png'); }
@@ -131,8 +131,19 @@ background-size: 211px 97px;
           background: url(../img/maps/p01.png) 120px 0 no-repeat;
           background-size: 97px 177px;
           height: 232px;
-          top: 220px;
+          top: 170px;
           left: 0px;
+        }
+        .skiingnote {
+          z-index: 2;
+          height: 232px;
+          top: 350px;
+          left: 0px;
+          font-size: 32px;
+          width: 320px;
+          text-align: center;
+          color: red;
+          position: absolute;
         }
 
 

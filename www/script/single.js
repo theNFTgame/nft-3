@@ -1,3 +1,7 @@
+
+
+var fntA = new Object();
+
   (function () {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -21,27 +25,6 @@
         clearTimeout(id);
     };
   }());
-
-
-$(document).ready(function(){
-
-  var fntA = new Object();
-  var $player =  $('#myCanvas');
-  var $map =  $('#mapCanvas');
-
-  fntA.record = 0;
-  fntA.tiltRecord = 1;
-  fntA.mapFrame = 1;
-  fntA.Trend = '';
-  fntA.rotate = 0;
-  fntA.positionX = 0;
-  fntA.positionY = 0;
-
-  fntA.image1 = new Image();
-  fntA.image1.src = 'img/maps/p01.png';
-
-
-
 
   function showFrame(framename) {
     if(!framename){ framename = 'homepage'}
@@ -72,6 +55,22 @@ $(document).ready(function(){
       $('.' + framename + ' .' + subframename).show();
     }
   }
+
+$(document).ready(function(){
+
+  var $player =  $('#myCanvas');
+  var $map =  $('#mapCanvas');
+
+  fntA.record = 0;
+  fntA.tiltRecord = 1;
+  fntA.mapFrame = 1;
+  fntA.Trend = '';
+  fntA.rotate = 0;
+  fntA.positionX = 0;
+  fntA.positionY = 0;
+
+
+
   // create GUID 
   function G() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -208,7 +207,8 @@ $(document).ready(function(){
           callbacks: {
             onbeforestart: function(event, from, to) { log("STARTING UP"); },
             onstart:       function(event, from, to) { 
-              log("READY");  
+              log("READY");
+              fntA.gameOn = true;  
               $('.skiingnote span').html(0);     
             },
 
@@ -245,10 +245,12 @@ $(document).ready(function(){
             },
             ondown: function(event, from, to){
               log("ENTER   STATE: down");
+              fntA.gameOn = false;
+              stopAnimationClimer();
               
               fntA.rotate = 0;
-              fntA.record = 0;
-              fntA.tiltRecord = 0;
+              // fntA.record = 0;
+              // fntA.tiltRecord = 0;
               $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
               $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
               $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
@@ -258,11 +260,11 @@ $(document).ready(function(){
                 $player.removeClass().addClass('right');
               }
               fntA.gameResult = 'lost';
+              // stopAnimationClimer();
               setTimeout(function() {
                 showSubMask('gamemask','loading'); 
                 //id,name,record,result
                 console.log('post records.')
-                stopAnimationClimer();
                 // cancelRAF(fntA.requestId);
                 postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
               }, 1000);
@@ -325,7 +327,7 @@ $(document).ready(function(){
     ​
     如果没有获奖则coupon_code为空。
     */
-    var postData = 'game_type=1&gamename=game3&score='+record ;
+    var postData = 'game_type=1&gamename=game3&score='+fntA.record ;
     var tempIp = 'http://www.quyeba.com/event/explorerchallenge/';
     console.log(postData);
 
@@ -350,7 +352,7 @@ $(document).ready(function(){
   }
   //game/reward
   function postGameRewardSingle(record){ 
-    var postData = 'game_type=1&gamename=game3&score='+record + '&game_id=' + fntA.game_id;
+    var postData = 'game_type=1&gamename=game3&score='+fntA.record + '&game_id=' + fntA.game_id;
     var tempIp = 'http://www.quyeba.com/event/explorerchallenge/';
     console.log(postData);
 
@@ -463,41 +465,20 @@ $(document).ready(function(){
       }
     }
 
+
     function handleOrientationEvent(event) {
+      var x = event.beta ? event.beta : event.y * 90;
+      var y = event.gamma ? event.gamma : event.x * 90;
       
-        var x = event.beta ? event.beta : event.y * 90;
-        var y = event.gamma ? event.gamma : event.x * 90;
-        //window.console && console.info('Raw position: x, y: ', x, y);
-        if (!initialX && !initialY) {
-            initialX = x;
-            initialY = y;
-        } else {
-            var positionX = initialX - x;
-            var positionY = initialY - y;
-            // ball.style.top = (90 + positionX * 5) + 'px';
-            // ball.style.left = (90 + positionY * 5) + 'px';
-            //-webkit-transform:rotate(10deg);
-            // var tempy = positionY/2
-            $player.css('top',160+positionX*(0.5) + 'px');
-            if(positionY > 20 && fntA.tiltRecord > 20){
-              skiingGame.backR();
-            }
-            if(positionY < -20  && fntA.tiltRecord > 20){
-              skiingGame.backL();
-            }
-            if (skiingGame.current === 'balance'){
-              var tempy = positionY/5;
-              $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
-              $player.css('-ms-transform', 'rotate('+tempy+'deg)');
-              $player.css('transform', 'rotate('+tempy+'deg)');
-            }
-            
-            // ctx.clearRect(0,0,320,540); 
-            // ctx.drawImage(fntA.image0,0,0,320,503);
-            // ctx.setTransform(1, 0, 0, 1, 0, 0);
-            // ctx.rotate(0.2);
-            // ctx.drawImage(fntA.image1,90 + positionY ,190 + positionX*(0.5) ,127,232);
-        }
+      if (!initialX && !initialY) {
+        initialX = x;
+        initialY = y;
+      } else {
+        var positionX = initialX - x;
+        var positionY = initialY - y;
+        fntA.pX = positionX;
+        fntA.pY = positionY;
+      }
     }
     function isEventFired() {
         if (!initialX && !initialY) {
@@ -510,54 +491,14 @@ $(document).ready(function(){
     window.addEventListener("MozOrientation", handleOrientationEvent, true);
     window.addEventListener("deviceorientation", handleOrientationEvent, true);
 
-    // // NodeJS Server
-    // var nodejs_server = "222.73.241.60:8082";
-    // // connect
-    // var socket = io.connect("http://" + nodejs_server);
-    // socket.emit("send", {
-    //     key: fntA.key,
-    //     act: "pcenter"
-    // });
-    // console.log(fntA.key);
-
-    // socket.on("get_response", function (b) {
-    //   // console.log(b);
-    //   var combine = b.key + "_" + b.act;
-    //   switch (combine) {
-    //   //   // when open m.page，call enter event，then show the game
-    //     case fntA.key + "_enter":
-    //        console.log('enter');
-    //       setTimeout(function () {
-    //         if(!fntA.gameOn){
-    //           showSubFrame('runbox','rundivbox');
-    //           fntA.gameOn = true;
-    //           countdownNewTime(9);
-    //         }
-    //       }, 100);
-    //       break;
-    //       // shake event
-    //      case fntA.key + "_changebg":
-    //         console.log(b);
-    //         console.log(fntA.rotate);
-    //         if(!b.pY){b.pY = 0}
-    //         if(!b.pX){b.pX = 0}
-    //         fntA.positionX = b.pX;
-    //         fntA.positionY = b.pY;
-    //         $player.css('top',160 + fntA.positionX*(0.5) + 'px');
-    //         // if (skiingGame.current === 'balance' &&  skiingGame.current !== 'fall'){
-    //         //   fntA.rotate = -(fntA.positionY/4);
-    //         //   $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-    //         //   $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-    //         //   $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
-    //         // }
-    //      break;
-    //   }
-    // });//socket.on
 
     function animate() {
 // update
         fntA.record = fntA.record + 1;
         fntA.tiltRecord = fntA.tiltRecord + 1;
+
+        fntA.positionX = fntA.pX;
+        fntA.positionY = fntA.pY;
         var srcUrl;
         // fntA.map = new Image();
         // srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
@@ -568,18 +509,20 @@ $(document).ready(function(){
         // draw
         // context.drawImage(fntA.map,0,0,320,503);
         // $map.css('background-image', 'url('+srcUrl+')');
+
         $map.css('background-position', '-' + (Math.round(fntA.mapFrame ) - 1)*320 +'px 0px');
+
         fntA.requestId = window.requestAnimationFrame(animate);
         fntA.mapFrame = fntA.mapFrame + 0.8;
         if(fntA.mapFrame>18){
           fntA.mapFrame = 1;
         }
-        $('.skiingnote span').html(fntA.record*4);
+        
         // console.log(fntA.tiltRecord);
 
         if (skiingGame.current === 'tiltLeft'){
           var tempy = fntA.tiltRecord/58;
-          fntA.rotate = fntA.rotate - tempy - fntA.positionY/28;
+          fntA.rotate = fntA.rotate - tempy - fntA.positionY/8;
             $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
             $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
             $player.css('transform', 'rotate('+fntA.rotate+'deg)');
@@ -590,7 +533,7 @@ $(document).ready(function(){
         }
         if (skiingGame.current === 'tiltRight'){
             var tempy = fntA.tiltRecord/58;
-            fntA.rotate = fntA.rotate + tempy - fntA.positionY/28;
+            fntA.rotate = fntA.rotate + tempy - fntA.positionY/8;
             $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
             $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
             $player.css('transform', 'rotate('+fntA.rotate+'deg)');
@@ -600,7 +543,7 @@ $(document).ready(function(){
             }
         }
         if (skiingGame.current === 'balance'){
-          fntA.rotate =  fntA.rotate - (fntA.positionY/68);
+          fntA.rotate =  fntA.rotate - (fntA.positionY/28);
           $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
           $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
           $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
@@ -624,19 +567,22 @@ $(document).ready(function(){
         if (Math.abs(fntA.rotate)>70){
           skiingGame.down();
         }
+        if(skiingGame.current !== 'down'){
+          $('.skiingnote span').html(fntA.record*6);
+        }
+        
 
-
-        if(fntA.record * 4 > 9999){
+        if(fntA.record * 6 > 9999){
           
             //game resort
 
             //  console.log("stop running at " + time + ", and allmoveA = " + fntA.allmoveA + ",fntA.alltimes= " +fntA.alltimes);
             stopAnimationClimer();
-            cancelRAF(fntA.requestId);
             showSubMask('gamemask','loading');
               fntA.gameResult = 'win';
             //id,name,record,result
-            postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
+            // postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
+            postGameRewardSingle(fntA.gameResult);
             fntA.gameFinish = true;
 
 
