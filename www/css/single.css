@@ -137,13 +137,23 @@ background-size: 211px 97px;
         .skiingnote {
           z-index: 2;
           height: 232px;
-          top: 350px;
+          top: 360px;
           left: 0px;
-          font-size: 32px;
+          font-size: 26px;
+          line-height: 26px;
+          font-weight: bold;
           width: 320px;
           text-align: center;
           color: red;
           position: absolute;
+        }
+        .skiingnote span {
+          display: inline-block;
+          background: url(../img/s_bg_mi.png) right top no-repeat;
+          background-size: 26px 26px;
+          padding-right: 26px;
+          letter-spacing: 0.2em;
+
         }
 
 
