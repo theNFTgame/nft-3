@@ -1,21 +1,3 @@
-$(document).ready(function(){
-
-  var fntA = new Object();
-  var $player =  $('#myCanvas');
-  var $map =  $('#mapCanvas');
-
-  fntA.record = 0;
-  fntA.tiltRecord = 1;
-  fntA.mapFrame = 1;
-  fntA.Trend = '';
-  fntA.rotate = 0;
-  fntA.positionX = 0;
-  fntA.positionY = 0;
-
-  fntA.image1 = new Image();
-  fntA.image1.src = 'img/maps/p01.png';
-
-
   (function () {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -39,6 +21,27 @@ $(document).ready(function(){
         clearTimeout(id);
     };
   }());
+
+
+$(document).ready(function(){
+
+  var fntA = new Object();
+  var $player =  $('#myCanvas');
+  var $map =  $('#mapCanvas');
+
+  fntA.record = 0;
+  fntA.tiltRecord = 1;
+  fntA.mapFrame = 1;
+  fntA.Trend = '';
+  fntA.rotate = 0;
+  fntA.positionX = 0;
+  fntA.positionY = 0;
+
+  fntA.image1 = new Image();
+  fntA.image1.src = 'img/maps/p01.png';
+
+
+
 
   function showFrame(framename) {
     if(!framename){ framename = 'homepage'}
@@ -83,16 +86,6 @@ $(document).ready(function(){
     window.cancelAnimationFrame(fntA.requestId);
   }
 
-  var requestAnimationFrame = window.requestAnimationFrame || 
-                              window.mozRequestAnimationFrame || 
-                              window.webkitRequestAnimationFrame || 
-                              window.msRequestAnimationFrame;
-                               
-  // hopefully get a valid cancelAnimationFrame function!                     
-  var cancelRAF = window.cancelAnimationFrame || 
-                  window.mozCancelAnimationFrame || 
-                  window.webkitCancelAnimationFrame || 
-                  window.msCancelAnimationFrame;
 
 
   function fRandomBy(under, over){ 
@@ -174,7 +167,130 @@ $(document).ready(function(){
     },
     runfun : function (){
     	showFrame('runbox');
+      skiingGame = function() {
+
+        var map    = $('#mapCanvas'),
+            player = $('#myCanvas'),
+            left   = $('.left'),
+            right  = $('.right'),
+            count  = 0;
+
+        var log = function(msg, separate) {
+          count = count + (separate ? 1 : 0);
+          // output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
+          // demo.className = fsm.current;
+
+          // panic.disabled = fsm.cannot('panic');
+          // warn.disabled  = fsm.cannot('warn');
+          // calm.disabled  = fsm.cannot('calm');
+          // clear.disabled = fsm.cannot('clear');
+        };
+
+
+        var fsm = StateMachine.create({
+          // balance, tiltLeft, tiltRight, fall, start
+          intial:'start',
+
+          events: [
+            { name: 'start', from: 'none',   to: 'start'  },
+            { name: 'join', from: 'start',     to: 'balance'  },
+            { name: 'tiltL', from: 'balance',   to: 'tiltLeft' },
+            { name: 'tiltR', from: 'balance',   to: 'tiltRight'},
+            { name: 'backL', from: 'tiltLeft',  to: 'balance'  },
+            { name: 'backR', from: 'tiltRight', to: 'balance'  },
+            { name: 'down', from: 'tiltLeft',  to: 'fall'     },
+            { name: 'down', from: 'tiltRight', to: 'fall'     },
+            { name: 'replay', from: 'fall',      to: 'start'    },
+            { name: 'replay', from: 'tiltLeft',      to: 'start'    },
+            { name: 'replay', from: 'tiltLeft',      to: 'start'    }
+          ],
+
+          callbacks: {
+            onbeforestart: function(event, from, to) { log("STARTING UP"); },
+            onstart:       function(event, from, to) { 
+              log("READY");  
+              $('.skiingnote span').html(0);     
+            },
+
+            onleavered:    function(event, from, to) { 
+                              log("LEAVE   STATE: red");    
+                              async(to); 
+                              return false; 
+                            },
+            onbalance: function(event, from, to){
+              // var tempy = 0;
+              //   $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
+              //   $player.css('-ms-transform', 'rotate('+tempy+'deg)');
+              //   $player.css('transform', 'rotate('+tempy+'deg)');
+            },
+            //fntA.Trend
+            onbeforetiltL: function(event, from, to) { fntA.Trend = 'left'; },
+            onbeforetiltR: function(event, from, to) { fntA.Trend = 'right'; },
+            onbackL: function(event, from, to){
+
+            },
+            onbackR: function(event, from, to){
+
+            },
+            onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); },
+            onbeforereplay: function(event, from, to) { 
+              fntA.Trend = '';
+              $player.removeClass();
+              // fntA.rotate = 0;
+              // $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
+              // $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
+              // $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
+              $('.skiingnote span').html(0);
+              fntA.rotate = 0;
+            },
+            ondown: function(event, from, to){
+              log("ENTER   STATE: down");
+              
+              fntA.rotate = 0;
+              fntA.record = 0;
+              fntA.tiltRecord = 0;
+              $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
+              $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
+              $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
+              if( fntA.Trend === 'left'){
+                $player.removeClass().addClass('left');
+              } else{
+                $player.removeClass().addClass('right');
+              }
+              fntA.gameResult = 'lost';
+              setTimeout(function() {
+                showSubMask('gamemask','loading'); 
+                //id,name,record,result
+                console.log('post records.')
+                stopAnimationClimer();
+                // cancelRAF(fntA.requestId);
+                postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
+              }, 1000);
+            }
+          }
+        });
+
+        var async = function(to) {
+          pending(to, 3);
+          setTimeout(function() {
+            pending(to, 2);
+            setTimeout(function() {
+              pending(to, 1);
+              setTimeout(function() {
+                fsm.transition(); // trigger deferred state transition
+              }, 1000);
+            }, 1000);
+          }, 1000);
+        };
+
+        var pending = function(to, n) { log("PENDING STATE: " + to + " in ..." + n); };
+        fsm.start();
+        return fsm;
+      }();
+      skiingGame.join();
       fntskiing();
+
+
     	
     },
      
@@ -284,123 +400,7 @@ $(document).ready(function(){
   }
 
   //skiing game
-  skiingGame = function() {
 
-    var map    = $('#mapCanvas'),
-        player = $('#myCanvas'),
-        left   = $('.left'),
-        right  = $('.right'),
-        count  = 0;
-
-    var log = function(msg, separate) {
-      count = count + (separate ? 1 : 0);
-      // output.value = count + ": " + msg + "\n" + (separate ? "\n" : "") + output.value;
-      // demo.className = fsm.current;
-
-      // panic.disabled = fsm.cannot('panic');
-      // warn.disabled  = fsm.cannot('warn');
-      // calm.disabled  = fsm.cannot('calm');
-      // clear.disabled = fsm.cannot('clear');
-    };
-
-
-    var fsm = StateMachine.create({
-      // balance, tiltLeft, tiltRight, fall, start
-      intial:'start',
-
-      events: [
-        { name: 'start', from: 'none',   to: 'start'  },
-        { name: 'join', from: 'start',     to: 'balance'  },
-        { name: 'tiltL', from: 'balance',   to: 'tiltLeft' },
-        { name: 'tiltR', from: 'balance',   to: 'tiltRight'},
-        { name: 'backL', from: 'tiltLeft',  to: 'balance'  },
-        { name: 'backR', from: 'tiltRight', to: 'balance'  },
-        { name: 'down', from: 'tiltLeft',  to: 'fall'     },
-        { name: 'down', from: 'tiltRight', to: 'fall'     },
-        { name: 'replay', from: 'fall',      to: 'start'    },
-        { name: 'replay', from: 'tiltLeft',      to: 'start'    },
-        { name: 'replay', from: 'tiltLeft',      to: 'start'    }
-      ],
-
-      callbacks: {
-        onbeforestart: function(event, from, to) { log("STARTING UP"); },
-        onstart:       function(event, from, to) { 
-          log("READY");  
-          $('.skiingnote span').html(0);     
-        },
-
-        onleavered:    function(event, from, to) { 
-                          log("LEAVE   STATE: red");    
-                          async(to); 
-                          return false; 
-                        },
-        onbalance: function(event, from, to){
-          // var tempy = 0;
-          //   $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
-          //   $player.css('-ms-transform', 'rotate('+tempy+'deg)');
-          //   $player.css('transform', 'rotate('+tempy+'deg)');
-        },
-        //fntA.Trend
-        onbeforetiltL: function(event, from, to) { fntA.Trend = 'left'; },
-        onbeforetiltR: function(event, from, to) { fntA.Trend = 'right'; },
-        onbackL: function(event, from, to){
-
-        },
-        onbackR: function(event, from, to){
-
-        },
-        onchangestate: function(event, from, to) { log("CHANGED STATE: " + from + " to " + to); },
-        onbeforereplay: function(event, from, to) { 
-          fntA.Trend = '';
-          $player.removeClass();
-          // fntA.rotate = 0;
-          // $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-          // $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-          // $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
-          $('.skiingnote span').html(0);
-          fntA.rotate = 0;
-        },
-        ondown: function(event, from, to){
-          log("ENTER   STATE: down");
-          stopAnimationClimer();
-          fntA.rotate = 0;
-          fntA.record = 0;
-          fntA.tiltRecord = 0;
-          $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-          $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-          $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
-          if( fntA.Trend === 'left'){
-            $player.removeClass().addClass('left');
-          } else{
-            $player.removeClass().addClass('right');
-          }
-          fntA.gameResult = 'lost';
-          setTimeout(function() {
-            showSubMask('gamemask','loading'); 
-            //id,name,record,result
-            postGameRecord(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
-          }, 1000);
-        }
-      }
-    });
-
-    var async = function(to) {
-      pending(to, 3);
-      setTimeout(function() {
-        pending(to, 2);
-        setTimeout(function() {
-          pending(to, 1);
-          setTimeout(function() {
-            fsm.transition(); // trigger deferred state transition
-          }, 1000);
-        }, 1000);
-      }, 1000);
-    };
-
-    var pending = function(to, n) { log("PENDING STATE: " + to + " in ..." + n); };
-    fsm.start();
-    return fsm;
-  }();
 
   function fntskiing(){
 
@@ -632,10 +632,11 @@ $(document).ready(function(){
 
             //  console.log("stop running at " + time + ", and allmoveA = " + fntA.allmoveA + ",fntA.alltimes= " +fntA.alltimes);
             stopAnimationClimer();
+            cancelRAF(fntA.requestId);
             showSubMask('gamemask','loading');
               fntA.gameResult = 'win';
             //id,name,record,result
-            postGameRecord(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
+            postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
             fntA.gameFinish = true;
 
 
@@ -645,20 +646,20 @@ $(document).ready(function(){
     //init
 
     // drawRectangle(myRectangle, context);
-    var startTime = (new Date()).getTime();
-    // animate(myRectangle, canvas, context, startTime);
-    function stopAnimation(e) {
-        // use the requestID to cancel the requestAnimationFrame call
-        cancelRAF(fntA.requestId);
-    }
-    function stopAnimationskiing(e) {
-        // use the requestID to cancel the requestAnimationFrame call
-        cancelRAF(fntA.skiingRequestId);
-    }
-    function pauseAnimation(e) {
-        // use the requestID to cancel the requestAnimationFrame call
-        animate();
-    }
+    // var startTime = (new Date()).getTime();
+    // // animate(myRectangle, canvas, context, startTime);
+    // function stopAnimation(e) {
+    //     // use the requestID to cancel the requestAnimationFrame call
+    //     cancelRAF(fntA.requestId);
+    // }
+    // function stopAnimationskiing(e) {
+    //     // use the requestID to cancel the requestAnimationFrame call
+    //     cancelRAF(fntA.skiingRequestId);
+    // }
+    // function pauseAnimation(e) {
+    //     // use the requestID to cancel the requestAnimationFrame call
+    //     animate();
+    // }
     //debug;
 
     // $(".start").on("click", function(){
@@ -666,17 +667,17 @@ $(document).ready(function(){
     //       //clearTimeout();
 
     //   });
-    $(".clean").on("click", function(){
-        $("p").remove();
-      });
-    $(".stop").on("click", function(){
-        stopAnimation();
-        $("body").append('<p>' + fntA.x);
-      });
-    $(".pause").on("click", function(){
-        pauseAnimation();
-        $("body").append('<p>' + fntA.x);
-      });
+    // $(".clean").on("click", function(){
+    //     $("p").remove();
+    //   });
+    // $(".stop").on("click", function(){
+    //     stopAnimation();
+    //     $("body").append('<p>' + fntA.x);
+    //   });
+    // $(".pause").on("click", function(){
+    //     pauseAnimation();
+    //     $("body").append('<p>' + fntA.x);
+    //   });
     // $(".connection").on("click", function(){
     //   // if(!fntA.startime){
     //     showSubMask('gamemask');
@@ -687,9 +688,9 @@ $(document).ready(function(){
     //     fntA.skiingOn = true;
     //   // }
     // });
-          console.log('start!!!!');
-          animate();
-          skiingGame.join();
+          console.log(skiingGame.current);
+          // animate();
+          // // skiingGame.join();
           countdownNewTime(1);
           fntA.skiingOn = true;
 
