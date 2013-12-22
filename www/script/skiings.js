@@ -163,6 +163,7 @@ $(document).ready(function(){
           fntA.gameResult = 'replay';
           fntA.skiingAniMove = fntA.skiingAniStep;
           fntA.rotate = 0;
+          fntA.record = 0;
               $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
               $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
               $player.css('transform', 'rotate('+fntA.rotate+'deg)');
@@ -426,7 +427,7 @@ $(document).ready(function(){
           log("ENTER   STATE: down");
           stopAnimationClimer();
           fntA.rotate = 0;
-          fntA.record = 0;
+          // fntA.record = 0;
           fntA.tiltRecord = 0;
           $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
           $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');

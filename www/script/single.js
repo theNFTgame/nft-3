@@ -272,7 +272,7 @@ $(document).ready(function(){
                 $('.recordbox').show();
                 $('.maskbg').show();
                 $('.logo').hide();
-                $('.recordbox .mi').html(fntA.record);
+                $('.recordbox .mi').html(fntA.record*8);
                 var newPx = new Number(Number(fntA.record*8)/10010);
                 newPx = newPx.toFixed(2)*100;
                 newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
@@ -603,7 +603,7 @@ $(document).ready(function(){
               $('.recordbox').show();
               $('.maskbg').show();
               $('.logo').hide();
-              $('.recordbox .mi').html(fntA.record);
+              $('.recordbox .mi').html(fntA.record*8);
               var newPx = new Number(Number(fntA.record*8)/10010);
               newPx = newPx.toFixed(2)*100;
               newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
