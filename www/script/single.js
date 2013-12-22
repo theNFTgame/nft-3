@@ -261,13 +261,24 @@ $(document).ready(function(){
               }
               fntA.gameResult = 'lost';
               // stopAnimationClimer();
+              postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*8,fntA.gameResult);
               setTimeout(function() {
                 showSubMask('gamemask','loading'); 
                 //id,name,record,result
                 console.log('post records.')
                 // cancelRAF(fntA.requestId);
-                postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
+                
+                postGameRewardSingle(fntA.gameResult);
+                $('.recordbox').show();
+                $('.maskbg').show();
+                $('.logo').hide();
+                $('.recordbox .mi').html(fntA.record);
+                var newPx = new Number(Number(fntA.record*8)/10010);
+                newPx = newPx.toFixed(2)*100;
+                newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
+                $('.recordbox .px').html(newPx + '%');
               }, 1000);
+
             }
           }
         });
@@ -336,7 +347,7 @@ $(document).ready(function(){
           console.log(json);
         //var jsdata = eval('('+json+')');  
         var jsdata = json;
-          console.log('status='+ jsdata.status);
+          console.log('status='+ jsdata.result);
         if(jsdata.result==='success'){
           if (jsdata.game_id != null){
             fntA.game_id = jsdata.game_id;
@@ -361,7 +372,7 @@ $(document).ready(function(){
           console.log(json);
         //var jsdata = eval('('+json+')');  
         var jsdata = json;
-          console.log('status='+ jsdata.status);
+          console.log('status='+ jsdata.result);
         if(jsdata.result==='success'){
           if (jsdata.coupon_code !== ''){
             $('.getcoupon').attr('href', '#/coupon');
@@ -568,22 +579,40 @@ $(document).ready(function(){
           skiingGame.down();
         }
         if(skiingGame.current !== 'down'){
-          $('.skiingnote span').html(fntA.record*6);
+          $('.skiingnote span').html(fntA.record*8);
         }
         
 
-        if(fntA.record * 6 > 9999){
+        if(fntA.record * 8 > 9999){
           
             //game resort
 
             //  console.log("stop running at " + time + ", and allmoveA = " + fntA.allmoveA + ",fntA.alltimes= " +fntA.alltimes);
             stopAnimationClimer();
             showSubMask('gamemask','loading');
-              fntA.gameResult = 'win';
+            fntA.gameResult = 'win';
             //id,name,record,result
-            // postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
-            postGameRewardSingle(fntA.gameResult);
+            postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*8,fntA.gameResult);
+            setTimeout(function() {
+              showSubMask('gamemask','loading'); 
+              //id,name,record,result
+              console.log('post records.')
+              // cancelRAF(fntA.requestId);
+              
+              postGameRewardSingle(fntA.gameResult);
+              $('.recordbox').show();
+              $('.maskbg').show();
+              $('.logo').hide();
+              $('.recordbox .mi').html(fntA.record);
+              var newPx = new Number(Number(fntA.record*8)/10010);
+              newPx = newPx.toFixed(2)*100;
+              newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
+              $('.recordbox .px').html(newPx + '%');
+            }, 1000);
+
+
             fntA.gameFinish = true;
+            
 
 
 

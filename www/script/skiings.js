@@ -437,11 +437,10 @@ $(document).ready(function(){
             $player.removeClass().addClass('right');
           }
           fntA.gameResult = 'lost';
-          postGameRecord(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
           setTimeout(function() {
             showSubMask('gamemask','loading'); 
             //id,name,record,result
-            
+            postGameRecord(fntA.playerId,fntA.playerName,fntA.record*6,fntA.gameResult);
           }, 1000);
         }
       }
@@ -644,18 +643,25 @@ $(document).ready(function(){
         }
 
         $('.skiingnote span').html(fntA.record*6);
-        
         if(fntA.record * 6 > 9999){
-          //game resort
-          //  console.log("stop running at " + time + ", and allmoveA = " + fntA.allmoveA + ",fntA.alltimes= " +fntA.alltimes);
-          stopAnimationClimer();
-          fntA.gameResult = 'win';
-          //id,name,record,result
-          postGameRecord(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
-          fntA.gameFinish = true;
-          setTimeout(function() {
-            showSubMask('gamemask','loading');               
-          }, 1000);
+          
+            //game resort
+
+            //  console.log("stop running at " + time + ", and allmoveA = " + fntA.allmoveA + ",fntA.alltimes= " +fntA.alltimes);
+            stopAnimationClimer();
+            // showSubMask('gamemask','loading');
+              fntA.gameResult = 'win';
+            //id,name,record,result
+            // postGameRecord(fntA.playerId,fntA.playerName,fntA.record*4,fntA.gameResult);
+            fntA.gameFinish = true;
+            setTimeout(function() {
+              showSubMask('gamemask','loading'); 
+              //id,name,record,result
+              postGameRecord(fntA.playerId,fntA.playerName,fntA.record*6,fntA.gameResult);
+            }, 1000);
+
+
+
         }
     }
     //init
