@@ -591,7 +591,7 @@ $(document).ready(function(){
         if(fntA.mapFrame>18){
           fntA.mapFrame = 1;
         }
-        $('.skiingnote span').html(fntA.record*4);
+        
         // console.log(fntA.tiltRecord);
 
         if (skiingGame.current === 'tiltLeft'){
@@ -642,8 +642,8 @@ $(document).ready(function(){
           skiingGame.down();
         }
 
-
-        if(fntA.record * 4 > 9999){
+        $('.skiingnote span').html(fntA.record*6);
+        if(fntA.record * 6 > 9999){
           
             //game resort
 

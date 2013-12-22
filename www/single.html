@@ -26,7 +26,7 @@
       <div class="content">
         请保持屏幕竖直<br />
         建议锁定屏幕继续游戏
-        <img class="bufferimg" src="image/ajax-loader.gif" width="0" height="0" />
+
       </div>
     </div>
     <div id="pagebody">  
@@ -36,36 +36,21 @@
           <a class="navlink linklevel" href="#/level">start game</a>
         </div> -->
         <div class="subframe levelbox">
-          <p class="title notext">select level</p>
           <div class="levelnav">
-            <a class="navlink linkshake level01 notext" href="#/shake/1"><span>level 1</span></a>
+            <a class="navlink linkshake level01 notext intro" href="#/energy"><span>level 1</span></a>
           </div>
-          <p class="intro notext">intro</p>
         </div>
       </section> 
       <section id="energy" class="clearfix frame energybox">
-        <div class="redbg"></div>
         <div class="subframe introbox">
-          <div class="txt1 notext"></div>
-          <div class="txt2 notext"></div>
-          <div class="txt3 notext"></div>
-        </div>
-        <div class="subframe powerbox">
-          <div class="countdown">摇</div>
-          <a class="reload notext" href="#/repower"><span></span></a>
-          <div class="debuginfo" style="display:none"></div>
-        </div>
-        <div class="subframe readybox">
-          <a class="btn startrun notext">Start Run!</a>
-          <a class="reload notext" href="#/repower"><span></span></a>
-          <div class="debuginfo" style="display:none"></div>
+          <a class=" start" href="#/run"></a>
         </div>
       </section>
       <section id="run" class="clearfix frame runbox">
         <div class="runningbox">
           <div class="map">
-            <div id="mapCanvas" width="320" height="540" style=""></div>
-            <div id="myCanvas" width="320" height="540" style=""></div>
+            <div id="mapCanvas" width="320" height="504" style=""></div>
+            <div id="myCanvas" width="320" height="504" style=""></div>
           </div>
         </div> 
       </section>
@@ -104,7 +89,7 @@
     <script type="text/javascript" src="script/lib/underscore-min.js"></script>
     <script type="text/javascript" src="script/lib/backbone-min.js"></script>
     <script type="text/javascript" src="script/lib/hammer.min.js"></script>
-    <script src="script/state-machine.js"></script>
+    <script type="text/javascript" src="script/state-machine.js"></script>
     <script type="text/javascript" src="script/single.js"></script>
   </body>
 </html>  
