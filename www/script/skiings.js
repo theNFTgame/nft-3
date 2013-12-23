@@ -664,6 +664,7 @@ $(document).ready(function(){
             //game resort
 
             //  console.log("stop running at " + time + ", and allmoveA = " + fntA.allmoveA + ",fntA.alltimes= " +fntA.alltimes);
+            $('.skiingnote span').html(10000);
             skiingGame.back();
             stopAnimationClimer();
             // showSubMask('gamemask','loading');
