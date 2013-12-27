@@ -73,12 +73,12 @@ body {
 
 
 /*mask*/
-.maskbg { display: none; width: 360px; height: 100%; margin: 0; position: absolute; top:0px; left:50%; z-index: 290; background:url('../img/s_bg_mask_dark.png') no-repeat center center fixed;
-    -moz-background-size: cover;
-    background-size: cover;
+.maskbg { display: none; width: 360px; height: 100%; margin: 0; position: absolute; top:0px; left:50%; z-index: 290; background:url('../img/s_bg_mask_dark.png') center center;
+ /*   -moz-background-size: cover;
+    background-size: cover;*/
     margin-left: -180px;
   }
-.mask { display: none; width: 230px; height: 352px; margin: 0; position: absolute; top:8px; left:50%; z-index: 300; margin-left: -115px; }
+.mask { display: none; width: 230px; height: 352px; margin: 0; position: absolute; top:16px; left:50%; z-index: 300; margin-left: -115px; }
 .mask .gameinfo { height: 270px; }
 
 .mask .navlink { width: 87px; height: 86px; background: url('../img/s_bg_btnx2.png')  no-repeat;background-size: 87px 86px; float: left; margin: 0 0 0 20px;}
@@ -160,7 +160,7 @@ background-size: 211px 97px;
 
 
 @media screen and (min-width:360px) and (max-width:440px) {
-  .mask {  left:85px; }
+  /*.mask {  left:85px; }*/
   .logo { left:40px; }
   body { background-size: 420px 580px; }
 }
