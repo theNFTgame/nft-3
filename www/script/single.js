@@ -68,6 +68,8 @@ $(document).ready(function(){
   fntA.rotate = 0;
   fntA.positionX = 0;
   fntA.positionY = 0;
+  fntA.pX = 0;
+  fntA.pY = 0;
 
 
 
@@ -219,9 +221,9 @@ $(document).ready(function(){
                             },
             onbalance: function(event, from, to){
               // var tempy = 0;
-              //   $player.css('-webkit-transform', 'rotate('+tempy+'deg)');
-              //   $player.css('-ms-transform', 'rotate('+tempy+'deg)');
-              //   $player.css('transform', 'rotate('+tempy+'deg)');
+              //   $player.css('-webkit-transform', 'rotateZ('+tempy+'deg)');
+              //   $player.css('-ms-transform', 'rotateZ('+tempy+'deg)');
+              //   $player.css('transform', 'rotateZ('+tempy+'deg)');
             },
             //fntA.Trend
             onbeforetiltL: function(event, from, to) { fntA.Trend = 'left'; },
@@ -237,9 +239,9 @@ $(document).ready(function(){
               fntA.Trend = '';
               $player.removeClass();
               // fntA.rotate = 0;
-              // $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-              // $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-              // $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
+              // $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+              // $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+              // $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
               $('.skiingnote span').html(0);
               fntA.rotate = 0;
             },
@@ -251,9 +253,9 @@ $(document).ready(function(){
               fntA.rotate = 0;
               // fntA.record = 0;
               // fntA.tiltRecord = 0;
-              $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-              $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-              $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
+              $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+              $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+              $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
               if( fntA.Trend === 'left'){
                 $player.removeClass().addClass('left');
               } else{
@@ -505,12 +507,13 @@ $(document).ready(function(){
 
     function animate() {
       // update
+      // if(!fntA.rotate){fntA.rotate = 0}
       fntA.record = fntA.record + 1;
       fntA.tiltRecord = fntA.tiltRecord + 1;
 
       fntA.positionX = fntA.pX;
       fntA.positionY = fntA.pY;
-      var srcUrl;
+      // var srcUrl;
       // fntA.map = new Image();
       // srcUrl = 'img/maps/a'+ Math.round(fntA.mapFrame) +'.png';
       // console.log('image:' + srcUrl + 'map:' + fntA.mapFrame);
@@ -524,7 +527,7 @@ $(document).ready(function(){
       $map.css('background-position', '-' + (Math.round(fntA.mapFrame ) - 1)*320 +'px 0px');
 
       fntA.requestId = window.requestAnimationFrame(animate);
-      fntA.mapFrame = fntA.mapFrame + 0.8;
+      fntA.mapFrame = fntA.mapFrame + 1;
       if(fntA.mapFrame>18){
         fntA.mapFrame = 1;
       }
@@ -534,34 +537,40 @@ $(document).ready(function(){
       if (skiingGame.current === 'tiltLeft'){
         var tempy = fntA.tiltRecord/(58 - fntA.record/500);
         fntA.rotate = fntA.rotate - tempy - fntA.positionY/(10 - fntA.record/1000);
-          $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-          $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-          $player.css('transform', 'rotate('+fntA.rotate+'deg)');
+          $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+          $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+          $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
           if(fntA.positionY < -10  && fntA.tiltRecord > 10 && Math.abs(fntA.rotate) < 10 ){
             skiingGame.backL();
+          }
+          if (Math.abs(fntA.rotate)>70){
+            skiingGame.down();
           }
           console.log('Try tilt!' + fntA.tiltRecord + ',current:' + skiingGame.current + ',fntA.rotate:' + fntA.rotate + ',fntA.positionY:' +fntA.positionY + '.fntA.positionX:' + fntA.positionY );
       }
       if (skiingGame.current === 'tiltRight'){
           var tempy = fntA.tiltRecord/(58 - fntA.record/500);
           fntA.rotate = fntA.rotate + tempy - fntA.positionY/(10 - fntA.record/1000);
-          $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-          $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-          $player.css('transform', 'rotate('+fntA.rotate+'deg)');
+          $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+          $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+          $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
           console.log('Try tilt!' + fntA.tiltRecord + ',current:' + skiingGame.current + ',fntA.rotate:' + fntA.rotate + ',fntA.positionY:' +fntA.positionY + '.fntA.positionX:' + fntA.positionY );
           if(fntA.positionY > 10 && fntA.tiltRecord > 10 && Math.abs(fntA.rotate) < 10 ){
             skiingGame.backR();
           }
+          if (Math.abs(fntA.rotate)>70){
+            skiingGame.down();
+          }
       }
       if (skiingGame.current === 'balance'){
-        fntA.rotate =  fntA.rotate - (fntA.positionY/28);
-        $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-        $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-        $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
+        fntA.rotate = fntA.rotate - (fntA.positionY/28);
+        $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+        $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+        $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
       }
-      if (fntA.tiltRecord == fRandomBy(120,150) || fntA.tiltRecord > 149 ){
+      if (fntA.tiltRecord == 120 ){
         fntA.tiltRecord = 0;
-        console.log('Try tilt!' + fntA.tiltRecord + ',current:' + skiingGame.current + ',fntA.rotate:' + fntA.rotate + ',fntA.positionY:' +fntA.positionY + '.fntA.positionX:' + fntA.positionY );
+        // console.log('Try tilt!' + fntA.tiltRecord + ',current:' + skiingGame.current + ',fntA.rotate:' + fntA.rotate + ',fntA.positionY:' +fntA.positionY + '.fntA.positionX:' + fntA.positionY );
         if (skiingGame.current === 'balance'){
           if (fRandomBy(0,40) > 20){
             skiingGame.tiltL();
@@ -575,13 +584,13 @@ $(document).ready(function(){
         }
 
       }
+
+      if(skiingGame.current !== 'down'){
+        $('.skiingnote span').html(fntA.record*8 );
+      }
       if (Math.abs(fntA.rotate)>70){
         skiingGame.down();
       }
-      if(skiingGame.current !== 'down'){
-        $('.skiingnote span').html(fntA.record*8);
-      }
-      
 
       // if(fntA.record * 8 > 9999){
         
