@@ -291,7 +291,7 @@ $(document).ready(function(){
                 newPx = newPx.toFixed(2)*100;
                 newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
                 $('.recordbox .px').html(newPx + '%');
-              }, 1000);
+              }, 600);
 
             }
           }
