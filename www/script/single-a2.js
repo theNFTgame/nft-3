@@ -148,11 +148,21 @@ $(document).ready(function(){
       showFrame('energybox');
     }, 
     repowerfun : function() {
-      router.navigate('shake/' + fntA.gameLevel);
+      router.navigate('index');
       window.location.reload();
     }, 
     replayfun : function() {
-      router.navigate('index');
+      router.navigate('');
+      delete fntA.gameOn;
+      fntA.gameFinish = false;
+      fntA.skiingOn = false;
+      fntA.gameLevel = 1;
+      fntA.player = new Image();
+      fntA.gameResult = 'replay';
+      fntA.skiingAniMove = fntA.skiingAniStep;
+      fntA.rotate = 0;
+      fntA.record = 0;
+      fntA.tiltRecord = 0;
       window.location.reload();
     },
     shakefun : function (level){
@@ -249,25 +259,27 @@ $(document).ready(function(){
               log("ENTER   STATE: down");
               fntA.gameOn = false;
               stopAnimationClimer();
-              
-              fntA.rotate = 0;
-              // fntA.record = 0;
-              // fntA.tiltRecord = 0;
-              $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
-              $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
-              $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
-              if( fntA.Trend === 'left'){
+
+              console.log(fntA.rotate);
+              if( fntA.rotate < 0 ){
                 $player.removeClass().addClass('left');
               } else{
                 $player.removeClass().addClass('right');
               }
+              fntA.rotate = 0;
+              // fntA.record = 0;
+              fntA.tiltRecord = 0;
+              $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
+              $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
+              $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
               fntA.gameResult = 'lost';
               // stopAnimationClimer();
               postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*8,fntA.gameResult);
+
               setTimeout(function() {
-                showSubMask('gamemask','loading'); 
+                showSubMask('gamemask','loading');
                 //id,name,record,result
-                console.log('post records.')
+                console.log('post records.');
                 // cancelRAF(fntA.requestId);
                 
                 postGameRewardSingle(fntA.gameResult);
@@ -535,19 +547,26 @@ $(document).ready(function(){
       // console.log(fntA.tiltRecord);
 
       if (skiingGame.current === 'tiltLeft'){
-        var tempy = fntA.tiltRecord/(58 - fntA.record/500);
-        fntA.rotate = Math.ceil(fntA.rotate - tempy - fntA.positionY/(10 - fntA.record/1000));
+        // var tempy = fntA.tiltRecord/(58 - fntA.record/500);
+        // fntA.rotate = fntA.rotate - tempy - fntA.positionY/(10 - fntA.record/1000);
+        var tempy = fntA.tiltRecord/(48 + Math.abs(fntA.rotate)/3 );
+        fntA.rotate = fntA.rotate + tempy - fntA.positionY/(10 - fntA.record/1000);
           $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
           $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
           $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
           if(fntA.positionY < -10  && fntA.tiltRecord > 10 && Math.abs(fntA.rotate) < 10 ){
             skiingGame.backL();
           }
+          if (Math.abs(fntA.rotate)>70){
+            skiingGame.down();
+          }
           console.log('Try tilt!' + fntA.tiltRecord + ',current:' + skiingGame.current + ',fntA.rotate:' + fntA.rotate + ',fntA.positionY:' +fntA.positionY + '.fntA.positionX:' + fntA.positionY );
       }
       if (skiingGame.current === 'tiltRight'){
-          var tempy = fntA.tiltRecord/(58 - fntA.record/500);
-          fntA.rotate = Math.ceil(fntA.rotate + tempy - fntA.positionY/(10 - fntA.record/1000));
+          // var tempy = fntA.tiltRecord/(58 - fntA.record/500);
+          // fntA.rotate = fntA.rotate + tempy - fntA.positionY/(10 - fntA.record/1000);
+          var tempy = fntA.tiltRecord/(48 + Math.abs(fntA.rotate)/3 );
+          fntA.rotate = fntA.rotate + tempy - fntA.positionY/20;
           $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
           $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
           $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
@@ -555,36 +574,42 @@ $(document).ready(function(){
           if(fntA.positionY > 10 && fntA.tiltRecord > 10 && Math.abs(fntA.rotate) < 10 ){
             skiingGame.backR();
           }
+          if (Math.abs(fntA.rotate)>70){
+            skiingGame.down();
+          }
       }
       if (skiingGame.current === 'balance'){
-        fntA.rotate =  Math.ceil(fntA.rotate - (fntA.positionY/28));
+        fntA.rotate = fntA.rotate - (fntA.positionY/28);
         $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
         $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
         $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
       }
-      if (fntA.tiltRecord == 120 ){
-        fntA.tiltRecord = 0;
+      if (fntA.tiltRecord == fRandomBy(80,150) || fntA.tiltRecord > 149 || Math.abs(fntA.rotate) > 20){
+          
         // console.log('Try tilt!' + fntA.tiltRecord + ',current:' + skiingGame.current + ',fntA.rotate:' + fntA.rotate + ',fntA.positionY:' +fntA.positionY + '.fntA.positionX:' + fntA.positionY );
         if (skiingGame.current === 'balance'){
+          fntA.tiltRecord = 0;
           if (fRandomBy(0,40) > 20){
             skiingGame.tiltL();
-            fntA.Trend = 'left';
+            
+            // console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
           }else{
             skiingGame.tiltR();
-            fntA.Trend = 'right';
+            
+            // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
           }
         }else{
-          
+          if (fntA.tiltRecord >149){fntA.tiltRecord = 0;};
         }
 
+      }
+
+      if(skiingGame.current !== 'down'){
+        $('.skiingnote span').html(fntA.record*8 );
       }
       if (Math.abs(fntA.rotate)>70){
         skiingGame.down();
       }
-      if(skiingGame.current !== 'down'){
-        $('.skiingnote span').html(fntA.record*8 );
-      }
-      
 
       // if(fntA.record * 8 > 9999){
         
