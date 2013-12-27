@@ -269,9 +269,9 @@ $(document).ready(function(){
               fntA.rotate = 0;
               // fntA.record = 0;
               fntA.tiltRecord = 0;
-              $player.css('-webkit-transform', 'rotate('+fntA.rotate+'deg)');
-              $player.css('-ms-transform', 'rotate('+fntA.rotate+'deg)');
-              $player.css('transform', 'rotate('+fntA.rotate+'deg)'); 
+              $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+              $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+              $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
               fntA.gameResult = 'lost';
               // stopAnimationClimer();
               postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*8,fntA.gameResult);
