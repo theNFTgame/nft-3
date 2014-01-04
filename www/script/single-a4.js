@@ -58,8 +58,16 @@ var fntA = new Object();
 
 $(document).ready(function(){
 
-  var $player =  $('#myCanvas');
-  var $map =  $('#mapCanvas');
+  // var $player =  $('#myCanvas');
+  // var $map =  $('#mapCanvas');
+  var $map = document.querySelector("#myCanvas");
+  var $player = document.querySelector("#mapCanvas");
+  var $infobox = document.querySelector("p.info");
+
+  var flatStyle = $player.style,
+    _transform = "WebkitTransform" in flatStyle ? "WebkitTransform" :
+        "MozTransform" in flatStyle ? "MozTransform" :
+            "msTransform" in flatStyle ? "msTransform" : false;
 
   fntA.record = 0;
   fntA.tiltRecord = 1;
@@ -561,7 +569,8 @@ $(document).ready(function(){
       // context.drawImage(fntA.map,0,0,320,503);
       // $map.css('background-image', 'url('+srcUrl+')');
 
-      $map.css('background-position', '-' + (Math.round(fntA.mapFrame ) - 1)*320 +'px 0px');
+      // $map.css('background-position', '-' + (Math.round(fntA.mapFrame ) - 1)*320 +'px 0px');
+
 
       fntA.requestId = window.requestAnimationFrame(animate);
       fntA.mapFrame = fntA.mapFrame + 1;
@@ -576,9 +585,10 @@ $(document).ready(function(){
         // fntA.rotate = fntA.rotate - tempy - fntA.positionY/(10 - fntA.record/1000);
         var tempy = fntA.tiltRecord/(48 + Math.abs(fntA.rotate)/3 );
         fntA.rotate = fntA.rotate + tempy - fntA.positionY/(10 - fntA.record/1000);
-          $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
-          $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
-          $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
+          // $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+          // $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+          // $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
+
           if(fntA.positionY < -10  && fntA.tiltRecord > 10 && Math.abs(fntA.rotate) < 10 ){
             skiingGame.backL();
           }
@@ -592,9 +602,9 @@ $(document).ready(function(){
           // fntA.rotate = fntA.rotate + tempy - fntA.positionY/(10 - fntA.record/1000);
           var tempy = fntA.tiltRecord/(48 + Math.abs(fntA.rotate)/3 );
           fntA.rotate = fntA.rotate + tempy - fntA.positionY/20;
-          $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
-          $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
-          $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
+          // $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+          // $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+          // $player.css('transform', 'rotateZ('+fntA.rotate+'deg)');
           console.log('Try tilt!' + fntA.tiltRecord + ',current:' + skiingGame.current + ',fntA.rotate:' + fntA.rotate + ',fntA.positionY:' +fntA.positionY + '.fntA.positionX:' + fntA.positionY );
           if(fntA.positionY > 10 && fntA.tiltRecord > 10 && Math.abs(fntA.rotate) < 10 ){
             skiingGame.backR();
@@ -605,9 +615,9 @@ $(document).ready(function(){
       }
       if (skiingGame.current === 'balance'){
         fntA.rotate = fntA.rotate - (fntA.positionY/28);
-        $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
-        $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
-        $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
+        // $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+        // $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+        // $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
       }
       if (fntA.tiltRecord == fRandomBy(80,150) || fntA.tiltRecord > 149 || Math.abs(fntA.rotate) > 20){
           
@@ -630,7 +640,10 @@ $(document).ready(function(){
       }
 
       if(skiingGame.current !== 'down'){
-        $('.skiingnote span').html(fntA.record*8 );
+        $map.style.backgroundPosition = ( '-' + (Math.round(fntA.mapFrame ) - 1)*320 +'px 0px');
+        // $('.skiingnote span').html(fntA.record*8 );
+        $infobox.innerHTML = fntA.record*8;
+        flatStyle[_transform] = "rotateZ(" + ( fntA.rotate ) + "deg) ";
       }
       if (Math.abs(fntA.rotate)>70){
         skiingGame.down();
