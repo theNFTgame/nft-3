@@ -25,6 +25,20 @@ var fntA = new Object();
         clearTimeout(id);
     };
   }());
+  function hasClass(ele,cls) {
+    return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+  }
+   
+  function addClass(ele,cls) {
+    if (!this.hasClass(ele,cls)) ele.className += " "+cls;
+  }
+   
+  function removeClass(ele,cls) {
+    if (hasClass(ele,cls)) {
+            var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+      ele.className=ele.className.replace(reg,' ');
+    }
+  }
 
   function showFrame(framename) {
     if(!framename){ framename = 'homepage'}
@@ -60,9 +74,9 @@ $(document).ready(function(){
 
   // var $player =  $('#myCanvas');
   // var $map =  $('#mapCanvas');
-  var $map = document.querySelector("#myCanvas");
-  var $player = document.querySelector("#mapCanvas");
-  var $infobox = document.querySelector("p.info");
+  var $map = document.querySelector("#mapCanvas");
+  var $player = document.querySelector("#myCanvas");
+  var $infobox = document.querySelector("div.skiingnote span");
 
   var flatStyle = $player.style,
     _transform = "WebkitTransform" in flatStyle ? "WebkitTransform" :
@@ -273,16 +287,25 @@ $(document).ready(function(){
 
               console.log(fntA.rotate);
               if( fntA.rotate < 0 ){
-                $player.removeClass().addClass('left');
+                // $player.removeClass().addClass('left');
+                removeClass($player, "left");
+                removeClass($player, "right");
+                addClass($player,'left');
               } else{
-                $player.removeClass().addClass('right');
+                // $player.removeClass().addClass('right');
+                removeClass($player, "left");
+                removeClass($player, "right");
+                addClass($player,'right');
               }
               fntA.rotate = 0;
               // fntA.record = 0;
               fntA.tiltRecord = 0;
-              $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
-              $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
-              $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
+              // $player.css('-webkit-transform', 'rotateZ('+fntA.rotate+'deg)');
+              // $player.css('-ms-transform', 'rotateZ('+fntA.rotate+'deg)');
+              // $player.css('transform', 'rotateZ('+fntA.rotate+'deg)'); 
+
+              flatStyle[_transform] = "rotateZ(" + ( fntA.rotate ) + "deg) ";
+
               fntA.gameResult = 'lost';
               // stopAnimationClimer();
               postGameRecordSingle(fntA.playerId,fntA.playerName,fntA.record*8,fntA.gameResult);
@@ -405,7 +428,7 @@ $(document).ready(function(){
   }
   //game/reward
   function postGameRewardSingle(record){ 
-    if (fntA.record > 200){
+    if (fntA.record > 1000){
       var postData = 'game_type=1&gamename=game3&score='+fntA.record + '&game_id=' + fntA.game_id;
       var tempIp = 'http://www.quyeba.com/event/explorerchallenge/';
       console.log(postData);
