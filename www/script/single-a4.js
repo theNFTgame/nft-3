@@ -321,8 +321,11 @@ $(document).ready(function(){
                 $('.maskbg').show();
                 $('.logo').hide();
                 $('.recordbox .mi').html(fntA.record*8);
-                var newPx = new Number(Number(fntA.record*8)/10010);
-                newPx = newPx.toFixed(2)*100;
+                // var newPx = new Number(Number(fntA.record*8)/10010);
+                // newPx = newPx.toFixed(2)*100;
+                // newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
+                var newPx = Math.log(fntA.record*7)*10;
+                newPx = newPx.toFixed(2);
                 newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
                 $('.recordbox .px').html(newPx + '%');
               }, 600);
