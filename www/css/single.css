@@ -87,10 +87,14 @@ body {
 .getmore span { width: 87px; height: 86px; background: url('../img/s_btn_getmore.png') center center  no-repeat; background-size: 64px 11px; display: block;}
 
 .recordbox { background: url('../img/s_ward_x2.png') 40px top no-repeat; background-size: 231px 257px;}
+.comefrombox { background: url('../img/s_ward_share_x2.png') 40px top no-repeat; background-size: 231px 257px;}
+
 .couponbox { width: 230px; margin-left: -115px; background: url('../img/s_ward_01_x2.png') no-repeat;background-size: 231px 257px;}
 .nocouponbox { width: 230px; margin-left: -115px; background: url('../img/s_ward_02_x2.png') no-repeat; background-size: 231px 257px;}
 .mi { color: #cc0000; font-weight: bold; font-size: 30px; padding: 58px 0 0 30px; width: 120px; text-align: right; }
 .px { color: #ffffff; font-weight: bold; font-size: 26px; width: 72px; padding: 10px 0 0 90px; text-align: center; }
+.comefrombox .mi {padding-top: 68px}
+.comefrombox a.start { background: url('../img/s_ward_start_x2.png') no-repeat; background-size: 78px 77px; display: block; margin: 0 auto; float: none; }
 .cp { color: #000; font-weight: bold; font-size: 13px; width: 162px; padding: 147px 0 0 76px; text-align: left;}
 .debuginfo { color: #fff;}
 .horizontal {display: none; width: 100%; height: 100%; min-height: 320px; background: #1b1b1b; opacity: 0.9; position: absolute; bottom: 0; left: 0; padding-top:0; z-index: 9999; color: #fff; font-size: 140%; line-height: 40px; text-align: center;}
