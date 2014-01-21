@@ -431,7 +431,7 @@ $(document).ready(function(){
       shareWord = shareWord + fntA.record*8 ;
       shareWord = shareWord + '%e7%b1%b3%e4%b8%8d%e5%80%92%e7%9a%84%e9%a9%b0%e9%aa%8b%e8%b7%9d%e7%a6%bb%ef%bc%8c%e5%a6%82%e6%9e%9c%e4%bd%a0%e6%83%b3%e8%b6%85%e8%bf%87%e6%88%91%ef%bc%8c%e8%af%b7%e6%89%ab%e6%8f%8f%e4%ba%8c%e7%bb%b4%e7%a0%81%ef%bc%8c%e5%bc%80%e5%90%af%e6%b8%b8%e6%88%8f%e4%b8%8e%e6%88%91%e4%b8%80%e8%be%83%e9%ab%98%e4%b8%8b%ef%bc%81%e5%ae%8c%e6%88%90+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%ef%bc%81%ef%bc%88%e6%b8%b8%e6%88%8f%e5%bc%80%e5%90%af%e6%96%b9%e6%b3%95%e8%a7%81%e5%9b%be%ef%bc%89';
       shareWord = shareWord + '&url=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge3%2fsingle.html';
-      shareWord = shareWord + '%3f#share%2f' + fntA.record ;
+      shareWord = shareWord + '%3fshare%2f' + fntA.record ;
       shareWord = shareWord + '&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge3%2fimg%2fshearsingle.jpg';
 
     console.log(postData);
