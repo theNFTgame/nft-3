@@ -255,7 +255,7 @@ $(document).ready(function(){
       window.location.reload();
     }, 
     replayfun : function() {
-      router.navigate('');
+      fntA.localurl = location.href;
       
       fntA.gameFinish = false;
       fntA.skiingOn = false;
@@ -267,6 +267,8 @@ $(document).ready(function(){
       fntA.record = 0;
       fntA.tiltRecord = 0;
       var baseurl = fntA.localurl.split("?")[0];
+      baseurl = baseurl.split("#")[0];
+      router.navigate('');
       console.log(baseurl);
       window.location = baseurl;
       // window.location.reload();
