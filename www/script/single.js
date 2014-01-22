@@ -1,7 +1,36 @@
 
 
 var fntA = new Object();
-
+fntA.localurl = location.href;
+  //javascript获取指定参数及其对应的值  
+  function getParameter(paraStr, url)  
+  {  
+      var result = "";  
+      //获取URL中全部参数列表数据  
+      var str = "&" + url.split("?")[1];  
+      var paraName = paraStr + "=";  
+      //判断要获取的参数是否存在  
+      if(str.indexOf("&"+paraName)!=-1)  
+      {  
+          //如果要获取的参数到结尾是否还包含“&”  
+          if(str.substring(str.indexOf(paraName),str.length).indexOf("&")!=-1)  
+          {  
+              //得到要获取的参数到结尾的字符串  
+              var TmpStr=str.substring(str.indexOf(paraName),str.length);  
+              //截取从参数开始到最近的“&”出现位置间的字符  
+              result=TmpStr.substr(TmpStr.indexOf(paraName),TmpStr.indexOf("&")-TmpStr.indexOf(paraName));    
+          }  
+          else  
+          {    
+              result=str.substring(str.indexOf(paraName),str.length);    
+          }  
+      }    
+      else  
+      {    
+          result="null";    
+      }    
+      return (result.replace("&",""));    
+  } 
   (function () {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -176,17 +205,42 @@ $(document).ready(function(){
       router.navigate('');
     },
     levelfun : function() {
-    	//alert("111");
-    	console.log('levelfun');
+      //alert("111");
+      var p = getParameter("share",fntA.localurl);
+      if( p !=='null'){
+        console.log('point:' + p.split("=")[1]);
+        var friendRecord = p.split("=")[1];
+        // friendRecord.replace(/#/, "");
+        friendRecord =  Number(friendRecord.replace(/#/, ""));
+                showSubMask('gamemask','loading');
+                //id,name,record,result
+                console.log('show records.');
+                // cancelRAF(fntA.requestId);
+                
+                $('.comefrombox').show();
+                $('.maskbg').show();
+                $('.logo').hide();
+                $('.comefrombox .mi').html(friendRecord*8);
+                // var newPx = new Number(Number(fntA.record*8)/10010);
+                // newPx = newPx.toFixed(2)*100;
+                // newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
+                var newPx = Math.log(friendRecord*7)*10;
+                newPx = newPx.toFixed(2);
+                newPx = Math.floor(Math.max(5,Math.min(newPx,99)));
+                $('.comefrombox .px').html(newPx + '%');
+                router.navigate('');
+      }else{
+        showSubFrame('homepage','levelbox');
+        $('.energybox').removeClass('energybox_on');
+        $('.logo').show();
+        $('.mask').hide();
+        $('.maskbg').hide();
+        $('.couponbox').hide();
+        $('.nocouponbox').hide();
+        $('.comefrombox').hide();
+      }
+      console.log('levelfun');
 
-    	showSubFrame('homepage','levelbox');
-      $('.energybox').removeClass('energybox_on');
-      $('.logo').show();
-      $('.mask').hide();
-      $('.maskbg').hide();
-      $('.couponbox').hide();
-      $('.nocouponbox').hide();
-      $('.comefrombox').hide();
     }, 
     energyfun : function() {
       //alert("111");
@@ -212,7 +266,10 @@ $(document).ready(function(){
       fntA.rotate = 0;
       fntA.record = 0;
       fntA.tiltRecord = 0;
-      window.location.reload();
+      var baseurl = fntA.localurl.split("?")[0];
+      console.log(baseurl);
+      window.location = baseurl;
+      // window.location.reload();
     },
     shakefun : function (level){
     	console.log('lelve:'+ level);
@@ -430,9 +487,10 @@ $(document).ready(function(){
       shareWord = shareWord + '%e6%88%91%e5%9c%a8%40TheNorthFace+%23%e6%8e%a2%e7%b4%a2%e6%8c%91%e6%88%98%23+%e3%80%8a%e7%96%af%e7%8b%82%e6%bb%91%e9%9b%aa%e3%80%8b%e4%b8%ad%e5%ae%8c%e6%88%90%e4%ba%86';
       shareWord = shareWord + fntA.record*8 ;
       shareWord = shareWord + '%e7%b1%b3%e4%b8%8d%e5%80%92%e7%9a%84%e9%a9%b0%e9%aa%8b%e8%b7%9d%e7%a6%bb%ef%bc%8c%e5%a6%82%e6%9e%9c%e4%bd%a0%e6%83%b3%e8%b6%85%e8%bf%87%e6%88%91%ef%bc%8c%e8%af%b7%e6%89%ab%e6%8f%8f%e4%ba%8c%e7%bb%b4%e7%a0%81%ef%bc%8c%e5%bc%80%e5%90%af%e6%b8%b8%e6%88%8f%e4%b8%8e%e6%88%91%e4%b8%80%e8%be%83%e9%ab%98%e4%b8%8b%ef%bc%81%e5%ae%8c%e6%88%90+%23%e6%96%b0%e6%8e%a2%e7%b4%a2%e5%ae%a2%23+%e6%8c%91%e6%88%98%ef%bc%8c%e6%9b%b4%e6%9c%89%e6%b5%b7%e9%87%8f%e6%8e%a2%e7%b4%a2%e8%a3%85%e5%a4%87%e7%ad%89%e4%bd%a0%e8%b5%a2%ef%bc%81%ef%bc%88%e6%b8%b8%e6%88%8f%e5%bc%80%e5%90%af%e6%96%b9%e6%b3%95%e8%a7%81%e5%9b%be%ef%bc%89';
-      shareWord = shareWord + '&url=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge3%2fsingle.html';
-      shareWord = shareWord + '%3fshare%2f' + fntA.record ;
       shareWord = shareWord + '&source=bookmark&appkey=&ralateUid=&pic=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge3%2fimg%2fshearsingle.jpg';
+      shareWord = shareWord + '&url=http%3a%2f%2fwww.quyeba.com%2fevent%2fexplorerchallenge3%2fsingle.html';
+      shareWord = shareWord + '%3fshare%3d' + fntA.record ;
+      
 
     console.log(postData);
     $('.getmore').attr('href', shareWord);
